@@ -1,0 +1,30 @@
+[
+  {
+    "candidate_name": "Alex Morgan",
+    "target_role": "Backend Developer Intern",
+    "expected_min_claim_support_rate": 80.0,
+    "expected_min_evidence_coverage": 85.0,
+    "expected_min_skill_coverage": 75.0,
+    "expected_min_parser_accuracy": 85.0,
+    "test_cases": [
+      {
+        "bullet": "Engineered an asynchronous packet sniffer using Python and Scapy capable of capturing 10,000 packets/sec without buffer overflow.",
+        "expected_claim_status": "VERIFIED",
+        "has_metric": true,
+        "supported_by": ["EV-001", "EV-002"]
+      },
+      {
+        "bullet": "Developed a full-stack platform that single-handedly increased enterprise revenue by 450%.",
+        "expected_claim_status": "UNSUPPORTED",
+        "has_metric": true,
+        "supported_by": []
+      },
+      {
+        "bullet": "Implemented leader election and log replication algorithms adhering to Raft protocol specification.",
+        "expected_claim_status": "VERIFIED",
+        "has_metric": false,
+        "supported_by": ["EV-003"]
+      }
+    ]
+  }
+]
