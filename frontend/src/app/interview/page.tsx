@@ -10,7 +10,11 @@ import {
   BookOpen,
   ArrowRight,
   Layers,
-  MessageSquare
+  MessageSquare,
+  Terminal,
+  Sparkles,
+  ChevronRight,
+  Radio
 } from "lucide-react";
 import { interviewApi, resumesApi } from "@/lib/api";
 
@@ -82,53 +86,73 @@ export default function InterviewPrepPage() {
 
   if (loading && questions.length === 0) {
     return (
-      <div className="flex h-96 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"></div>
+      <div className="flex h-96 flex-col items-center justify-center gap-3">
+        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[#ff5733] border-t-transparent shadow-lg shadow-[#ff5733]/30"></div>
+        <span className="font-mono text-xs text-zinc-400">Loading Claim Defense Engine...</span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 pb-12">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#232733] pb-4">
-        <div>
-          <span className="text-[10px] font-mono uppercase text-cyan-400 font-semibold tracking-wider">Claim Defense Continuity</span>
-          <h1 className="text-2xl font-bold text-white mt-0.5">Defend My Resume & Interview Prep</h1>
-          <p className="text-xs text-zinc-400">
-            Every technical question is linked to claims and verified evidence from your compiled resume.
-          </p>
-        </div>
+    <div className="space-y-8 pb-16">
+      {/* Header Banner - Borea AI Horizon Glow */}
+      <div className="relative rounded-2xl p-6 bg-gradient-to-r from-[#0c0e15] via-[#121622] to-[#0c0e15] border border-white/10 shadow-2xl overflow-hidden">
+        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-[#ff5733]/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-[#bef264]/10 blur-3xl pointer-events-none rounded-full"></div>
 
-        {/* Resume Selector */}
-        {resumes.length > 0 && (
-          <select
-            value={selectedResumeId}
-            onChange={(e) => {
-              setSelectedResumeId(e.target.value);
-              loadQuestions(e.target.value);
-            }}
-            className="px-3 py-2 rounded-lg bg-[#141722] border border-[#232733] text-xs text-white focus:outline-none focus:border-blue-500"
-          >
-            {resumes.map((r) => (
-              <option key={r.id} value={r.id}>
-                {r.version_name} ({r.target_role})
-              </option>
-            ))}
-          </select>
-        )}
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2">
+              <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#bef264] animate-pulse"></span>
+                DEFENSE CONTINUITY
+              </span>
+              <span className="pill-badge bg-white/5 text-zinc-400 border border-white/10">
+                ZERO FABRICATION
+              </span>
+            </div>
+            <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-white">
+              Defend My Resume &amp; Interview Prep
+            </h1>
+            <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
+              Every technical question is derived directly from claims on your compiled resume, backed with exact evidence proofs and STAR interview defense structures.
+            </p>
+          </div>
+
+          {/* Resume Snapshot Selector */}
+          {resumes.length > 0 && (
+            <div className="space-y-1">
+              <span className="text-[10px] font-mono uppercase text-zinc-400 tracking-wider block">Target Resume:</span>
+              <select
+                value={selectedResumeId}
+                onChange={(e) => {
+                  setSelectedResumeId(e.target.value);
+                  loadQuestions(e.target.value);
+                }}
+                className="px-4 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-xs text-white focus:outline-none focus:border-[#ff5733] font-mono cursor-pointer"
+              >
+                {resumes.map((r) => (
+                  <option key={r.id} value={r.id}>
+                    {r.version_name} ({r.target_role})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Category Pills */}
-      <div className="flex flex-wrap gap-1.5">
+      {/* Category Filter Pills - Haulix style capsules */}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-xs font-mono text-zinc-400 mr-2 uppercase">Domain Filter:</span>
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveCategory(cat)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
               activeCategory === cat
-                ? "bg-blue-600 text-white font-semibold"
-                : "bg-[#141722] text-zinc-400 hover:text-white"
+                ? "bg-[#ff5733] text-white font-semibold shadow-md shadow-[#ff5733]/25"
+                : "bg-white/5 text-zinc-400 hover:text-white border border-white/10 hover:border-white/20"
             }`}
           >
             {cat}
@@ -141,11 +165,15 @@ export default function InterviewPrepPage() {
         {/* Left Column: Questions List (5 cols) */}
         <div className="lg:col-span-5 space-y-3">
           <div className="flex items-center justify-between px-1">
-            <span className="text-xs font-mono uppercase text-zinc-500 font-semibold">Available Questions</span>
-            <span className="text-xs text-zinc-400 font-mono">{filteredQuestions.length} questions</span>
+            <span className="text-xs font-mono uppercase text-zinc-400 font-semibold tracking-wider">
+              Generated Questions
+            </span>
+            <span className="pill-badge bg-white/5 text-zinc-300 font-mono text-[10px]">
+              {filteredQuestions.length} PROMPTS
+            </span>
           </div>
 
-          <div className="space-y-2.5 max-h-[650px] overflow-y-auto pr-1">
+          <div className="space-y-2.5 max-h-[680px] overflow-y-auto pr-1">
             {filteredQuestions.map((q) => {
               const isSelected = selectedQuestion?.id === q.id;
 
@@ -153,23 +181,25 @@ export default function InterviewPrepPage() {
                 <div
                   key={q.id}
                   onClick={() => handleSelectQuestion(q)}
-                  className={`p-4 rounded-xl border text-left text-xs transition-all cursor-pointer space-y-2 ${
+                  className={`p-4 rounded-xl border text-left text-xs transition-all cursor-pointer space-y-2.5 ${
                     isSelected
-                      ? "bg-blue-950/40 border-blue-500/60 shadow-md"
-                      : "bg-[#0f1118] border-[#232733] hover:border-zinc-700"
+                      ? "bg-[#141824] border-[#bef264]/60 shadow-lg shadow-[#bef264]/5"
+                      : "card-glass hover:border-white/20"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#181c2a] text-blue-300 border border-blue-900/40">
+                    <span className="pill-badge bg-white/5 text-zinc-300 border border-white/10 text-[10px]">
                       {q.category}
                     </span>
-                    <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
-                      <ShieldCheck className="h-3 w-3" /> Claim-Backed
+                    <span className="text-[10px] text-[#bef264] font-mono flex items-center gap-1 font-semibold">
+                      <ShieldCheck className="h-3 w-3" /> CLAIM-BACKED
                     </span>
                   </div>
 
                   <h4 className="font-semibold text-white leading-snug">{q.question}</h4>
-                  <p className="text-[11px] text-zinc-400 line-clamp-1 italic">Claim: "{q.context || q.bullet_text}"</p>
+                  <p className="text-[11px] text-zinc-400 line-clamp-1 italic font-mono">
+                    Claim: "{q.context || q.bullet_text}"
+                  </p>
                 </div>
               );
             })}
@@ -179,46 +209,51 @@ export default function InterviewPrepPage() {
         {/* Right Column: Defend My Resume Drilldown (7 cols) */}
         <div className="lg:col-span-7 space-y-5">
           {selectedQuestion ? (
-            <div className="p-6 rounded-2xl bg-[#0f1118] border border-[#232733] space-y-6">
+            <div className="card-glass rounded-2xl p-6 space-y-6">
               {/* Question Header */}
-              <div className="space-y-2 border-b border-[#232733] pb-4">
+              <div className="space-y-2.5 border-b border-white/5 pb-5">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800 font-bold">
+                  <span className="pill-badge bg-[#ff5733]/15 text-[#ff7849] border border-[#ff5733]/30 text-[11px] font-bold">
                     {selectedQuestion.category} Question
                   </span>
-                  <span className="text-xs text-emerald-400 font-mono flex items-center gap-1.5">
-                    <CheckCircle2 className="h-4 w-4" /> Ready to Defend
+                  <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30 text-[10px] flex items-center gap-1.5 font-bold">
+                    <CheckCircle2 className="h-3.5 w-3.5" /> READY TO DEFEND
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-white leading-snug">{selectedQuestion.question}</h3>
+                <h3 className="text-lg font-bold text-white leading-snug tracking-tight">
+                  {selectedQuestion.question}
+                </h3>
               </div>
 
               {/* Exact Resume Claim */}
-              <div className="p-4 rounded-xl bg-[#141722] border border-blue-900/40 space-y-1.5 text-xs">
-                <span className="font-mono text-[10px] uppercase text-blue-400 font-semibold tracking-wider">
+              <div className="p-4 rounded-xl bg-[#090b10] border border-white/10 space-y-1.5 text-xs">
+                <span className="font-mono text-[10px] uppercase text-[#ff7849] font-semibold tracking-wider block">
                   Traced Resume Claim:
                 </span>
-                <p className="text-zinc-200 font-medium italic">
+                <p className="text-zinc-200 font-medium italic leading-relaxed">
                   "{defendData?.claim_text || selectedQuestion.context || selectedQuestion.bullet_text}"
                 </p>
               </div>
 
               {/* Verified Supporting Evidence Chain */}
               {defendData?.evidence_chain?.length > 0 && (
-                <div className="space-y-2 text-xs">
-                  <span className="font-mono text-[10px] uppercase text-emerald-400 font-semibold tracking-wider flex items-center gap-1.5">
-                    <ShieldCheck className="h-3.5 w-3.5" /> Verified Evidence Ground Truth:
+                <div className="space-y-2.5 text-xs">
+                  <span className="font-mono text-[10px] uppercase text-[#bef264] font-semibold tracking-wider flex items-center gap-1.5">
+                    <ShieldCheck className="h-3.5 w-3.5" /> Immutable Evidence Ground Truth:
                   </span>
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     {defendData.evidence_chain.map((ev: any, idx: number) => (
-                      <div key={idx} className="p-3 rounded-lg bg-[#0b0d14] border border-[#1e2230] space-y-1">
+                      <div key={idx} className="p-3.5 rounded-xl bg-[#121622] border border-white/10 space-y-2">
                         <div className="flex items-center justify-between font-mono text-[11px]">
-                          <span className="text-blue-400 font-bold">{ev.source_identifier} ({ev.evidence_type})</span>
-                          <span className="text-emerald-400">{ev.verification_status}</span>
+                          <span className="text-[#ff7849] font-bold">{ev.source_identifier} ({ev.evidence_type})</span>
+                          <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30 text-[9px]">
+                            {ev.verification_status}
+                          </span>
                         </div>
                         <p className="text-white font-medium">{ev.title}</p>
                         {ev.snippet && (
-                          <div className="p-2 rounded bg-[#07080d] border border-[#161822] font-mono text-[10.5px] text-zinc-300">
+                          <div className="p-2.5 rounded-lg bg-[#08090f] border border-white/5 font-mono text-[10.5px] text-[#bef264]">
+                            <span className="text-zinc-500 block text-[9px] mb-0.5">// Ground truth proof</span>
                             {ev.snippet}
                           </div>
                         )}
@@ -229,17 +264,17 @@ export default function InterviewPrepPage() {
               )}
 
               {/* Candidate Suggested Answer Framework */}
-              <div className="p-4 rounded-xl bg-[#121622] border border-[#232733] space-y-2 text-xs">
-                <span className="font-mono text-[10px] uppercase text-purple-400 font-semibold tracking-wider">
-                  Candidate Recommended Answer Framework:
+              <div className="p-4 rounded-xl bg-[#0e121d] border border-[#bef264]/20 space-y-2.5 text-xs">
+                <span className="font-mono text-[10px] uppercase text-[#bef264] font-semibold tracking-wider block">
+                  Recommended STAR Defense Framework:
                 </span>
-                <pre className="text-zinc-200 font-sans whitespace-pre-wrap leading-relaxed">
+                <pre className="text-zinc-200 font-sans whitespace-pre-wrap leading-relaxed text-[11.5px]">
                   {selectedQuestion.suggested_answer_framework}
                 </pre>
               </div>
             </div>
           ) : (
-            <div className="p-12 text-center text-zinc-500 rounded-2xl bg-[#0f1118] border border-[#232733]">
+            <div className="card-glass rounded-2xl p-12 text-center text-zinc-500 font-mono text-xs">
               Select a question to inspect the Defend My Resume claim chain.
             </div>
           )}

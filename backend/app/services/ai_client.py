@@ -14,35 +14,62 @@ from app.config import settings
 
 class AIClient:
     def __init__(self):
-        self.openai_key = settings.OPENAI_API_KEY or os.getenv("OPENAI_API_KEY", "")
-        self.has_llm = bool(self.openai_key)
+        self.openrouter_key = getattr(settings, "OPENROUTER_API_KEY", "") or os.getenv("OPENROUTER_API_KEY", "")
+        self.openai_key = getattr(settings, "OPENAI_API_KEY", "") or os.getenv("OPENAI_API_KEY", "")
+        self.has_llm = bool(self.openrouter_key or self.openai_key)
 
     async def call_llm(self, system_prompt: str, user_prompt: str, json_mode: bool = True) -> str:
-        """Call external LLM if API key exists; otherwise use deterministic extraction."""
+        """Call external LLM via OpenRouter or OpenAI; otherwise fallback gracefully."""
         if not self.has_llm:
             return ""
 
         try:
             async with httpx.AsyncClient(timeout=30.0) as client:
-                headers = {
-                    "Authorization": f"Bearer {self.openai_key}",
-                    "Content-Type": "application/json"
-                }
-                body = {
-                    "model": "gpt-4o-mini",
-                    "messages": [
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt}
-                    ],
-                    "temperature": 0.2
-                }
-                if json_mode:
-                    body["response_format"] = {"type": "json_object"}
+                if self.openrouter_key:
+                    # OpenRouter endpoint
+                    headers = {
+                        "Authorization": f"Bearer {self.openrouter_key}",
+                        "HTTP-Referer": "https://careercompiler-ai.vercel.app",
+                        "X-Title": "CareerCompiler AI",
+                        "Content-Type": "application/json"
+                    }
+                    body = {
+                        "model": "openai/gpt-4o-mini",
+                        "messages": [
+                            {"role": "system", "content": system_prompt},
+                            {"role": "user", "content": user_prompt}
+                        ],
+                        "temperature": 0.2
+                    }
+                    if json_mode:
+                        body["response_format"] = {"type": "json_object"}
 
-                response = await client.post("https://api.openai.com/v1/chat/completions", headers=headers, json=body)
-                if response.status_code == 200:
-                    data = response.json()
-                    return data["choices"][0]["message"]["content"]
+                    response = await client.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=body)
+                    if response.status_code == 200:
+                        data = response.json()
+                        return data["choices"][0]["message"]["content"]
+
+                elif self.openai_key:
+                    # OpenAI endpoint
+                    headers = {
+                        "Authorization": f"Bearer {self.openai_key}",
+                        "Content-Type": "application/json"
+                    }
+                    body = {
+                        "model": "gpt-4o-mini",
+                        "messages": [
+                            {"role": "system", "content": system_prompt},
+                            {"role": "user", "content": user_prompt}
+                        ],
+                        "temperature": 0.2
+                    }
+                    if json_mode:
+                        body["response_format"] = {"type": "json_object"}
+
+                    response = await client.post("https://api.openai.com/v1/chat/completions", headers=headers, json=body)
+                    if response.status_code == 200:
+                        data = response.json()
+                        return data["choices"][0]["message"]["content"]
         except Exception:
             pass
         return ""

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "CareerCompiler AI — Compile your career into proof",
@@ -16,13 +17,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen bg-[#090a0f] text-zinc-100 antialiased selection:bg-blue-600 selection:text-white">
+      <body className="min-h-screen bg-[#08090d] text-zinc-100 antialiased selection:bg-[#ff5733] selection:text-white flex flex-col">
         <Navbar />
-        <div className="flex min-h-[calc(100vh-3.5rem)]">
+        <div className="flex flex-1 min-h-[calc(100vh-4rem)]">
           <Sidebar />
-          <main className="flex-1 overflow-x-hidden p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full">
-            {children}
-          </main>
+          <div className="flex-1 flex flex-col min-w-0">
+            <main className="flex-1 overflow-x-hidden p-3 sm:p-5 md:p-8 max-w-7xl mx-auto w-full pb-32 lg:pb-20">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </div>
       </body>
     </html>

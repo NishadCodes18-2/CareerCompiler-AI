@@ -9,7 +9,9 @@ import {
   CheckCircle2,
   AlertCircle,
   Terminal,
-  Activity
+  Activity,
+  Server,
+  Zap
 } from "lucide-react";
 import { adminApi } from "@/lib/api";
 
@@ -50,81 +52,105 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div className="flex h-96 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"></div>
+      <div className="flex h-96 flex-col items-center justify-center gap-3">
+        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[#ff5733] border-t-transparent shadow-lg shadow-[#ff5733]/30"></div>
+        <span className="font-mono text-xs text-zinc-400">Loading System Telemetry...</span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 pb-12">
-      {/* Header */}
-      <div className="border-b border-[#232733] pb-4 space-y-1">
-        <span className="text-[10px] font-mono uppercase text-purple-400 font-semibold tracking-wider">Internal Diagnostics</span>
-        <h1 className="text-2xl font-bold text-white">Developer & Admin Control Panel</h1>
-        <p className="text-xs text-zinc-400">
-          System telemetry, AI engine safeguards, database entity counts, and sandbox reseeding tools.
-        </p>
+    <div className="space-y-8 pb-16">
+      {/* Header Banner - Borea AI Horizon Glow */}
+      <div className="relative rounded-2xl p-6 bg-gradient-to-r from-[#0c0e15] via-[#121622] to-[#0c0e15] border border-white/10 shadow-2xl overflow-hidden">
+        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-[#ff5733]/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-[#bef264]/10 blur-3xl pointer-events-none rounded-full"></div>
+
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2">
+              <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#bef264] animate-pulse"></span>
+                SYSTEM CONSOLE
+              </span>
+              <span className="pill-badge bg-white/5 text-zinc-400 border border-white/10">
+                CONTROL PLANE
+              </span>
+            </div>
+            <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-white">
+              Developer &amp; Admin Telemetry Panel
+            </h1>
+            <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
+              Real-time API gateway health, deterministic claim graph counters, zero-hallucination verification shields, and candidate sandbox controls.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30 text-xs font-mono">
+              GATEWAY ONLINE &bull; 8000
+            </span>
+          </div>
+        </div>
       </div>
 
-      {/* Status Cards */}
+      {/* Status Cards - Haulix Telemetry Style */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-xl bg-[#0f1118] border border-emerald-900/40 space-y-1">
+        <div className="card-glass rounded-2xl p-5 space-y-1.5 border-[#bef264]/30">
           <div className="flex items-center justify-between text-zinc-400 text-xs">
-            <span>BACKEND STATUS</span>
-            <Activity className="h-4 w-4 text-emerald-400" />
+            <span className="font-mono text-[10px] tracking-wider uppercase font-semibold">BACKEND ENGINE</span>
+            <Activity className="h-4 w-4 text-[#bef264]" />
           </div>
-          <div className="text-xl font-bold text-emerald-400">{statusData?.status}</div>
-          <p className="text-[11px] text-zinc-400 font-mono">FastAPI v{statusData?.version}</p>
+          <div className="text-2xl font-bold text-[#bef264]">{statusData?.status}</div>
+          <p className="text-[11px] text-zinc-400 font-mono">FastAPI Core v{statusData?.version}</p>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#0f1118] border border-blue-900/40 space-y-1">
+        <div className="card-glass rounded-2xl p-5 space-y-1.5 border-[#ff7849]/30">
           <div className="flex items-center justify-between text-zinc-400 text-xs">
-            <span>AI SAFEGUARDS</span>
-            <ShieldCheck className="h-4 w-4 text-blue-400" />
+            <span className="font-mono text-[10px] tracking-wider uppercase font-semibold">AI SAFEGUARDS</span>
+            <ShieldCheck className="h-4 w-4 text-[#ff7849]" />
           </div>
-          <div className="text-xl font-bold text-blue-400">{statusData?.ai_engine?.status}</div>
-          <p className="text-[11px] text-zinc-400 font-mono">Hallucination Prevention Active</p>
+          <div className="text-2xl font-bold text-[#ff7849]">{statusData?.ai_engine?.status}</div>
+          <p className="text-[11px] text-zinc-400 font-mono">Hallucination Prevention Active (Zero Tolerance)</p>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#0f1118] border border-purple-900/40 space-y-1">
+        <div className="card-glass rounded-2xl p-5 space-y-1.5">
           <div className="flex items-center justify-between text-zinc-400 text-xs">
-            <span>DATABASE ORM</span>
-            <Database className="h-4 w-4 text-purple-400" />
+            <span className="font-mono text-[10px] tracking-wider uppercase font-semibold">RELATIONAL ORM</span>
+            <Database className="h-4 w-4 text-indigo-400" />
           </div>
-          <div className="text-xl font-bold text-white">PostgreSQL / SQLite</div>
+          <div className="text-2xl font-bold text-white">SQLite / PostgreSQL</div>
           <p className="text-[11px] text-zinc-400 font-mono">Hybrid Vector Ready</p>
         </div>
       </div>
 
       {/* Database Entity Counts */}
-      <div className="p-6 rounded-2xl bg-[#0f1118] border border-[#232733] space-y-4">
-        <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-          <Database className="h-4 w-4 text-blue-400" /> Relational Store Entities
+      <div className="card-glass rounded-2xl p-6 space-y-4">
+        <h3 className="text-sm font-bold text-white flex items-center gap-2 tracking-wide">
+          <Database className="h-4 w-4 text-[#bef264]" /> Relational Store Entity Counts
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 text-xs">
           {Object.entries(statusData?.database_counts || {}).map(([key, count]: any, idx) => (
-            <div key={idx} className="p-3 rounded-xl bg-[#141722] border border-[#232733] space-y-1">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase">{key.replace("_", " ")}</span>
-              <div className="text-lg font-bold text-white">{count}</div>
+            <div key={idx} className="p-3.5 rounded-xl bg-[#090b10] border border-white/10 space-y-1">
+              <span className="text-[10px] font-mono text-zinc-500 uppercase block truncate">{key.replace("_", " ")}</span>
+              <div className="text-xl font-bold text-white font-mono">{count}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Demo Re-Seed Sandbox Tool */}
-      <div className="p-6 rounded-2xl bg-[#0f1118] border border-[#232733] space-y-4">
-        <div className="flex items-start justify-between">
+      <div className="card-glass rounded-2xl p-6 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h3 className="text-sm font-semibold text-white">Reset & Reseed Demo Candidate</h3>
-            <p className="text-xs text-zinc-400 mt-1">
-              Refreshes the fictional student profile for <strong>Alex Morgan</strong> with 4 verified projects, 9 evidence items, target job description, and pre-compiled resume.
+            <h3 className="text-sm font-bold text-white tracking-wide">Reset &amp; Reseed Demo Candidate</h3>
+            <p className="text-xs text-zinc-400 mt-1 max-w-xl leading-relaxed">
+              Refreshes the fictional student profile for <strong className="text-white">Alex Morgan</strong> with 4 verified projects, 9 evidence items, target job description, and pre-compiled resume.
             </p>
           </div>
           <button
             onClick={handleReseed}
             disabled={reseeding}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md transition-all cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#ff5733] to-[#ff7849] hover:from-[#ff6b4a] hover:to-[#ff8d63] text-white font-semibold text-xs shadow-lg shadow-[#ff5733]/25 transition-all cursor-pointer self-start sm:self-auto"
           >
             <RefreshCw className={`h-4 w-4 ${reseeding ? "animate-spin" : ""}`} />
             {reseeding ? "Reseeding Database..." : "Reseed Demo Data"}
@@ -132,7 +158,7 @@ export default function AdminPage() {
         </div>
 
         {reseedMsg && (
-          <div className="p-3 rounded-lg bg-emerald-950/40 border border-emerald-800 text-emerald-300 text-xs flex items-center gap-2">
+          <div className="p-3.5 rounded-xl bg-[#bef264]/10 border border-[#bef264]/30 text-[#bef264] text-xs flex items-center gap-2 font-mono">
             <CheckCircle2 className="h-4 w-4 shrink-0" />
             <span>{reseedMsg}</span>
           </div>

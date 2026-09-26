@@ -10,7 +10,10 @@ import {
   Plus,
   ShieldCheck,
   CheckSquare,
-  Square
+  Square,
+  Zap,
+  Target,
+  Sparkles
 } from "lucide-react";
 import { matchingApi } from "@/lib/api";
 
@@ -50,59 +53,102 @@ export default function RoadmapPage() {
 
   if (loading) {
     return (
-      <div className="flex h-96 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"></div>
+      <div className="flex h-96 flex-col items-center justify-center gap-3">
+        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[#ff5733] border-t-transparent shadow-lg shadow-[#ff5733]/30"></div>
+        <span className="font-mono text-xs text-zinc-400">Computing Skill Diagnostics...</span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 pb-12">
-      {/* Header */}
-      <div className="border-b border-[#232733] pb-4 space-y-1">
-        <span className="text-[10px] font-mono uppercase text-amber-400 font-semibold tracking-wider">Gap Diagnostics & Action</span>
-        <h1 className="text-2xl font-bold text-white">Career Roadmap & Project Blueprints</h1>
-        <p className="text-xs text-zinc-400">
-          Target role diagnostic fit analysis and actionable project blueprints to build verifiable proof for missing skills.
-        </p>
+    <div className="space-y-8 pb-16">
+      {/* Header Banner - Borea AI Horizon Glow */}
+      <div className="relative rounded-2xl p-6 bg-gradient-to-r from-[#0c0e15] via-[#121622] to-[#0c0e15] border border-white/10 shadow-2xl overflow-hidden">
+        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-[#ff5733]/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-[#bef264]/10 blur-3xl pointer-events-none rounded-full"></div>
+
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2">
+              <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#bef264] animate-pulse"></span>
+                FIT DIAGNOSTICS
+              </span>
+              <span className="pill-badge bg-white/5 text-zinc-400 border border-white/10">
+                ACTIONABLE BLUEPRINTS
+              </span>
+            </div>
+            <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-white">
+              Career Roadmap &amp; Project Blueprints
+            </h1>
+            <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
+              Target role diagnostic fit analysis and prescriptive project architectures to systematically close skill gaps with verified repository evidence.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="card-glass px-4 py-2.5 rounded-xl border border-white/10 text-right">
+              <span className="text-[10px] font-mono text-zinc-400 uppercase block">Fit Readiness</span>
+              <span className="text-2xl font-bold text-[#bef264] font-mono">{diagnostic?.match_percentage}%</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Target Role & Readiness Diagnostic Banner */}
-      <div className="p-6 rounded-2xl bg-[#0f1118] border border-[#232733] space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#232733] pb-4">
+      <div className="card-glass rounded-2xl p-6 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
           <div>
-            <span className="text-[10px] font-mono uppercase text-blue-400 font-semibold">Active Target Role</span>
-            <h3 className="text-xl font-bold text-white">{diagnostic?.target_role}</h3>
+            <span className="text-[10px] font-mono uppercase text-[#bef264] font-semibold tracking-wider">
+              Diagnostic Target Role
+            </span>
+            <h3 className="text-xl font-bold text-white mt-0.5">{diagnostic?.target_role}</h3>
             <p className="text-xs text-zinc-400 italic mt-0.5">{diagnostic?.diagnostic_disclaimer}</p>
           </div>
-          <div className="text-right">
-            <span className="text-xs text-zinc-400 font-mono">Skill Match Diagnostic</span>
-            <div className="text-3xl font-extrabold text-blue-400 mt-0.5">{diagnostic?.match_percentage}%</div>
+
+          {/* Haulix Trajectory Progress Bar */}
+          <div className="w-full sm:w-72 space-y-1.5">
+            <div className="flex justify-between text-xs font-mono">
+              <span className="text-zinc-400">Readiness Score</span>
+              <span className="text-[#bef264] font-bold">{diagnostic?.match_percentage}%</span>
+            </div>
+            <div className="h-2 w-full rounded-full bg-[#080a10] border border-white/10 overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-[#ff5733] to-[#bef264] rounded-full transition-all duration-500"
+                style={{ width: `${diagnostic?.match_percentage || 78}%` }}
+              ></div>
+            </div>
           </div>
         </div>
 
         {/* Strong vs Missing Split */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-900/40 space-y-2">
-            <div className="flex items-center gap-2 font-semibold text-emerald-400">
+          <div className="p-4 rounded-xl bg-[#090b10] border border-[#bef264]/20 space-y-2.5">
+            <div className="flex items-center gap-2 font-semibold text-[#bef264]">
               <CheckCircle2 className="h-4 w-4" /> Strong Verified Skills ({diagnostic?.strong_areas?.length || 0})
             </div>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {diagnostic?.strong_areas?.map((s: string, idx: number) => (
-                <span key={idx} className="font-mono text-[11px] px-2.5 py-1 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-800/60">
+                <span
+                  key={idx}
+                  className="font-mono text-[11px] px-3 py-1 rounded-lg bg-[#bef264]/10 text-[#bef264] border border-[#bef264]/30 font-semibold"
+                >
                   {s} &#10003;
                 </span>
               ))}
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-amber-950/20 border border-amber-900/40 space-y-2">
-            <div className="flex items-center gap-2 font-semibold text-amber-400">
+          <div className="p-4 rounded-xl bg-[#090b10] border border-[#ff5733]/25 space-y-2.5">
+            <div className="flex items-center gap-2 font-semibold text-[#ff7849]">
               <AlertTriangle className="h-4 w-4" /> Critical Skill Gaps to Close ({diagnostic?.critical_gaps?.length || 0})
             </div>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {diagnostic?.critical_gaps?.map((s: string, idx: number) => (
-                <span key={idx} className="font-mono text-[11px] px-2.5 py-1 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60">
+                <span
+                  key={idx}
+                  className="font-mono text-[11px] px-3 py-1 rounded-lg bg-[#ff5733]/10 text-[#ff7849] border border-[#ff5733]/30 font-semibold"
+                >
                   {s}
                 </span>
               ))}
@@ -114,34 +160,41 @@ export default function RoadmapPage() {
       {/* Recommended Evidence-Building Project Blueprints */}
       <div className="space-y-4">
         <div>
-          <span className="text-[10px] font-mono uppercase text-blue-400 font-semibold tracking-wider">Prescriptive Recommendations</span>
-          <h3 className="text-base font-bold text-white mt-0.5">Recommended Evidence-Building Projects</h3>
-          <p className="text-xs text-zinc-400">Instead of merely saying "Learn Docker", build projects that create concrete repository proof.</p>
+          <span className="text-[10px] font-mono uppercase text-[#bef264] font-semibold tracking-wider">
+            Prescriptive Execution
+          </span>
+          <h3 className="text-base font-bold text-white mt-0.5">Recommended Evidence-Building Blueprints</h3>
+          <p className="text-xs text-zinc-400">
+            Never put unverified claims on your resume. Build these targeted projects to create undeniable repository artifacts.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {roadmapData?.recommended_blueprints?.map((bp: any, idx: number) => (
-            <div key={idx} className="p-5 rounded-2xl bg-[#0f1118] border border-[#232733] space-y-3">
+            <div key={idx} className="card-glass rounded-2xl p-5 space-y-3.5 hover:border-white/20 transition-all">
               <div className="flex items-start justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-blue-600/20 text-blue-400">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 rounded-xl bg-[#ff5733]/15 text-[#ff7849]">
                     <Code2 className="h-4 w-4" />
                   </div>
                   <h4 className="text-sm font-bold text-white">{bp.title}</h4>
                 </div>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">
+                <span className="pill-badge bg-white/5 text-zinc-300 border border-white/10 text-[10px]">
                   BLUEPRINT
                 </span>
               </div>
 
-              <p className="text-xs text-zinc-300">{bp.description}</p>
+              <p className="text-xs text-zinc-300 leading-relaxed">{bp.description}</p>
 
               {/* Stack */}
-              <div className="space-y-1 text-xs">
-                <span className="text-zinc-500 font-mono text-[10px] uppercase">Suggested Stack:</span>
-                <div className="flex flex-wrap gap-1">
+              <div className="space-y-1.5 text-xs">
+                <span className="text-zinc-500 font-mono text-[10px] uppercase tracking-wider">Recommended Stack:</span>
+                <div className="flex flex-wrap gap-1.5">
                   {bp.suggested_stack?.map((tech: string, tIdx: number) => (
-                    <span key={tIdx} className="font-mono text-[11px] px-2 py-0.5 rounded bg-[#161a26] text-blue-300 border border-blue-900/30">
+                    <span
+                      key={tIdx}
+                      className="font-mono text-[11px] px-2.5 py-0.5 rounded-lg bg-[#121622] text-[#bef264] border border-white/10"
+                    >
                       {tech}
                     </span>
                   ))}
@@ -149,8 +202,8 @@ export default function RoadmapPage() {
               </div>
 
               {/* Evidence Generated */}
-              <div className="pt-2 border-t border-[#232733] text-xs">
-                <span className="text-emerald-400 font-medium">Evidence Created: </span>
+              <div className="pt-2.5 border-t border-white/5 text-xs">
+                <span className="text-[#bef264] font-medium">Verifiable Artifacts: </span>
                 <span className="text-zinc-400 font-mono text-[11px]">{bp.evidence_generated?.join(", ")}</span>
               </div>
             </div>
@@ -159,22 +212,28 @@ export default function RoadmapPage() {
       </div>
 
       {/* Actionable Roadmap Tasks Checklist */}
-      <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-white">Roadmap Completion Tracker</h3>
-        <div className="space-y-2">
+      <div className="card-glass rounded-2xl p-6 space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-white/5">
+          <h3 className="text-sm font-bold text-white tracking-wide">Roadmap Completion Tracker</h3>
+          <span className="pill-badge bg-white/5 text-zinc-400 text-[10px]">
+            CLICK TO TOGGLE PROGRESS
+          </span>
+        </div>
+
+        <div className="space-y-2.5">
           {roadmapData?.active_items?.map((item: any) => (
             <div
               key={item.id}
               onClick={() => handleToggle(item.id)}
-              className={`p-4 rounded-xl border flex items-center justify-between transition-colors cursor-pointer ${
+              className={`p-4 rounded-xl border flex items-center justify-between transition-all cursor-pointer ${
                 item.is_completed
-                  ? "bg-emerald-950/20 border-emerald-800/40 text-zinc-400 line-through"
-                  : "bg-[#0f1118] border-[#232733] text-white"
+                  ? "bg-[#090b10] border-[#bef264]/30 text-zinc-400 line-through"
+                  : "bg-[#10131e] border-white/10 text-white hover:border-white/20 hover:bg-[#141824]"
               }`}
             >
               <div className="flex items-center gap-3">
                 {item.is_completed ? (
-                  <CheckSquare className="h-4 w-4 text-emerald-400 shrink-0" />
+                  <CheckSquare className="h-4 w-4 text-[#bef264] shrink-0" />
                 ) : (
                   <Square className="h-4 w-4 text-zinc-500 shrink-0" />
                 )}
@@ -183,7 +242,7 @@ export default function RoadmapPage() {
                   <p className="text-[11px] text-zinc-500 mt-0.5">{item.description}</p>
                 </div>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#141722] text-zinc-400">
+              <span className="pill-badge bg-white/5 text-zinc-400 text-[10px]">
                 Priority {item.priority}
               </span>
             </div>
