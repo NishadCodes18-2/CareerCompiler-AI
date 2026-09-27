@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
+import PageLoader from "@/components/PageLoader";
 
 export const metadata: Metadata = {
   title: "CareerCompiler AI — Compile your career into proof",
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="min-h-screen bg-[#08090d] text-zinc-100 antialiased selection:bg-[#ff5733] selection:text-white flex flex-col">
+        <PageLoader />
         <Navbar />
         <div className="flex flex-1 min-h-[calc(100vh-4rem)]">
           <Sidebar />

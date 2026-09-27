@@ -29,9 +29,17 @@ import {
   Smartphone,
   Monitor,
   AlertTriangle,
-  FileText
+  FileText,
+  Flame,
+  Share2,
+  Globe,
+  QrCode as QrIcon
 } from "lucide-react";
 import { GithubIcon } from "@/components/GithubIcon";
+import QrCode from "@/components/QrCode";
+import JobMatchScannerModal from "@/components/JobMatchScannerModal";
+import AiBulletPolishModal from "@/components/AiBulletPolishModal";
+import LinkedInImportModal from "@/components/LinkedInImportModal";
 
 export const PAPER_SIZES: Record<string, { id: string; name: string; maxSinglePagePx: number; desc: string }> = {
   a4: { id: "a4", name: "A4", maxSinglePagePx: 1120, desc: "Standard 210 × 297 mm (Most Popular)" },
@@ -472,13 +480,27 @@ export default function GoldStandardResumeStudio() {
   const [mobileScaleFit, setMobileScaleFit] = useState(false);
   const [measuredHeight, setMeasuredHeight] = useState<number>(0);
   const [paperSize, setPaperSize] = useState<string>("a4");
+  const [qrCodeEnabled, setQrCodeEnabled] = useState(true);
+  const [jobScannerOpen, setJobScannerOpen] = useState(false);
+  const [linkedInModalOpen, setLinkedInModalOpen] = useState(false);
+  const [bulletPolishOpen, setBulletPolishOpen] = useState(false);
+  const [activePolishBullet, setActivePolishBullet] = useState<{ expIdx: number; bulletIdx: number; text: string } | null>(null);
+  const [shareNotice, setShareNotice] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const resumeSheetRef = useRef<HTMLDivElement>(null);
 
-  // Auto-enable fit screen on mobile devices (<768px)
+  // Auto-enable fit screen on mobile devices (<768px) and check URL query actions
   useEffect(() => {
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      setMobileScaleFit(true);
+    if (typeof window !== "undefined") {
+      if (window.innerWidth < 768) {
+        setMobileScaleFit(true);
+      }
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("action") === "linkedin") {
+        setLinkedInModalOpen(true);
+      } else if (params.get("action") === "scanner") {
+        setJobScannerOpen(true);
+      }
     }
   }, []);
 
@@ -963,6 +985,20 @@ export default function GoldStandardResumeStudio() {
           {importNotice && (
             <div className="p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-mono animate-in fade-in">
               ✓ {importNotice}
+            </div>
+          )}
+
+          {shareNotice && (
+            <div className="p-2.5 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-xs font-mono animate-in fade-in flex items-center justify-between">
+              <span>🔗 {shareNotice}</span>
+              <a
+                href={`https://career-compiler-ai.vercel.app/r/${(resumeData.personal.fullName || "candidate").toLowerCase().replace(/\s+/g, "-")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white text-[11px]"
+              >
+                Open in new tab ↗
+              </a>
             </div>
           )}
 
@@ -1665,9 +1701,27 @@ export default function GoldStandardResumeStudio() {
                         </div>
 
                         <div>
-                          <label className="block text-zinc-500 text-[10px] uppercase font-mono mb-1">
-                            Bullets (Tip: wrap keywords in **bold** like **SolidWorks** or **AWS S3**)
-                          </label>
+                          <div className="flex items-center justify-between mb-1">
+                            <label className="block text-zinc-500 text-[10px] uppercase font-mono">
+                              Bullets (Tip: wrap keywords in **bold** like **AWS S3**)
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActivePolishBullet({
+                                  expIdx: idx,
+                                  bulletIdx: 0,
+                                  text: exp.bullets[0] || "",
+                                });
+                                setBulletPolishOpen(true);
+                              }}
+                              className="flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-300 text-[10px] font-bold transition-all cursor-pointer hover:scale-105"
+                              title="Transform into Google X-Y-Z Formula bullet"
+                            >
+                              <Sparkles className="h-3 w-3 text-cyan-400" />
+                              <span>✨ AI Polish (X-Y-Z)</span>
+                            </button>
+                          </div>
                           <textarea
                             rows={3}
                             value={exp.bullets.join("\n")}
@@ -2215,8 +2269,65 @@ export default function GoldStandardResumeStudio() {
               })}
             </div>
 
-            {/* Right: Photo Switch & Print Button */}
-            <div className="flex items-center gap-2">
+            {/* Right: Feature Buttons & Print */}
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              {/* Job Match Scanner Button */}
+              <button
+                type="button"
+                onClick={() => setJobScannerOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/30 text-teal-300 text-xs font-bold transition-all cursor-pointer hover:scale-105"
+                title="Scan against Job Description for ATS score and keyword heatmap"
+              >
+                <Flame className="h-3.5 w-3.5 text-teal-400" />
+                <span>🎯 Match Scanner</span>
+              </button>
+
+              {/* LinkedIn Import Button */}
+              <button
+                type="button"
+                onClick={() => setLinkedInModalOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0077b5]/15 hover:bg-[#0077b5]/25 border border-[#0077b5]/30 text-cyan-300 text-xs font-bold transition-all cursor-pointer hover:scale-105"
+                title="One-click LinkedIn Profile Importer"
+              >
+                <Briefcase className="h-3.5 w-3.5 text-[#0077b5]" />
+                <span>🔗 LinkedIn</span>
+              </button>
+
+              {/* Subtle Header QR Code Toggle */}
+              <button
+                type="button"
+                onClick={() => setQrCodeEnabled(!qrCodeEnabled)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                  qrCodeEnabled
+                    ? "bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold"
+                    : "bg-white/5 text-zinc-400 hover:text-white"
+                }`}
+                title="Toggle subtle verification QR code on the resume header"
+              >
+                <QrIcon className="h-3.5 w-3.5" />
+                <span>QR: {qrCodeEnabled ? "ON" : "OFF"}</span>
+              </button>
+
+              {/* Share Public Web Resume Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    const handle = (resumeData.personal.fullName || "candidate").toLowerCase().replace(/\s+/g, "-");
+                    const url = `https://career-compiler-ai.vercel.app/r/${handle}`;
+                    navigator.clipboard.writeText(url);
+                    setShareNotice("Public resume link copied to clipboard!");
+                    setTimeout(() => setShareNotice(""), 3500);
+                  }
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-all cursor-pointer"
+                title="Copy live hosted web resume link"
+              >
+                <Share2 className="h-3.5 w-3.5 text-emerald-400" />
+                <span>Share Link</span>
+              </button>
+
+              {/* Photo Toggle */}
               <button
                 type="button"
                 onClick={() =>
@@ -2437,6 +2548,20 @@ export default function GoldStandardResumeStudio() {
                             alt="Profile Photo"
                             className="h-full w-full object-cover"
                           />
+                        </div>
+                      )}
+
+                      {/* Subtle QR Code for Live Recruiter Verification */}
+                      {qrCodeEnabled && (
+                        <div className="shrink-0 flex flex-col items-center justify-center pl-2 print:pl-2">
+                          <QrCode
+                            value={`https://career-compiler-ai.vercel.app/r/${(resumeData.personal.fullName || "candidate").toLowerCase().replace(/\s+/g, "-")}`}
+                            size={44}
+                            fgColor={activeTheme.hex}
+                          />
+                          <span className="text-[7.5px] font-mono text-zinc-500 block mt-0.5 tracking-tight print:text-black font-semibold">
+                            Scan Proof
+                          </span>
                         </div>
                       )}
                     </div>
@@ -2740,6 +2865,75 @@ export default function GoldStandardResumeStudio() {
           </div>
         </div>
       </div>
+
+      {/* ============================================================== */}
+      {/* 3 HIGH-IMPACT ADVANCED MODALS                                  */}
+      {/* ============================================================== */}
+
+      {/* 1. Real-Time Job Match Scanner & Keyword Heatmap */}
+      <JobMatchScannerModal
+        isOpen={jobScannerOpen}
+        onClose={() => setJobScannerOpen(false)}
+        currentSkills={resumeData.skills}
+        resumeText={JSON.stringify(resumeData)}
+        onInjectSkills={(newSkills) => {
+          saveState({
+            ...resumeData,
+            skills: {
+              ...resumeData.skills,
+              cloudDevops: resumeData.skills.cloudDevops
+                ? `${resumeData.skills.cloudDevops}, ${newSkills.join(", ")}`
+                : newSkills.join(", ")
+            }
+          });
+          setImportNotice(`Auto-injected ${newSkills.length} missing skill(s) into resume!`);
+          setTimeout(() => setImportNotice(""), 4500);
+        }}
+      />
+
+      {/* 2. Google X-Y-Z AI Bullet Polish Modal */}
+      <AiBulletPolishModal
+        isOpen={bulletPolishOpen}
+        onClose={() => setBulletPolishOpen(false)}
+        originalText={activePolishBullet?.text || ""}
+        onApply={(polished) => {
+          if (activePolishBullet) {
+            const updatedExp = [...resumeData.experiences];
+            if (updatedExp[activePolishBullet.expIdx]) {
+              const bullets = [...updatedExp[activePolishBullet.expIdx].bullets];
+              bullets[activePolishBullet.bulletIdx] = polished;
+              updatedExp[activePolishBullet.expIdx].bullets = bullets;
+              saveState({ ...resumeData, experiences: updatedExp });
+              setImportNotice("Applied Google X-Y-Z FAANG Polish to bullet point!");
+              setTimeout(() => setImportNotice(""), 4000);
+            }
+          }
+        }}
+      />
+
+      {/* 3. One-Click LinkedIn Import Modal */}
+      <LinkedInImportModal
+        isOpen={linkedInModalOpen}
+        onClose={() => setLinkedInModalOpen(false)}
+        onImport={(imported) => {
+          saveState({
+            ...resumeData,
+            personal: {
+              ...resumeData.personal,
+              fullName: imported.name || resumeData.personal.fullName,
+              targetRole: imported.headline?.split("|")[0]?.trim() || resumeData.personal.targetRole,
+              linkedin: `linkedin.com/in/${imported.handle || "candidate"}`,
+              location: imported.location || resumeData.personal.location
+            },
+            education: imported.education ? [imported.education, ...resumeData.education.slice(1)] : resumeData.education,
+            experiences: imported.experiences ? [...imported.experiences, ...resumeData.experiences.slice(1)] : resumeData.experiences,
+            skills: imported.skills || resumeData.skills
+          });
+          setImportNotice(`Successfully imported career profile for ${imported.name} from LinkedIn!`);
+          setTimeout(() => setImportNotice(""), 5000);
+        }}
+      />
     </div>
   );
 }
+

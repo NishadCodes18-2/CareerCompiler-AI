@@ -8,7 +8,7 @@ from app.database import engine, Base, SessionLocal
 from app.services.seed_service import seed_demo_data
 
 # Import routers
-from app.routers import auth, profile, evidence, github, documents, jobs, matching, resumes, analysis, interview, admin
+from app.routers import auth, profile, evidence, github, documents, jobs, matching, resumes, analysis, interview, admin, leads
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -63,6 +63,7 @@ app.include_router(resumes.router, prefix=settings.API_V1_PREFIX)
 app.include_router(analysis.router, prefix=settings.API_V1_PREFIX)
 app.include_router(interview.router, prefix=settings.API_V1_PREFIX)
 app.include_router(admin.router, prefix=settings.API_V1_PREFIX)
+app.include_router(leads.router, prefix=settings.API_V1_PREFIX)
 
 @app.get("/")
 def root():

@@ -409,3 +409,14 @@ class AuditLog(Base):
     entity_id = Column(String(36), default="")
     details_json = Column(JSON, default=dict)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class LeadCapture(Base):
+    __tablename__ = "lead_captures"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    email = Column(String(255), nullable=False, index=True)
+    source = Column(String(100), default="cover_resume_unlock")
+    metadata_json = Column(JSON, default=dict)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
