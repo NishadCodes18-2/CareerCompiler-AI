@@ -28,27 +28,38 @@ export default function CoverLandingPage() {
   const [submitting, setSubmitting] = useState(false);
   const [unlockMessage, setUnlockMessage] = useState("");
 
-  // Universal Email Gate State
-  const [emailModalOpen, setEmailModalOpen] = useState(false);
-  const [targetDestination, setTargetDestination] = useState("/resume");
-
   useEffect(() => {
     // Check if user previously entered email
-    const saved = localStorage.getItem("careercompiler_user_email") || localStorage.getItem("careercompiler_email_unlocked");
-    if (saved) {
-      setIsUnlocked(true);
-      setEmail(saved);
-    }
+    const checkSaved = () => {
+      const saved =
+        localStorage.getItem("careercompiler_user_email") ||
+        localStorage.getItem("careercompiler_email_unlocked");
+      if (saved) {
+        setIsUnlocked(true);
+        setEmail(saved);
+      }
+    };
+
+    checkSaved();
+    window.addEventListener("email_saved", checkSaved);
+    window.addEventListener("storage", checkSaved);
+    return () => {
+      window.removeEventListener("email_saved", checkSaved);
+      window.removeEventListener("storage", checkSaved);
+    };
   }, []);
 
-  // When any button on the home page is clicked
+  // When any button or feature on the home page is clicked
   const handleActionClick = (destination: string) => {
-    const saved = localStorage.getItem("careercompiler_user_email") || localStorage.getItem("careercompiler_email_unlocked");
+    const saved =
+      localStorage.getItem("careercompiler_user_email") ||
+      localStorage.getItem("careercompiler_email_unlocked");
     if (saved) {
       window.location.href = destination;
     } else {
-      setTargetDestination(destination);
-      setEmailModalOpen(true);
+      window.dispatchEvent(
+        new CustomEvent("open_email_prompt", { detail: { destination } })
+      );
     }
   };
 
@@ -67,7 +78,7 @@ export default function CoverLandingPage() {
           email,
           source: "cover_page_start_making",
           metadata_json: {
-            destination: targetDestination,
+            destination: "/resume",
             timestamp: new Date().toISOString()
           },
         }),
@@ -94,11 +105,11 @@ export default function CoverLandingPage() {
       setUnlockMessage("Email saved! Auto-populating onto your resume...");
 
       setTimeout(() => {
-        window.location.href = targetDestination;
+        window.location.href = "/resume";
       }, 700);
     } catch (err) {
       console.error(err);
-      window.location.href = targetDestination;
+      window.location.href = "/resume";
     } finally {
       setSubmitting(false);
     }
@@ -596,72 +607,6 @@ export default function CoverLandingPage() {
           </a>
         </div>
       </section>
-
-      {/* ========================================================================= */}
-      {/* UNIVERSAL EMAIL CAPTURE MODAL (Opens on ANY click before entering studio)  */}
-      {/* ========================================================================= */}
-      {emailModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
-          <div className="relative w-full max-w-md rounded-3xl bg-[#0d1017] border border-emerald-500/40 p-6 sm:p-7 shadow-2xl space-y-4 text-white">
-            <button
-              onClick={() => setEmailModalOpen(false)}
-              className="absolute top-4 right-4 p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
-            >
-              <X className="h-4 w-4" />
-            </button>
-
-            <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 p-[1.5px] shadow-lg shadow-emerald-500/20">
-              <div className="h-full w-full bg-[#0a0d14] rounded-[14.5px] flex items-center justify-center text-emerald-400">
-                <Mail className="h-6 w-6" />
-              </div>
-            </div>
-
-            <div className="space-y-1">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold">
-                1-Step Quick Start
-              </span>
-              <h3 className="text-lg font-black text-white">
-                Enter your email to start making your resume
-              </h3>
-              <p className="text-xs text-zinc-300 leading-relaxed">
-                Your email will automatically be saved into our database and auto-fetched onto your resume header so you can export PDFs instantly.
-              </p>
-            </div>
-
-            <form onSubmit={handleSaveEmailAndProceed} className="space-y-3 pt-1">
-              <div className="relative">
-                <Mail className="absolute left-3.5 top-3 h-4 w-4 text-zinc-500" />
-                <input
-                  type="email"
-                  required
-                  autoFocus
-                  placeholder="Enter your email address..."
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-[#141724] border border-white/15 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-400 font-mono"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={submitting || !email.trim()}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 text-[#090b0e] text-xs font-extrabold shadow-lg shadow-emerald-500/25 transition-all hover:scale-102 cursor-pointer disabled:opacity-50"
-              >
-                <Sparkles className="h-4 w-4" />
-                <span>{submitting ? "Saving & Compiling..." : "Start Making My Resume 🚀"}</span>
-              </button>
-            </form>
-
-            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-zinc-400 font-mono">
-              <span className="flex items-center gap-1 text-emerald-400">
-                <ShieldCheck className="h-3.5 w-3.5" /> Stored in Neon DB
-              </span>
-              <span>•</span>
-              <span>100% Free Forever</span>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
