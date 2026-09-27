@@ -132,14 +132,17 @@
     border: none !important;
   }
 
+  :root,
   html,
   body {
+    color-scheme: light !important;
     background: #ffffff !important;
     background-color: #ffffff !important;
     color: #000000 !important;
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
+    min-width: 210mm !important;
     min-height: 100% !important;
     overflow: visible !important;
     -webkit-print-color-adjust: exact !important;
@@ -152,7 +155,10 @@
   body > div,
   body > div > div,
   main,
-  .resume-paper-container {
+  .resume-paper-container,
+  .public-resume-container,
+  div:has(> #printable-resume) {
+    color-scheme: light !important;
     background: #ffffff !important;
     background-color: #ffffff !important;
     border: none !important;
@@ -175,21 +181,24 @@
     display: block !important;
   }
 
-  /* Position #printable-resume cleanly: exact ditto of preview with zero dark borders */
+  /* Position #printable-resume cleanly: standard 210mm A4 width so mobile print never crushes */
   #printable-resume {
     display: block !important;
     visibility: visible !important;
     position: relative !important;
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 210mm !important;
+    min-width: 210mm !important;
+    max-width: 210mm !important;
+    box-sizing: border-box !important;
     min-height: auto !important;
     margin: 0 auto !important;
-    padding: 32px 36px !important;
+    padding: 26px 30px !important;
     box-shadow: none !important;
     border: none !important;
     border-radius: 0 !important;
     background: #ffffff !important;
     background-color: #ffffff !important;
+    color: #090a0f !important;
     transform: none !important;
     overflow: visible !important;
     -webkit-user-select: text !important;
@@ -197,7 +206,7 @@
   }
 
   #printable-resume.compact-density {
-    padding: 24px 28px !important;
+    padding: 20px 24px !important;
   }
 
   /* Ensure all internal elements inside #printable-resume keep their exact layout and styling */

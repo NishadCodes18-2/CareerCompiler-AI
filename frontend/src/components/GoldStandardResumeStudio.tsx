@@ -505,6 +505,7 @@ export default function GoldStandardResumeStudio() {
   const [bulletPolishOpen, setBulletPolishOpen] = useState(false);
   const [activePolishBullet, setActivePolishBullet] = useState<{ expIdx: number; bulletIdx: number; text: string } | null>(null);
   const [shareNotice, setShareNotice] = useState("");
+  const [showInAppModal, setShowInAppModal] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const resumeSheetRef = useRef<HTMLDivElement>(null);
 
@@ -527,8 +528,16 @@ export default function GoldStandardResumeStudio() {
   useEffect(() => {
     const measure = () => {
       if (resumeSheetRef.current) {
-        const height = resumeSheetRef.current.scrollHeight;
-        setMeasuredHeight(height);
+        const width = resumeSheetRef.current.offsetWidth || 820;
+        const rawHeight = resumeSheetRef.current.scrollHeight;
+        if (width < 680) {
+          // Normalize height to desktop A4 width (~820px) so mobile line wrapping
+          // doesn't falsely report 1975px and trigger A3 warning
+          const normalized = Math.round(rawHeight * (width / 820));
+          setMeasuredHeight(normalized);
+        } else {
+          setMeasuredHeight(rawHeight);
+        }
       }
     };
     measure();
@@ -609,12 +618,24 @@ export default function GoldStandardResumeStudio() {
   };
 
   const handlePrint = () => {
+    // Detect Instagram / Facebook / TikTok / Twitter in-app browser
+    if (typeof navigator !== "undefined") {
+      const ua = navigator.userAgent || navigator.vendor || (window as any).opera || "";
+      if (/Instagram|FBAN|FBAV|Twitter|TikTok|Snapchat/i.test(ua)) {
+        setShowInAppModal(true);
+        return;
+      }
+    }
+
     // Disable any mobile view scaling during print so it's 100% vector crisp
     const prevScale = mobileScaleFit;
     setMobileScaleFit(false);
 
-    // Apply active paper size styling to body
+    // Apply active paper size styling to body & force LIGHT mode during print
+    // so Android Chrome/Samsung Internet never renders dark background
     if (typeof document !== "undefined") {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
       document.body.classList.remove("paper-a4", "paper-letter", "paper-legal", "paper-a3");
       document.body.classList.add(`paper-${paperSize}`);
     }
@@ -629,10 +650,12 @@ export default function GoldStandardResumeStudio() {
       window.print();
       if (typeof document !== "undefined") {
         document.title = originalTitle;
+        document.documentElement.classList.remove("light");
+        document.documentElement.classList.add("dark");
         document.body.classList.remove("paper-a4", "paper-letter", "paper-legal", "paper-a3");
       }
       setMobileScaleFit(prevScale);
-    }, 200);
+    }, 250);
   };
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -818,6 +841,86 @@ export default function GoldStandardResumeStudio() {
 
   return (
     <div className="space-y-6 pb-24 max-w-[1600px] mx-auto">
+      {/* ============================================================== */}
+      {/* MOBILE LAPTOP/PC ADVICE BANNER: "For Best Results Use on Laptop/PC" */}
+      {/* ============================================================== */}
+      <div className="no-print lg:hidden flex items-start gap-3 p-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-[#131622] to-teal-500/10 border border-emerald-500/30 text-xs shadow-xl animate-in fade-in">
+        <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 shrink-0 mt-0.5">
+          <Monitor className="h-4 w-4" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5 font-bold text-white text-xs">
+            <span>💡 For Best Results: Use on Laptop / PC</span>
+            <span className="text-[9.5px] font-mono px-1.5 py-0.2 rounded bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">Recommended</span>
+          </div>
+          <p className="text-[11px] text-zinc-300 leading-relaxed mt-0.5">
+            For pixel-perfect live editing, full A4 sheet viewing &amp; instant 1-click vector PDF download, open CareerCompiler AI on your desktop or laptop.
+          </p>
+        </div>
+      </div>
+
+      {/* In-App Browser Guidance Modal (Instagram / TikTok / Facebook) */}
+      {showInAppModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+          <div className="relative w-full max-w-md rounded-3xl bg-[#11141c] border border-emerald-500/40 p-6 shadow-2xl space-y-4 text-center">
+            <div className="mx-auto w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <Globe className="h-7 w-7" />
+            </div>
+
+            <div className="space-y-1.5">
+              <h3 className="text-lg font-extrabold text-white">
+                Open in Chrome or Safari
+              </h3>
+              <p className="text-xs text-zinc-300 leading-relaxed">
+                You are currently inside an in-app browser (such as Instagram or TikTok), which disables direct PDF downloads and print spoolers.
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-black/40 border border-white/10 text-left space-y-2 text-xs">
+              <div className="flex items-center gap-2 text-white font-bold">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-black text-[10px] font-black">1</span>
+                <span>Tap the 3 dots (⋮ or ⋯) in the top-right corner</span>
+              </div>
+              <div className="flex items-center gap-2 text-white font-bold">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-black text-[10px] font-black">2</span>
+                <span>Select &quot;Open in Chrome&quot; or &quot;Open in Safari&quot;</span>
+              </div>
+              <div className="flex items-center gap-2 text-white font-bold">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-black text-[10px] font-black">3</span>
+                <span>Or open on your Laptop/PC for 1-click download!</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    navigator.clipboard.writeText(window.location.href);
+                    setShareNotice("Link copied! Paste in Chrome/Safari to export.");
+                    setTimeout(() => setShareNotice(""), 3500);
+                  }
+                  setShowInAppModal(false);
+                }}
+                className="w-full py-3 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-xs transition-all shadow-lg cursor-pointer"
+              >
+                Copy Link to Open in Chrome
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowInAppModal(false);
+                  setTimeout(() => window.print(), 100);
+                }}
+                className="w-full py-2.5 rounded-2xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white font-medium text-xs transition-all cursor-pointer"
+              >
+                Try Printing Anyway
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ============================================================== */}
       {/* INVITATION CALLOUT BANNER: "Do you want to make one like this?" */}
       {/* ============================================================== */}
@@ -2324,23 +2427,30 @@ export default function GoldStandardResumeStudio() {
                 <span>🔗 LinkedIn</span>
               </button>
 
-              {/* Share Public Web Resume Button */}
+              {/* Share Public Web Resume Button (7-Day Validity Expiry Guarantee) */}
               <button
                 type="button"
                 onClick={() => {
                   if (typeof window !== "undefined") {
                     const handle = (resumeData.personal.fullName || "candidate").toLowerCase().replace(/\s+/g, "-");
-                    const url = `https://career-compiler-ai.vercel.app/r/${handle}`;
+                    const expiresAt = Date.now() + 7 * 24 * 60 * 60 * 1000;
+                    try {
+                      localStorage.setItem(`cc_resume_share_${handle}`, JSON.stringify({
+                        data: resumeData,
+                        expiresAt
+                      }));
+                    } catch (e) {}
+                    const url = `https://career-compiler-ai.vercel.app/r/${handle}?exp=${expiresAt}`;
                     navigator.clipboard.writeText(url);
-                    setShareNotice("Public resume link copied to clipboard!");
-                    setTimeout(() => setShareNotice(""), 3500);
+                    setShareNotice("🔗 7-Day verified link copied to clipboard! (Valid for 7 days)");
+                    setTimeout(() => setShareNotice(""), 4500);
                   }
                 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-all cursor-pointer"
-                title="Copy live hosted web resume link"
+                title="Copy 7-day secure live hosted web resume link"
               >
                 <Share2 className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Share Link</span>
+                <span>Share Link (7d)</span>
               </button>
 
               {/* Photo Toggle */}
@@ -2376,6 +2486,9 @@ export default function GoldStandardResumeStudio() {
           {(() => {
             const currentLimitPx = PAPER_SIZES[paperSize]?.maxSinglePagePx || 1120;
             const isExceeding = measuredHeight > currentLimitPx;
+            const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+            if (!isExceeding || isMobile) return null;
 
             // Determine best paper size recommendation
             let bestRecommendation = "A4";
@@ -2384,10 +2497,8 @@ export default function GoldStandardResumeStudio() {
             else if (measuredHeight <= 1344) bestRecommendation = "Legal (8.5 × 14 in)";
             else bestRecommendation = "A3 (297 × 420 mm Large Format)";
 
-            if (!isExceeding) return null;
-
             return (
-              <div className="no-print p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg animate-in fade-in duration-200">
+              <div className="no-print hidden md:flex p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg animate-in fade-in duration-200">
                 <div className="flex items-start sm:items-center gap-2.5">
                   <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 shrink-0">
                     <AlertTriangle className="h-4 w-4" />
@@ -2445,7 +2556,7 @@ export default function GoldStandardResumeStudio() {
                 <div
                   ref={resumeSheetRef}
                   id="printable-resume"
-                  className={`w-full bg-white text-zinc-950 font-sans shadow-2xl print:shadow-none print:border-none print:rounded-none print:transform-none ${
+                  className={`w-full bg-white text-zinc-950 font-sans shadow-2xl min-w-[700px] sm:min-w-0 print:shadow-none print:border-none print:rounded-none print:transform-none ${
                     paperSize === "a3"
                       ? "max-w-[1000px]"
                       : paperSize === "legal"
@@ -2454,7 +2565,7 @@ export default function GoldStandardResumeStudio() {
                   } ${
                     isCompact ? "compact-density p-4 sm:p-8" : "p-5 sm:p-10"
                   } text-xs leading-normal select-text selection:bg-amber-100 transition-all ${
-                    mobileScaleFit ? "transform scale-[0.6] sm:scale-[0.85] lg:scale-100 origin-top print:transform-none print:scale-100" : ""
+                    mobileScaleFit ? "transform scale-[0.44] xs:scale-[0.55] sm:scale-[0.8] lg:scale-100 origin-top print:transform-none print:scale-100" : ""
                   }`}
                   style={{ minHeight: isCompact && !isOverflowing ? "1050px" : "auto" }}
                 >
