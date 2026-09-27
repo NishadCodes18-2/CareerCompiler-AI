@@ -2423,7 +2423,7 @@ export default function GoldStandardResumeStudio() {
                 <div
                   ref={resumeSheetRef}
                   id="printable-resume"
-                  className={`w-full bg-white text-zinc-950 font-sans shadow-2xl print:shadow-none print:border-none print:rounded-none print:p-0 print:m-0 print:max-w-none print:w-full print:transform-none ${
+                  className={`w-full bg-white text-zinc-950 font-sans shadow-2xl print:shadow-none print:border-none print:rounded-none print:transform-none ${
                     paperSize === "a3"
                       ? "max-w-[1000px]"
                       : paperSize === "legal"

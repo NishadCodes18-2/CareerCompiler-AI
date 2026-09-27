@@ -93,7 +93,7 @@ export default function PublicResumePage({ params }: PageProps) {
       <div className="flex justify-center print:block print:w-full print:m-0 print:p-0">
         <div
           id="printable-resume"
-          className="w-full bg-white text-zinc-950 font-sans shadow-2xl max-w-[820px] p-6 sm:p-12 text-xs leading-normal select-text selection:bg-amber-100 rounded-2xl print:shadow-none print:border-none print:rounded-none print:p-0 print:m-0 print:max-w-none print:w-full print:transform-none"
+          className="w-full bg-white text-zinc-950 font-sans shadow-2xl max-w-[820px] p-6 sm:p-12 text-xs leading-normal select-text selection:bg-amber-100 rounded-2xl print:shadow-none print:border-none print:rounded-none print:transform-none"
         >
           {/* Header */}
           <div className="border-b-2 border-zinc-950 pb-3 mb-4">
