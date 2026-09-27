@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import {
   Sparkles,
   ArrowRight,
@@ -14,10 +13,11 @@ import {
   QrCode as QrIcon,
   Globe,
   Layers,
-  Heart,
   ExternalLink,
   ChevronRight,
-  Check
+  Check,
+  X,
+  Mail
 } from "lucide-react";
 import { GithubIcon } from "@/components/GithubIcon";
 import QrCode from "@/components/QrCode";
@@ -28,43 +28,77 @@ export default function CoverLandingPage() {
   const [submitting, setSubmitting] = useState(false);
   const [unlockMessage, setUnlockMessage] = useState("");
 
+  // Universal Email Gate State
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+  const [targetDestination, setTargetDestination] = useState("/resume");
+
   useEffect(() => {
-    // Check if user previously unlocked
-    const saved = localStorage.getItem("careercompiler_email_unlocked");
+    // Check if user previously entered email
+    const saved = localStorage.getItem("careercompiler_user_email") || localStorage.getItem("careercompiler_email_unlocked");
     if (saved) {
       setIsUnlocked(true);
+      setEmail(saved);
     }
   }, []);
 
-  const handleUnlock = async (e: React.FormEvent) => {
+  // When any button on the home page is clicked
+  const handleActionClick = (destination: string) => {
+    const saved = localStorage.getItem("careercompiler_user_email") || localStorage.getItem("careercompiler_email_unlocked");
+    if (saved) {
+      window.location.href = destination;
+    } else {
+      setTargetDestination(destination);
+      setEmailModalOpen(true);
+    }
+  };
+
+  const handleSaveEmailAndProceed = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes("@")) return;
 
     setSubmitting(true);
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
-      // Save email to Neon DB backend
+      // 1. Save email to Neon DB backend
       await fetch(`${apiUrl}/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          source: "cover_resume_unlock",
-          metadata_json: { timestamp: new Date().toISOString() },
+          source: "cover_page_start_making",
+          metadata_json: {
+            destination: targetDestination,
+            timestamp: new Date().toISOString()
+          },
         }),
       }).catch((err) => {
         console.warn("Backend lead notice:", err);
       });
 
+      // 2. Persist in storage so Resume Studio automatically fetches it into personal.email
+      localStorage.setItem("careercompiler_user_email", email);
       localStorage.setItem("careercompiler_email_unlocked", email);
+      sessionStorage.setItem("careercompiler_user_email", email);
+
+      // Pre-seed gold_resume_data so email is immediately on resume
+      const existingDataStr = sessionStorage.getItem("gold_resume_data");
+      if (existingDataStr) {
+        try {
+          const parsed = JSON.parse(existingDataStr);
+          parsed.personal.email = email;
+          sessionStorage.setItem("gold_resume_data", JSON.stringify(parsed));
+        } catch (err) {}
+      }
+
       setIsUnlocked(true);
-      setUnlockMessage("Resume fully unlocked! Redirecting to studio...");
+      setUnlockMessage("Email saved! Auto-populating onto your resume...");
+
       setTimeout(() => {
-        window.location.href = "/resume";
-      }, 1200);
+        window.location.href = targetDestination;
+      }, 700);
     } catch (err) {
       console.error(err);
-      setIsUnlocked(true);
+      window.location.href = targetDestination;
     } finally {
       setSubmitting(false);
     }
@@ -152,40 +186,54 @@ export default function CoverLandingPage() {
               </div>
             </div>
 
-            {/* Call-to-Action Buttons */}
+            {/* Call-to-Action Buttons (Gated by Email) */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Link
-                href="/resume"
+              <button
+                type="button"
+                onClick={() => handleActionClick("/resume")}
                 className="flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 text-[#090b0e] font-extrabold text-xs sm:text-sm shadow-xl shadow-emerald-500/25 transition-all hover:scale-105 active:scale-95 group cursor-pointer"
               >
                 <Sparkles className="h-4 w-4" />
-                <span>Open Live Resume Studio (Free Demo)</span>
+                <span>Start Making Yours Now 🚀</span>
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              </button>
 
-              <Link
-                href="/resume?action=linkedin"
+              <button
+                type="button"
+                onClick={() => handleActionClick("/resume?action=linkedin")}
                 className="flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-[#131620] hover:bg-[#1b202e] text-zinc-200 hover:text-white border border-white/15 text-xs font-bold transition-all hover:scale-105 cursor-pointer"
               >
                 <span>LinkedIn Auto-Fill</span>
-              </Link>
+              </button>
             </div>
 
-            {/* Feature Checklist */}
+            {/* Feature Checklist (Interactive) */}
             <div className="grid grid-cols-2 gap-2.5 pt-2 text-xs text-zinc-300 font-medium">
-              <div className="flex items-center gap-2">
+              <div
+                onClick={() => handleActionClick("/resume?action=linkedin")}
+                className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
+              >
                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
                 <span>One-Click LinkedIn Import</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div
+                onClick={() => handleActionClick("/resume?action=scanner")}
+                className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
+              >
                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
                 <span>Real-Time Job Match Scanner</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div
+                onClick={() => handleActionClick("/resume")}
+                className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
+              >
                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
                 <span>Google X-Y-Z AI Bullet Polish</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div
+                onClick={() => handleActionClick("/resume")}
+                className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
+              >
                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
                 <span>Header QR Code Verification</span>
               </div>
@@ -209,13 +257,14 @@ export default function CoverLandingPage() {
                     Standard A4 FAANG Format Preview
                   </span>
                 </div>
-                <Link
-                  href="/resume"
-                  className="flex items-center gap-1 text-[11px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+                <button
+                  type="button"
+                  onClick={() => handleActionClick("/resume")}
+                  className="flex items-center gap-1 text-[11px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
                 >
                   <span>Edit in Studio</span>
                   <ChevronRight className="h-3 w-3" />
-                </Link>
+                </button>
               </div>
 
               {/* THE RESUME CANVAS WITH SLANTED WATERMARK */}
@@ -265,7 +314,7 @@ export default function CoverLandingPage() {
                   </div>
                 </div>
 
-                {/* EDUCATION TABLE (Visible top portion) */}
+                {/* EDUCATION TABLE */}
                 <div className="mb-3">
                   <div className="flex items-center gap-1 border-b border-zinc-950 pb-0.5 mb-1.5">
                     <span className="h-1.5 w-1.5 rounded-full bg-zinc-950" />
@@ -291,7 +340,7 @@ export default function CoverLandingPage() {
                   </table>
                 </div>
 
-                {/* TECHNICAL SKILLS SECTION (Partially readable) */}
+                {/* TECHNICAL SKILLS SECTION */}
                 <div className="mb-3">
                   <div className="flex items-center gap-1 border-b border-zinc-950 pb-0.5 mb-1.5">
                     <span className="h-1.5 w-1.5 rounded-full bg-zinc-950" />
@@ -307,7 +356,7 @@ export default function CoverLandingPage() {
                   </div>
                 </div>
 
-                {/* EXPERIENCE SECTION (Starts visible, blends into blur) */}
+                {/* EXPERIENCE SECTION (Blends into blur) */}
                 <div>
                   <div className="flex items-center gap-1 border-b border-zinc-950 pb-0.5 mb-1.5">
                     <span className="h-1.5 w-1.5 rounded-full bg-zinc-950" />
@@ -330,7 +379,7 @@ export default function CoverLandingPage() {
                 </div>
 
                 {/* ================================================================= */}
-                {/* FROSTED GLASS LOCK OVERLAY: Covers lower ~55% of the resume       */}
+                {/* FROSTED GLASS LOCK OVERLAY                                        */}
                 {/* ================================================================= */}
                 {!isUnlocked && (
                   <div className="absolute inset-x-0 bottom-0 top-[42%] z-30 bg-gradient-to-t from-white via-white/95 to-white/60 backdrop-blur-[6px] flex flex-col items-center justify-center p-6 text-center">
@@ -341,14 +390,14 @@ export default function CoverLandingPage() {
 
                       <div className="space-y-1">
                         <h4 className="text-sm font-extrabold text-white">
-                          Unlock Full Resume & Edit in Studio
+                          Unlock Full Resume & Start Making Yours
                         </h4>
                         <p className="text-[11px] text-zinc-300 leading-snug">
-                          Provide your email to view the complete unblurred FAANG resume, export free PDFs, and access all AI tools.
+                          Provide your email to view the complete unblurred FAANG resume, export free PDFs, and auto-fetch your email directly onto your resume.
                         </p>
                       </div>
 
-                      <form onSubmit={handleUnlock} className="space-y-2">
+                      <form onSubmit={handleSaveEmailAndProceed} className="space-y-2">
                         <div className="flex items-center gap-1.5 bg-[#141722] p-1 rounded-xl border border-white/15 focus-within:border-emerald-400">
                           <input
                             type="email"
@@ -376,7 +425,7 @@ export default function CoverLandingPage() {
                           <ShieldCheck className="h-3 w-3" /> Stored in Neon DB
                         </span>
                         <span>•</span>
-                        <span>100% Free Access</span>
+                        <span>Auto-Fetched to Resume</span>
                       </div>
                     </div>
                   </div>
@@ -385,13 +434,14 @@ export default function CoverLandingPage() {
                 {/* If unlocked, show floating success badge */}
                 {isUnlocked && (
                   <div className="absolute bottom-4 right-4 z-30">
-                    <Link
-                      href="/resume"
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 text-black font-extrabold text-xs shadow-2xl hover:scale-105 transition-all"
+                    <button
+                      type="button"
+                      onClick={() => handleActionClick("/resume")}
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 text-black font-extrabold text-xs shadow-2xl hover:scale-105 transition-all cursor-pointer"
                     >
                       <Unlock className="h-3.5 w-3.5" />
                       <span>Unlocked! Open Studio</span>
-                    </Link>
+                    </button>
                   </div>
                 )}
               </div>
@@ -415,7 +465,10 @@ export default function CoverLandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {/* Card 1: One-Click LinkedIn & GitHub */}
-          <div className="p-5 rounded-2xl bg-[#0f1118] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3 group">
+          <div
+            onClick={() => handleActionClick("/resume?action=linkedin")}
+            className="p-5 rounded-2xl bg-[#0f1118] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3 group cursor-pointer"
+          >
             <div className="h-10 w-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
               <Layers className="h-5 w-5" />
             </div>
@@ -428,7 +481,10 @@ export default function CoverLandingPage() {
           </div>
 
           {/* Card 2: Real-Time Job Match & Heatmap */}
-          <div className="p-5 rounded-2xl bg-[#0f1118] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3 group">
+          <div
+            onClick={() => handleActionClick("/resume?action=scanner")}
+            className="p-5 rounded-2xl bg-[#0f1118] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3 group cursor-pointer"
+          >
             <div className="h-10 w-10 rounded-xl bg-teal-500/15 border border-teal-500/30 flex items-center justify-center text-teal-400 group-hover:scale-110 transition-transform">
               <Flame className="h-5 w-5" />
             </div>
@@ -441,7 +497,10 @@ export default function CoverLandingPage() {
           </div>
 
           {/* Card 3: Google X-Y-Z AI Bullet Polish */}
-          <div className="p-5 rounded-2xl bg-[#0f1118] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3 group">
+          <div
+            onClick={() => handleActionClick("/resume")}
+            className="p-5 rounded-2xl bg-[#0f1118] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3 group cursor-pointer"
+          >
             <div className="h-10 w-10 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
               <Sparkles className="h-5 w-5" />
             </div>
@@ -454,7 +513,10 @@ export default function CoverLandingPage() {
           </div>
 
           {/* Card 4: Header QR Code */}
-          <div className="p-5 rounded-2xl bg-[#0f1118] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3 group">
+          <div
+            onClick={() => handleActionClick("/resume")}
+            className="p-5 rounded-2xl bg-[#0f1118] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3 group cursor-pointer"
+          >
             <div className="h-10 w-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
               <QrIcon className="h-5 w-5" />
             </div>
@@ -467,7 +529,10 @@ export default function CoverLandingPage() {
           </div>
 
           {/* Card 5: Hosted Public Web Resume */}
-          <div className="p-5 rounded-2xl bg-[#0f1118] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3 group">
+          <div
+            onClick={() => handleActionClick("/resume")}
+            className="p-5 rounded-2xl bg-[#0f1118] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3 group cursor-pointer"
+          >
             <div className="h-10 w-10 rounded-xl bg-violet-500/15 border border-violet-500/30 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
               <Globe className="h-5 w-5" />
             </div>
@@ -480,7 +545,10 @@ export default function CoverLandingPage() {
           </div>
 
           {/* Card 6: Zero Login Instant Export */}
-          <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-500/15 via-[#0f1118] to-[#0f1118] border border-emerald-500/30 space-y-3">
+          <div
+            onClick={() => handleActionClick("/resume")}
+            className="p-5 rounded-2xl bg-gradient-to-br from-emerald-500/15 via-[#0f1118] to-[#0f1118] border border-emerald-500/30 space-y-3 cursor-pointer"
+          >
             <div className="h-10 w-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
               <Check className="h-5 w-5" />
             </div>
@@ -508,12 +576,13 @@ export default function CoverLandingPage() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-          <Link
-            href="/resume"
+          <button
+            type="button"
+            onClick={() => handleActionClick("/resume")}
             className="px-6 py-3 rounded-full bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold text-xs shadow-lg shadow-emerald-500/20 transition-all hover:scale-105 cursor-pointer"
           >
-            Launch Resume Studio Now 🚀
-          </Link>
+            Start Making Yours Now 🚀
+          </button>
 
           <a
             href="https://career-compiler-ai.vercel.app/"
@@ -527,6 +596,72 @@ export default function CoverLandingPage() {
           </a>
         </div>
       </section>
+
+      {/* ========================================================================= */}
+      {/* UNIVERSAL EMAIL CAPTURE MODAL (Opens on ANY click before entering studio)  */}
+      {/* ========================================================================= */}
+      {emailModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+          <div className="relative w-full max-w-md rounded-3xl bg-[#0d1017] border border-emerald-500/40 p-6 sm:p-7 shadow-2xl space-y-4 text-white">
+            <button
+              onClick={() => setEmailModalOpen(false)}
+              className="absolute top-4 right-4 p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+            >
+              <X className="h-4 w-4" />
+            </button>
+
+            <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 p-[1.5px] shadow-lg shadow-emerald-500/20">
+              <div className="h-full w-full bg-[#0a0d14] rounded-[14.5px] flex items-center justify-center text-emerald-400">
+                <Mail className="h-6 w-6" />
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold">
+                1-Step Quick Start
+              </span>
+              <h3 className="text-lg font-black text-white">
+                Enter your email to start making your resume
+              </h3>
+              <p className="text-xs text-zinc-300 leading-relaxed">
+                Your email will automatically be saved into our database and auto-fetched onto your resume header so you can export PDFs instantly.
+              </p>
+            </div>
+
+            <form onSubmit={handleSaveEmailAndProceed} className="space-y-3 pt-1">
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-3 h-4 w-4 text-zinc-500" />
+                <input
+                  type="email"
+                  required
+                  autoFocus
+                  placeholder="Enter your email address..."
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-[#141724] border border-white/15 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-400 font-mono"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={submitting || !email.trim()}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 text-[#090b0e] text-xs font-extrabold shadow-lg shadow-emerald-500/25 transition-all hover:scale-102 cursor-pointer disabled:opacity-50"
+              >
+                <Sparkles className="h-4 w-4" />
+                <span>{submitting ? "Saving & Compiling..." : "Start Making My Resume 🚀"}</span>
+              </button>
+            </form>
+
+            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-zinc-400 font-mono">
+              <span className="flex items-center gap-1 text-emerald-400">
+                <ShieldCheck className="h-3.5 w-3.5" /> Stored in Neon DB
+              </span>
+              <span>•</span>
+              <span>100% Free Forever</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

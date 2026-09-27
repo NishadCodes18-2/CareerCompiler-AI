@@ -51,6 +51,11 @@ export default function Sidebar() {
     }
   }, [pathname]);
 
+  // Hide sidebar on the home/cover page so the cover is clean, full-width, and distraction-free
+  if (pathname === "/") {
+    return null;
+  }
+
   const navSections = [
     {
       title: "Core Resume Tools",

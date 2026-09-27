@@ -543,6 +543,18 @@ export default function GoldStandardResumeStudio() {
       }));
     }
 
+    // Auto-fetch user email captured on Home page into resume
+    const userEmail = localStorage.getItem("careercompiler_user_email") || sessionStorage.getItem("careercompiler_user_email");
+    if (userEmail) {
+      setResumeData((prev: any) => ({
+        ...prev,
+        personal: {
+          ...prev.personal,
+          email: userEmail
+        }
+      }));
+    }
+
     // Auto-wipe on tab or browser close (Zero Persistence / Ephemeral Session)
     const handleBeforeUnload = () => {
       try {
