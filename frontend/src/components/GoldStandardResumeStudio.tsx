@@ -46,6 +46,28 @@ export const PAPER_SIZES: Record<string, { id: string; name: string; maxSinglePa
   a3: { id: "a3", name: "A3", maxSinglePagePx: 1584, desc: "Spacious 297 × 420 mm (Large)" }
 };
 
+export const getGithubHref = (val?: string): string => {
+  if (!val) return "#";
+  const clean = val.trim().replace(/^https?:\/\//i, "").replace(/^www\./i, "");
+  if (clean.startsWith("github.com/")) return `https://${clean}`;
+  return `https://github.com/${clean}`;
+};
+
+export const getLinkedinHref = (val?: string): string => {
+  if (!val) return "#";
+  const clean = val.trim().replace(/^https?:\/\//i, "").replace(/^www\./i, "");
+  if (clean.startsWith("linkedin.com/")) return `https://${clean}`;
+  if (clean.startsWith("in/")) return `https://linkedin.com/${clean}`;
+  return `https://linkedin.com/in/${clean}`;
+};
+
+export const getWebHref = (val?: string): string => {
+  if (!val) return "#";
+  const clean = val.trim();
+  if (/^https?:\/\//i.test(clean)) return clean;
+  return `https://${clean.replace(/^\/+/, "")}`;
+};
+
 export const INITIAL_GOLD_RESUME = {
   personal: {
     fullName: "Ayush Sharma",
@@ -610,7 +632,7 @@ export default function GoldStandardResumeStudio() {
         document.body.classList.remove("paper-a4", "paper-letter", "paper-legal", "paper-a3");
       }
       setMobileScaleFit(prevScale);
-    }, 120);
+    }, 200);
   };
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -795,7 +817,7 @@ export default function GoldStandardResumeStudio() {
   };
 
   return (
-    <div className="space-y-6 pb-24 max-w-[1600px] mx-auto select-none">
+    <div className="space-y-6 pb-24 max-w-[1600px] mx-auto">
       {/* ============================================================== */}
       {/* INVITATION CALLOUT BANNER: "Do you want to make one like this?" */}
       {/* ============================================================== */}
@@ -2430,7 +2452,7 @@ export default function GoldStandardResumeStudio() {
                       ? "max-w-[850px]"
                       : "max-w-[820px]"
                   } ${
-                    isCompact ? "p-4 sm:p-8" : "p-5 sm:p-10"
+                    isCompact ? "compact-density p-4 sm:p-8" : "p-5 sm:p-10"
                   } text-xs leading-normal select-text selection:bg-amber-100 transition-all ${
                     mobileScaleFit ? "transform scale-[0.6] sm:scale-[0.85] lg:scale-100 origin-top print:transform-none print:scale-100" : ""
                   }`}
@@ -2490,35 +2512,35 @@ export default function GoldStandardResumeStudio() {
                           <div className="flex items-center gap-3">
                             {resumeData.personal.github && (
                               <a
-                                href={`https://${resumeData.personal.github.replace("https://", "")}`}
+                                href={getGithubHref(resumeData.personal.github)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:underline flex items-center gap-0.5 font-semibold"
+                                className="hover:underline flex items-center gap-0.5 font-semibold cursor-pointer"
                                 style={{ color: activeTheme.hex }}
                               >
-                                github.com/{resumeData.personal.github.replace("github.com/", "").replace("https://", "")} ↗
+                                github.com/{resumeData.personal.github.replace(/^(https?:\/\/)?(www\.)?github\.com\/?/, "")} ↗
                               </a>
                             )}
                             {resumeData.personal.linkedin && (
                               <a
-                                href={`https://${resumeData.personal.linkedin.replace("https://", "")}`}
+                                href={getLinkedinHref(resumeData.personal.linkedin)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:underline flex items-center gap-0.5 font-semibold"
+                                className="hover:underline flex items-center gap-0.5 font-semibold cursor-pointer"
                                 style={{ color: activeTheme.hex }}
                               >
-                                in/{resumeData.personal.linkedin.replace("linkedin.com/in/", "").replace("https://", "")} ↗
+                                in/{resumeData.personal.linkedin.replace(/^(https?:\/\/)?(www\.)?linkedin\.com\/(in\/)?/, "")} ↗
                               </a>
                             )}
                             {resumeData.personal.portfolio && (
                               <a
-                                href={`https://${resumeData.personal.portfolio.replace("https://", "")}`}
+                                href={getWebHref(resumeData.personal.portfolio)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:underline flex items-center gap-0.5 font-semibold"
+                                className="hover:underline flex items-center gap-0.5 font-semibold cursor-pointer"
                                 style={{ color: activeTheme.hex }}
                               >
-                                {resumeData.personal.portfolio.replace("https://", "")} ↗
+                                {resumeData.personal.portfolio.replace(/^https?:\/\//, "")} ↗
                               </a>
                             )}
                           </div>
@@ -2673,10 +2695,10 @@ export default function GoldStandardResumeStudio() {
                               <div className="flex items-center gap-1.5 text-[10px] font-mono font-semibold">
                                 {proj.liveDemo && (
                                   <a
-                                    href={`https://${proj.liveDemo.replace("https://", "")}`}
+                                    href={getWebHref(proj.liveDemo)}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="hover:underline font-bold px-1.5 py-0.5 rounded border inline-flex items-center gap-0.5"
+                                    className="hover:underline font-bold px-1.5 py-0.5 rounded border inline-flex items-center gap-0.5 cursor-pointer"
                                     style={{
                                       borderColor: activeTheme.hex + "40",
                                       backgroundColor: activeTheme.bgLight,
@@ -2688,10 +2710,10 @@ export default function GoldStandardResumeStudio() {
                                 )}
                                 {proj.github && (
                                   <a
-                                    href={`https://${proj.github.replace("https://", "")}`}
+                                    href={getGithubHref(proj.github)}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="hover:underline font-bold px-1.5 py-0.5 rounded border border-zinc-200 bg-zinc-50 inline-flex items-center gap-0.5 text-zinc-800"
+                                    className="hover:underline font-bold px-1.5 py-0.5 rounded border border-zinc-200 bg-zinc-50 inline-flex items-center gap-0.5 text-zinc-800 cursor-pointer"
                                   >
                                     GitHub ↗
                                   </a>
@@ -2820,7 +2842,7 @@ export default function GoldStandardResumeStudio() {
                   )}
 
                   {/* Verified Clickable Watermark (Preserved in PDF & Browser) */}
-                  <div className="mt-7 pt-2.5 border-t border-zinc-200 flex items-center justify-between text-[9.5px] text-zinc-500 font-mono select-none">
+                  <div className="mt-7 pt-2.5 border-t border-zinc-200 flex items-center justify-between text-[9.5px] text-zinc-500 font-mono">
                     <div className="flex items-center gap-1.5">
                       <span className="inline-block h-1.5 w-1.5 rounded-full animate-pulse" style={{ backgroundColor: activeTheme.hex }}></span>
                       <span className="font-sans font-medium text-zinc-600">
@@ -2828,7 +2850,7 @@ export default function GoldStandardResumeStudio() {
                       </span>
                     </div>
                     <a
-                      href="https://careercompiler.ai"
+                      href="https://career-compiler-ai.vercel.app"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:underline transition-all flex items-center gap-1 font-semibold group cursor-pointer"

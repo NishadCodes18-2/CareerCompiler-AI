@@ -147,17 +147,14 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
   }
 
-  /* CRITICAL: Strip dark black background, dark border, rounded corners, padding, and max-widths from ANY container */
+  /* CRITICAL: Strip dark background, dark border, and shadows ONLY from outer page wrappers */
   body,
-  body div,
-  body main,
-  body section,
-  body article,
-  .resume-paper-container,
-  div:has(> #printable-resume),
-  div:has(#printable-resume) {
-    background: transparent !important;
-    background-color: transparent !important;
+  body > div,
+  body > div > div,
+  main,
+  .resume-paper-container {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
     border: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
@@ -182,11 +179,12 @@
   #printable-resume {
     display: block !important;
     visibility: visible !important;
-    position: static !important;
+    position: relative !important;
     width: 100% !important;
     max-width: 100% !important;
     min-height: auto !important;
-    margin: 0 !important;
+    margin: 0 auto !important;
+    padding: 32px 36px !important;
     box-shadow: none !important;
     border: none !important;
     border-radius: 0 !important;
@@ -194,11 +192,31 @@
     background-color: #ffffff !important;
     transform: none !important;
     overflow: visible !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
   }
 
+  #printable-resume.compact-density {
+    padding: 24px 28px !important;
+  }
+
+  /* Ensure all internal elements inside #printable-resume keep their exact layout and styling */
   #printable-resume * {
     visibility: visible !important;
     box-sizing: border-box !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* CRITICAL: Keep all hyperlinks clickable and interactive in exported PDF */
+  #printable-resume a,
+  #printable-resume a * {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   /* Preserve exact preview page dimensions and avoid awkward breaks */
