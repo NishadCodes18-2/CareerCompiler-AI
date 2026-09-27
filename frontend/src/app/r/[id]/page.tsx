@@ -4,6 +4,8 @@ import React, { use, useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Printer,
+  Download,
+  Loader2,
   Sparkles,
   Share2,
   Check,
@@ -100,6 +102,42 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
       navigator.clipboard.writeText(window.location.href);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const [exportPdfStatus, setExportPdfStatus] = useState("");
+
+  const handleDownloadPdf = async () => {
+    if (typeof navigator !== "undefined") {
+      const ua = navigator.userAgent || "";
+      if (/Instagram|FBAN|FBAV|Twitter|TikTok|Snapchat/i.test(ua)) {
+        setShowInAppModal(true);
+        return;
+      }
+    }
+
+    const resumeEl = document.getElementById("printable-resume");
+    if (!resumeEl) {
+      handlePrint();
+      return;
+    }
+
+    try {
+      setIsExportingPdf(true);
+      setExportPdfStatus("Preparing PDF...");
+      const { exportResumePdf } = await import("@/utils/pdfExport");
+      await exportResumePdf(resumeEl, {
+        fileName: `${resumeData?.personal?.fullName || candidateId || "Candidate"} - Resume`,
+        paperSize: "a4",
+        onProgress: (status) => setExportPdfStatus(status)
+      });
+    } catch (err) {
+      console.warn("Direct PDF compilation fallback to print:", err);
+      handlePrint();
+    } finally {
+      setIsExportingPdf(false);
+      setExportPdfStatus("");
     }
   };
 
@@ -266,12 +304,26 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
           </button>
 
           <button
+            onClick={handleDownloadPdf}
+            disabled={isExportingPdf}
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-black text-xs font-bold transition-all shadow-md cursor-pointer disabled:opacity-60"
+            title="Download PDF with interactive clickable hyperlinks"
+          >
+            {isExportingPdf ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Download className="h-3.5 w-3.5" />
+            )}
+            <span>{isExportingPdf ? (exportPdfStatus || "Generating PDF...") : "Download PDF"}</span>
+          </button>
+
+          <button
             onClick={handlePrint}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-black text-xs font-bold transition-all shadow-md cursor-pointer"
-            title="Export clean 100% white vector PDF"
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-zinc-300 hover:text-white text-xs font-medium transition-all cursor-pointer"
+            title="Print via browser or send to physical printer"
           >
             <Printer className="h-3.5 w-3.5" />
-            <span>Download PDF</span>
+            <span className="hidden sm:inline">Print</span>
           </button>
 
           <Link

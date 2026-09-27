@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Sparkles,
   Download,
+  Loader2,
   Printer,
   ChevronRight,
   ChevronLeft,
@@ -617,6 +618,45 @@ export default function GoldStandardResumeStudio() {
     setIsEditing(false);
   };
 
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const [exportPdfStatus, setExportPdfStatus] = useState("");
+
+  const handleDownloadPdf = async () => {
+    // If inside restricted mobile in-app webview, show guidance
+    if (typeof navigator !== "undefined") {
+      const ua = navigator.userAgent || navigator.vendor || (window as any).opera || "";
+      if (/Instagram|FBAN|FBAV|Twitter|TikTok|Snapchat/i.test(ua)) {
+        setShowInAppModal(true);
+        return;
+      }
+    }
+
+    const resumeEl = resumeSheetRef.current || document.getElementById("printable-resume");
+    if (!resumeEl) {
+      handlePrint();
+      return;
+    }
+
+    try {
+      setIsExportingPdf(true);
+      setExportPdfStatus("Preparing PDF...");
+      const { exportResumePdf } = await import("@/utils/pdfExport");
+      await exportResumePdf(resumeEl, {
+        fileName: `${resumeData.personal.fullName || "Candidate"} - Resume`,
+        paperSize,
+        onProgress: (status) => setExportPdfStatus(status)
+      });
+      setShareNotice("✓ PDF downloaded directly with all interactive links!");
+      setTimeout(() => setShareNotice(""), 4500);
+    } catch (err) {
+      console.warn("Direct PDF compilation fallback to print:", err);
+      handlePrint();
+    } finally {
+      setIsExportingPdf(false);
+      setExportPdfStatus("");
+    }
+  };
+
   const handlePrint = () => {
     // Detect Instagram / Facebook / TikTok / Twitter in-app browser
     if (typeof navigator !== "undefined") {
@@ -997,11 +1037,16 @@ export default function GoldStandardResumeStudio() {
             )}
 
             <button
-              onClick={handlePrint}
-              className="flex items-center gap-2 px-5 py-3 rounded-full bg-[#181a24] hover:bg-[#202432] text-white text-xs font-bold border border-white/15 shadow-sm transition-all cursor-pointer hover:border-white/30"
+              onClick={handleDownloadPdf}
+              disabled={isExportingPdf}
+              className="flex items-center gap-2 px-5 py-3 rounded-full bg-[#181a24] hover:bg-[#202432] text-white text-xs font-bold border border-white/15 shadow-sm transition-all cursor-pointer hover:border-white/30 disabled:opacity-60"
             >
-              <Printer className="h-4 w-4 text-[#4ade80]" />
-              <span>Download PDF</span>
+              {isExportingPdf ? (
+                <Loader2 className="h-4 w-4 text-[#4ade80] animate-spin" />
+              ) : (
+                <Download className="h-4 w-4 text-[#4ade80]" />
+              )}
+              <span>{isExportingPdf ? (exportPdfStatus || "Downloading...") : "Download PDF"}</span>
             </button>
           </div>
         </div>
@@ -2494,11 +2539,26 @@ export default function GoldStandardResumeStudio() {
               </button>
 
               <button
+                onClick={handleDownloadPdf}
+                disabled={isExportingPdf}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#4ade80] hover:bg-[#3ec772] text-[#090b0e] text-xs font-bold transition-all shadow-md cursor-pointer disabled:opacity-60"
+                title="Directly download PDF with 100% active clickable links"
+              >
+                {isExportingPdf ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Download className="h-3.5 w-3.5" />
+                )}
+                <span>{isExportingPdf ? (exportPdfStatus || "Generating PDF...") : `Download PDF (${PAPER_SIZES[paperSize]?.name || "A4"})`}</span>
+              </button>
+
+              <button
                 onClick={handlePrint}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#4ade80] hover:bg-[#3ec772] text-[#090b0e] text-xs font-bold transition-all shadow-md cursor-pointer"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-zinc-300 hover:text-white text-xs font-medium transition-all cursor-pointer"
+                title="Send directly to physical printer or system print spooler"
               >
                 <Printer className="h-3.5 w-3.5" />
-                <span>Download PDF ({PAPER_SIZES[paperSize]?.name || "A4"})</span>
+                <span className="hidden sm:inline">Print</span>
               </button>
             </div>
           </div>
