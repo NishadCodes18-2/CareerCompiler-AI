@@ -15,7 +15,7 @@
 **CareerCompiler AI** is an intelligent, evidence-backed resume compiler and career studio.  
 Unlike standard AI resume tools that invent fake metrics like *"boosted sales by 87%"*, CareerCompiler AI compiles your resume directly from **verified career evidence** (GitHub commits, actual projects, competitions, coursework, and credentials) tailored for the exact job you want.
 
-Developed by **[Nishad Patil (@NishadCodes18)](https://github.com/NishadCodes18
+Developed by **[Nishad Patil (@NishadCodes18)]**(https://github.com/NishadCodes18)
 
 Website link : https://career-compiler-ai.vercel.app/
 
