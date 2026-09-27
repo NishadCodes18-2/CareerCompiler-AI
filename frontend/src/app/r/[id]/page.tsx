@@ -133,10 +133,28 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
 
   const formatBold = (text: string) => {
     if (!text) return null;
-    const parts = text.split(/(\*\*.*?\*\*)/g);
+    const parts = text.split(/(\*\*.*?\*\*|https?:\/\/[^\s]+)/g);
     return parts.map((part, i) => {
       if (part.startsWith("**") && part.endsWith("**")) {
         return <strong key={i} className="font-bold text-zinc-950">{part.slice(2, -2)}</strong>;
+      }
+      if (/^https?:\/\//i.test(part)) {
+        const cleanUrl = part.replace(/[.,;]+$/, "");
+        const trailing = part.slice(cleanUrl.length);
+        return (
+          <span key={i}>
+            <a
+              href={cleanUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block underline underline-offset-2 hover:opacity-80 font-medium cursor-pointer"
+              style={{ color: "inherit" }}
+            >
+              {cleanUrl}
+            </a>
+            {trailing}
+          </span>
+        );
       }
       return part;
     });
@@ -302,7 +320,7 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
                     {resumeData.personal.email && (
                       <a
                         href={`mailto:${resumeData.personal.email}`}
-                        className="flex items-center gap-1 hover:underline transition-colors font-medium"
+                        className="inline-block hover:underline transition-colors font-medium cursor-pointer"
                         style={{ color: activeTheme.hex }}
                       >
                         ✉ {resumeData.personal.email}
@@ -311,7 +329,7 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
                     {resumeData.personal.phone && (
                       <a
                         href={`tel:${resumeData.personal.phone.replace(/[^+\d]/g, "")}`}
-                        className="flex items-center gap-1 hover:underline transition-colors font-medium text-zinc-800"
+                        className="inline-block hover:underline transition-colors font-medium text-zinc-800 cursor-pointer"
                       >
                         📞 {resumeData.personal.phone}
                       </a>
@@ -323,7 +341,7 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
                         href={getGithubHref(resumeData.personal.github)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:underline flex items-center gap-0.5 font-semibold cursor-pointer"
+                        className="inline-block hover:underline font-semibold cursor-pointer"
                         style={{ color: activeTheme.hex }}
                       >
                         github.com/{resumeData.personal.github.replace(/^(https?:\/\/)?(www\.)?github\.com\/?/, "")} ↗
@@ -334,7 +352,7 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
                         href={getLinkedinHref(resumeData.personal.linkedin)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:underline flex items-center gap-0.5 font-semibold cursor-pointer"
+                        className="inline-block hover:underline font-semibold cursor-pointer"
                         style={{ color: activeTheme.hex }}
                       >
                         in/{resumeData.personal.linkedin.replace(/^(https?:\/\/)?(www\.)?linkedin\.com\/(in\/)?/, "")} ↗
@@ -345,7 +363,7 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
                         href={getWebHref(resumeData.personal.portfolio)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:underline flex items-center gap-0.5 font-semibold cursor-pointer"
+                        className="inline-block hover:underline font-semibold cursor-pointer"
                         style={{ color: activeTheme.hex }}
                       >
                         {resumeData.personal.portfolio.replace(/^https?:\/\//, "")} ↗
@@ -473,7 +491,7 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
                             href={getWebHref(proj.liveDemo)}
                             target="_blank"
                             rel="noreferrer"
-                            className="hover:underline font-bold px-1.5 py-0.5 rounded border inline-flex items-center gap-0.5 cursor-pointer"
+                            className="inline-block hover:underline font-bold px-1.5 py-0.5 rounded border cursor-pointer"
                             style={{
                               borderColor: activeTheme.hex + "40",
                               backgroundColor: activeTheme.bgLight,
@@ -488,7 +506,7 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
                             href={getGithubHref(proj.github)}
                             target="_blank"
                             rel="noreferrer"
-                            className="hover:underline font-bold px-1.5 py-0.5 rounded border border-zinc-200 bg-zinc-50 inline-flex items-center gap-0.5 text-zinc-800 cursor-pointer"
+                            className="inline-block hover:underline font-bold px-1.5 py-0.5 rounded border border-zinc-200 bg-zinc-50 text-zinc-800 cursor-pointer"
                           >
                             GitHub ↗
                           </a>
@@ -570,12 +588,11 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
               href="https://career-compiler-ai.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline transition-all flex items-center gap-1 font-semibold group cursor-pointer"
+              className="inline-block hover:underline transition-all font-semibold cursor-pointer"
               style={{ color: activeTheme.hex }}
               title="Click to open CareerCompiler AI website"
             >
-              <span>Made with CareerCompiler AI</span>
-              <ExternalLink className="h-2.5 w-2.5 opacity-70 group-hover:opacity-100" />
+              Made with CareerCompiler AI ↗
             </a>
           </div>
         </div>

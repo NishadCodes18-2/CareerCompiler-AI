@@ -217,15 +217,23 @@
     print-color-adjust: exact !important;
   }
 
-  /* CRITICAL: Keep all hyperlinks clickable and interactive in exported PDF */
-  #printable-resume a,
-  #printable-resume a * {
+  /* CRITICAL: Guarantee all hyperlinks in exported PDF generate clickable /URI annotations in Blink/Skia */
+  #printable-resume a {
+    display: inline-block !important;
+    position: static !important;
+    text-decoration: underline !important;
+    text-underline-offset: 2px !important;
     pointer-events: auto !important;
     cursor: pointer !important;
     -webkit-user-select: text !important;
     user-select: text !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+
+  #printable-resume a * {
+    display: inline !important;
+    pointer-events: none !important;
   }
 
   /* Preserve exact preview page dimensions and avoid awkward breaks */

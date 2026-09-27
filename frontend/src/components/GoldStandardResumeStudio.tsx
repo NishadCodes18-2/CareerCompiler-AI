@@ -646,6 +646,9 @@ export default function GoldStandardResumeStudio() {
       document.title = `${resumeData.personal.fullName} - Resume`;
     }
 
+    setShareNotice("💡 Select Destination: 'Save as PDF' in the print dialog to keep all links clickable!");
+    setTimeout(() => setShareNotice(""), 6000);
+
     setTimeout(() => {
       window.print();
       if (typeof document !== "undefined") {
@@ -784,10 +787,28 @@ export default function GoldStandardResumeStudio() {
 
   const formatBold = (text: string) => {
     if (!text) return null;
-    const parts = text.split(/(\*\*.*?\*\*)/g);
+    const parts = text.split(/(\*\*.*?\*\*|https?:\/\/[^\s]+)/g);
     return parts.map((part, i) => {
       if (part.startsWith("**") && part.endsWith("**")) {
         return <strong key={i} className="font-bold text-zinc-950">{part.slice(2, -2)}</strong>;
+      }
+      if (/^https?:\/\//i.test(part)) {
+        const cleanUrl = part.replace(/[.,;]+$/, "");
+        const trailing = part.slice(cleanUrl.length);
+        return (
+          <span key={i}>
+            <a
+              href={cleanUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block underline underline-offset-2 hover:opacity-80 font-medium cursor-pointer"
+              style={{ color: "inherit" }}
+            >
+              {cleanUrl}
+            </a>
+            {trailing}
+          </span>
+        );
       }
       return part;
     });
@@ -2598,14 +2619,14 @@ export default function GoldStandardResumeStudio() {
                         <div className="flex flex-wrap items-center justify-between text-[11px] text-zinc-800 font-mono mt-1 gap-y-1">
                           <div className="flex items-center gap-3">
                             {resumeData.personal.location && (
-                              <span className="flex items-center gap-1 text-zinc-800">
+                              <span className="inline-block text-zinc-800">
                                 📍 {resumeData.personal.location}
                               </span>
                             )}
                             {resumeData.personal.email && (
                               <a
                                 href={`mailto:${resumeData.personal.email}`}
-                                className="flex items-center gap-1 hover:underline transition-colors font-medium"
+                                className="inline-block hover:underline transition-colors font-medium cursor-pointer"
                                 style={{ color: activeTheme.hex }}
                               >
                                 ✉ {resumeData.personal.email}
@@ -2614,7 +2635,7 @@ export default function GoldStandardResumeStudio() {
                             {resumeData.personal.phone && (
                               <a
                                 href={`tel:${resumeData.personal.phone.replace(/[^+\d]/g, "")}`}
-                                className="flex items-center gap-1 hover:underline transition-colors font-medium text-zinc-800"
+                                className="inline-block hover:underline transition-colors font-medium text-zinc-800 cursor-pointer"
                               >
                                 📞 {resumeData.personal.phone}
                               </a>
@@ -2626,7 +2647,7 @@ export default function GoldStandardResumeStudio() {
                                 href={getGithubHref(resumeData.personal.github)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:underline flex items-center gap-0.5 font-semibold cursor-pointer"
+                                className="inline-block hover:underline font-semibold cursor-pointer"
                                 style={{ color: activeTheme.hex }}
                               >
                                 github.com/{resumeData.personal.github.replace(/^(https?:\/\/)?(www\.)?github\.com\/?/, "")} ↗
@@ -2637,7 +2658,7 @@ export default function GoldStandardResumeStudio() {
                                 href={getLinkedinHref(resumeData.personal.linkedin)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:underline flex items-center gap-0.5 font-semibold cursor-pointer"
+                                className="inline-block hover:underline font-semibold cursor-pointer"
                                 style={{ color: activeTheme.hex }}
                               >
                                 in/{resumeData.personal.linkedin.replace(/^(https?:\/\/)?(www\.)?linkedin\.com\/(in\/)?/, "")} ↗
@@ -2648,7 +2669,7 @@ export default function GoldStandardResumeStudio() {
                                 href={getWebHref(resumeData.personal.portfolio)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:underline flex items-center gap-0.5 font-semibold cursor-pointer"
+                                className="inline-block hover:underline font-semibold cursor-pointer"
                                 style={{ color: activeTheme.hex }}
                               >
                                 {resumeData.personal.portfolio.replace(/^https?:\/\//, "")} ↗
@@ -2809,7 +2830,7 @@ export default function GoldStandardResumeStudio() {
                                     href={getWebHref(proj.liveDemo)}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="hover:underline font-bold px-1.5 py-0.5 rounded border inline-flex items-center gap-0.5 cursor-pointer"
+                                    className="inline-block hover:underline font-bold px-1.5 py-0.5 rounded border cursor-pointer"
                                     style={{
                                       borderColor: activeTheme.hex + "40",
                                       backgroundColor: activeTheme.bgLight,
@@ -2824,7 +2845,7 @@ export default function GoldStandardResumeStudio() {
                                     href={getGithubHref(proj.github)}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="hover:underline font-bold px-1.5 py-0.5 rounded border border-zinc-200 bg-zinc-50 inline-flex items-center gap-0.5 text-zinc-800 cursor-pointer"
+                                    className="inline-block hover:underline font-bold px-1.5 py-0.5 rounded border border-zinc-200 bg-zinc-50 text-zinc-800 cursor-pointer"
                                   >
                                     GitHub ↗
                                   </a>
@@ -2964,12 +2985,11 @@ export default function GoldStandardResumeStudio() {
                       href="https://career-compiler-ai.vercel.app"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:underline transition-all flex items-center gap-1 font-semibold group cursor-pointer"
+                      className="inline-block hover:underline transition-all font-semibold cursor-pointer"
                       style={{ color: activeTheme.hex }}
                       title="Click to open CareerCompiler AI website"
                     >
-                      <span>Made with CareerCompiler AI</span>
-                      <span className="text-[11px] font-bold group-hover:translate-x-0.5 transition-transform">↗</span>
+                      Made with CareerCompiler AI ↗
                     </a>
                   </div>
                 </div>
