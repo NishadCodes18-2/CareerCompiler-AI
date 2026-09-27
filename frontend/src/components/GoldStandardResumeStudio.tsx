@@ -32,11 +32,9 @@ import {
   FileText,
   Flame,
   Share2,
-  Globe,
-  QrCode as QrIcon
+  Globe
 } from "lucide-react";
 import { GithubIcon } from "@/components/GithubIcon";
-import QrCode from "@/components/QrCode";
 import JobMatchScannerModal from "@/components/JobMatchScannerModal";
 import AiBulletPolishModal from "@/components/AiBulletPolishModal";
 import LinkedInImportModal from "@/components/LinkedInImportModal";
@@ -480,7 +478,6 @@ export default function GoldStandardResumeStudio() {
   const [mobileScaleFit, setMobileScaleFit] = useState(false);
   const [measuredHeight, setMeasuredHeight] = useState<number>(0);
   const [paperSize, setPaperSize] = useState<string>("a4");
-  const [qrCodeEnabled, setQrCodeEnabled] = useState(true);
   const [jobScannerOpen, setJobScannerOpen] = useState(false);
   const [linkedInModalOpen, setLinkedInModalOpen] = useState(false);
   const [bulletPolishOpen, setBulletPolishOpen] = useState(false);
@@ -2305,21 +2302,6 @@ export default function GoldStandardResumeStudio() {
                 <span>🔗 LinkedIn</span>
               </button>
 
-              {/* Subtle Header QR Code Toggle */}
-              <button
-                type="button"
-                onClick={() => setQrCodeEnabled(!qrCodeEnabled)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                  qrCodeEnabled
-                    ? "bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold"
-                    : "bg-white/5 text-zinc-400 hover:text-white"
-                }`}
-                title="Toggle subtle verification QR code on the resume header"
-              >
-                <QrIcon className="h-3.5 w-3.5" />
-                <span>QR: {qrCodeEnabled ? "ON" : "OFF"}</span>
-              </button>
-
               {/* Share Public Web Resume Button */}
               <button
                 type="button"
@@ -2560,20 +2542,6 @@ export default function GoldStandardResumeStudio() {
                             alt="Profile Photo"
                             className="h-full w-full object-cover"
                           />
-                        </div>
-                      )}
-
-                      {/* Subtle QR Code for Live Recruiter Verification */}
-                      {qrCodeEnabled && (
-                        <div className="shrink-0 flex flex-col items-center justify-center pl-2 print:pl-2">
-                          <QrCode
-                            value={`https://career-compiler-ai.vercel.app/r/${(resumeData.personal.fullName || "candidate").toLowerCase().replace(/\s+/g, "-")}`}
-                            size={44}
-                            fgColor={activeTheme.hex}
-                          />
-                          <span className="text-[7.5px] font-mono text-zinc-500 block mt-0.5 tracking-tight print:text-black font-semibold">
-                            Scan Proof
-                          </span>
                         </div>
                       )}
                     </div>

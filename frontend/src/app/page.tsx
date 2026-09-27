@@ -10,17 +10,16 @@ import {
   Unlock,
   Cpu,
   Flame,
-  QrCode as QrIcon,
   Globe,
   Layers,
   ExternalLink,
   ChevronRight,
   Check,
   X,
-  Mail
+  Mail,
+  FileText
 } from "lucide-react";
 import { GithubIcon } from "@/components/GithubIcon";
-import QrCode from "@/components/QrCode";
 
 export default function CoverLandingPage() {
   const [email, setEmail] = useState("");
@@ -246,7 +245,7 @@ export default function CoverLandingPage() {
                 className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
               >
                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                <span>Header QR Code Verification</span>
+                <span>FAANG IIT Standard Formatting</span>
               </div>
             </div>
           </div>
@@ -315,12 +314,6 @@ export default function CoverLandingPage() {
                         <span className="font-bold text-zinc-950">github.com/ayush-dev</span>
                         <span className="font-bold text-zinc-950">in/ayush-sharma-tech</span>
                       </div>
-                    </div>
-
-                    {/* Subtle QR Code on Header */}
-                    <div className="shrink-0 text-center pl-2">
-                      <QrCode value="https://career-compiler-ai.vercel.app/r/ayush" size={42} />
-                      <span className="text-[8px] font-mono text-zinc-500 block mt-0.5">Scan Proof</span>
                     </div>
                   </div>
                 </div>
@@ -523,19 +516,19 @@ export default function CoverLandingPage() {
             </p>
           </div>
 
-          {/* Card 4: Header QR Code */}
+          {/* Card 4: 1-Page Layout Optimizer */}
           <div
             onClick={() => handleActionClick("/resume")}
             className="p-5 rounded-2xl bg-[#0f1118] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3 group cursor-pointer"
           >
             <div className="h-10 w-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
-              <QrIcon className="h-5 w-5" />
+              <FileText className="h-5 w-5" />
             </div>
             <h3 className="text-base font-bold text-white group-hover:text-amber-300 transition-colors">
-              4. Subtle QR Code on Resume Header
+              4. 1-Page Compact Layout Optimizer
             </h3>
             <p className="text-xs text-zinc-400 leading-relaxed">
-              An optional, crisp vector QR code in the resume header allows hiring managers to scan your printed resume and instantly view your live portfolio.
+              Mathematical vertical rhythm algorithm prevents awkward page overflow, compressing font sizes and cell paddings to guarantee a clean 1-page fit.
             </p>
           </div>
 
