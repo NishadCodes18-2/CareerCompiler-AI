@@ -1080,7 +1080,7 @@ export default function GoldStandardResumeStudio() {
       {/* MOBILE SCREEN TOGGLE BAR (Visible on mobile/tablet screens)    */}
       {/* ============================================================== */}
       {isEditing && (
-        <div className="lg:hidden flex items-center justify-center p-1.5 rounded-2xl bg-[#111317] border border-white/10 gap-2 sticky top-[4.5rem] z-20 shadow-xl">
+        <div className="no-print lg:hidden flex items-center justify-center p-1.5 rounded-2xl bg-[#111317] border border-white/10 gap-2 sticky top-[4.5rem] z-20 shadow-xl">
           <button
             onClick={() => setMobileTab("edit")}
             className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all ${
@@ -1109,7 +1109,7 @@ export default function GoldStandardResumeStudio() {
       {/* ============================================================== */}
       {/* MAIN WORKSPACE: WIZARD FORM (LEFT) + REAL-TIME RESUME (RIGHT)  */}
       {/* ============================================================== */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start print:block print:w-full print:m-0 print:p-0">
         {/* ============================================================ */}
         {/* LEFT COLUMN: STEP-BY-STEP BUILDER WIZARD (5 Cols)            */}
         {/* ============================================================ */}
@@ -2154,7 +2154,7 @@ export default function GoldStandardResumeStudio() {
         {/* ============================================================ */}
         {/* RIGHT COLUMN: REAL-TIME PIXEL-PERFECT RESUME PAPER SURFACE    */}
         {/* ============================================================ */}
-        <div className={`space-y-4 ${isEditing ? "lg:col-span-7" : "lg:col-span-12 max-w-4xl mx-auto"} ${isEditing && mobileTab === "edit" ? "hidden lg:block" : "block"}`}>
+        <div className={`space-y-4 ${isEditing ? "lg:col-span-7" : "lg:col-span-12 max-w-4xl mx-auto"} ${isEditing && mobileTab === "edit" ? "hidden lg:block" : "block"} print:block print:w-full print:max-w-none print:m-0 print:p-0 print:space-y-0`}>
           {/* Quick Paper Canvas Toolbar */}
           <div className="no-print flex flex-wrap items-center justify-between gap-3 px-3 py-2.5 rounded-2xl bg-[#111317] border border-white/10 text-xs shadow-xl">
             {/* Left: Mobile View Zoom & Density */}
@@ -2429,7 +2429,7 @@ export default function GoldStandardResumeStudio() {
           })()}
 
           {/* Paper Canvas Container with Responsive Scaling */}
-          <div className="p-2 sm:p-6 rounded-3xl bg-[#0b0d13] border border-white/10 shadow-2xl flex justify-center overflow-x-auto">
+          <div className="resume-paper-container p-2 sm:p-6 rounded-3xl bg-[#0b0d13] border border-white/10 shadow-2xl flex justify-center overflow-x-auto print:p-0 print:m-0 print:bg-transparent print:border-none print:shadow-none print:rounded-none print:w-full print:block">
             {/* The Actual Resume Sheet (Directly matching the user's reference image!) */}
             {(() => {
               const activeTheme = RESUME_THEMES[resumeData.theme || "classic"] || RESUME_THEMES.classic;
@@ -2441,7 +2441,7 @@ export default function GoldStandardResumeStudio() {
                 <div
                   ref={resumeSheetRef}
                   id="printable-resume"
-                  className={`w-full bg-white text-zinc-950 font-sans shadow-2xl ${
+                  className={`w-full bg-white text-zinc-950 font-sans shadow-2xl print:shadow-none print:border-none print:rounded-none print:p-0 print:m-0 print:max-w-none print:w-full print:transform-none ${
                     paperSize === "a3"
                       ? "max-w-[1000px]"
                       : paperSize === "legal"
@@ -2450,7 +2450,7 @@ export default function GoldStandardResumeStudio() {
                   } ${
                     isCompact ? "p-4 sm:p-8" : "p-5 sm:p-10"
                   } text-xs leading-normal select-text selection:bg-amber-100 transition-all ${
-                    mobileScaleFit ? "transform scale-[0.6] sm:scale-[0.85] lg:scale-100 origin-top" : ""
+                    mobileScaleFit ? "transform scale-[0.6] sm:scale-[0.85] lg:scale-100 origin-top print:transform-none print:scale-100" : ""
                   }`}
                   style={{ minHeight: isCompact && !isOverflowing ? "1050px" : "auto" }}
                 >
