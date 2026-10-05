@@ -430,13 +430,13 @@ export const RESUME_THEMES: Record<string, {
     badgeBorder: "#bfdbfe",
     badgeText: "#1e3a8a"
   },
-  emerald: {
-    id: "emerald",
-    name: "Tech Emerald",
-    hex: "#065f46",
-    bgLight: "#ecfdf5",
-    badgeBorder: "#a7f3d0",
-    badgeText: "#065f46"
+  indigo: {
+    id: "indigo",
+    name: "AI Indigo",
+    hex: "#4f46e5",
+    bgLight: "#eef2ff",
+    badgeBorder: "#c7d2fe",
+    badgeText: "#4338ca"
   },
   burgundy: {
     id: "burgundy",
@@ -462,13 +462,13 @@ export const RESUME_THEMES: Record<string, {
     badgeBorder: "#bfdbfe",
     badgeText: "#1d4ed8"
   },
-  teal: {
-    id: "teal",
-    name: "Nordic Teal",
-    hex: "#0f766e",
-    bgLight: "#f0fdfa",
-    badgeBorder: "#99f6e4",
-    badgeText: "#0f766e"
+  cobalt: {
+    id: "cobalt",
+    name: "Cyber Cobalt",
+    hex: "#0284c7",
+    bgLight: "#f0f9ff",
+    badgeBorder: "#bae6fd",
+    badgeText: "#0369a1"
   },
   crimson: {
     id: "crimson",
@@ -481,7 +481,7 @@ export const RESUME_THEMES: Record<string, {
   violet: {
     id: "violet",
     name: "Imperial Violet",
-    hex: "#6d28d9",
+    hex: "#7c3aed",
     bgLight: "#f5f3ff",
     badgeBorder: "#ddd6fe",
     badgeText: "#6d28d9"
@@ -905,14 +905,14 @@ export default function GoldStandardResumeStudio() {
       {/* ============================================================== */}
       {/* MOBILE LAPTOP/PC ADVICE BANNER: "For Best Results Use on Laptop/PC" */}
       {/* ============================================================== */}
-      <div className="no-print lg:hidden flex items-start gap-3 p-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-[#131622] to-teal-500/10 border border-emerald-500/30 text-xs shadow-xl animate-in fade-in">
-        <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 shrink-0 mt-0.5">
+      <div className="no-print lg:hidden flex items-start gap-3 p-3.5 rounded-2xl bg-gradient-to-r from-violet-600/15 via-[#131622] to-indigo-600/10 border border-violet-500/30 text-xs shadow-xl animate-in fade-in">
+        <div className="p-2 rounded-xl bg-violet-500/20 text-violet-400 shrink-0 mt-0.5">
           <Monitor className="h-4 w-4" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 font-bold text-white text-xs">
             <span>💡 For Best Results: Use on Laptop / PC</span>
-            <span className="text-[9.5px] font-mono px-1.5 py-0.2 rounded bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">Recommended</span>
+            <span className="text-[9.5px] font-mono px-1.5 py-0.2 rounded bg-violet-500/20 text-violet-300 border border-violet-500/30">Recommended</span>
           </div>
           <p className="text-[11px] text-zinc-300 leading-relaxed mt-0.5">
             For pixel-perfect live editing, full A4 sheet viewing &amp; instant 1-click vector PDF download, open CareerCompiler AI on your desktop or laptop.
@@ -923,8 +923,8 @@ export default function GoldStandardResumeStudio() {
       {/* In-App Browser Guidance Modal (Instagram / TikTok / Facebook) */}
       {showInAppModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
-          <div className="relative w-full max-w-md rounded-3xl bg-[#11141c] border border-emerald-500/40 p-6 shadow-2xl space-y-4 text-center">
-            <div className="mx-auto w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+          <div className="relative w-full max-w-md rounded-3xl bg-[#11141c] border border-violet-500/40 p-6 shadow-2xl space-y-4 text-center">
+            <div className="mx-auto w-14 h-14 rounded-2xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-violet-400">
               <Globe className="h-7 w-7" />
             </div>
 
@@ -939,15 +939,15 @@ export default function GoldStandardResumeStudio() {
 
             <div className="p-3.5 rounded-2xl bg-black/40 border border-white/10 text-left space-y-2 text-xs">
               <div className="flex items-center gap-2 text-white font-bold">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-black text-[10px] font-black">1</span>
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-violet-500 text-white text-[10px] font-black">1</span>
                 <span>Tap the 3 dots (⋮ or ⋯) in the top-right corner</span>
               </div>
               <div className="flex items-center gap-2 text-white font-bold">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-black text-[10px] font-black">2</span>
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-violet-500 text-white text-[10px] font-black">2</span>
                 <span>Select &quot;Open in Chrome&quot; or &quot;Open in Safari&quot;</span>
               </div>
               <div className="flex items-center gap-2 text-white font-bold">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-black text-[10px] font-black">3</span>
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-violet-500 text-white text-[10px] font-black">3</span>
                 <span>Or open on your Laptop/PC for 1-click download!</span>
               </div>
             </div>
@@ -963,7 +963,7 @@ export default function GoldStandardResumeStudio() {
                   }
                   setShowInAppModal(false);
                 }}
-                className="w-full py-3 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-xs transition-all shadow-lg cursor-pointer"
+                className="w-full py-3 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-xs transition-all shadow-lg shadow-violet-600/25 cursor-pointer"
               >
                 Copy Link to Open in Chrome
               </button>
@@ -986,25 +986,25 @@ export default function GoldStandardResumeStudio() {
       {/* INVITATION CALLOUT BANNER: "Do you want to make one like this?" */}
       {/* ============================================================== */}
       <div className="no-print relative rounded-3xl p-5 sm:p-7 bg-gradient-to-r from-[#12151e] via-[#171b26] to-[#12151e] border border-white/10 shadow-2xl overflow-hidden">
-        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-[#4ade80]/15 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-violet-600/15 blur-3xl pointer-events-none rounded-full"></div>
         <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-[#f59e0b]/10 blur-3xl pointer-events-none rounded-full"></div>
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="pill-badge bg-[#4ade80]/15 text-[#4ade80] border border-[#4ade80]/30 text-xs font-bold py-1 px-3">
-                <span className="h-2 w-2 rounded-full bg-[#4ade80] animate-pulse inline-block mr-1"></span>
+              <span className="pill-badge bg-violet-500/15 text-violet-300 border border-violet-500/30 text-xs font-bold py-1 px-3">
+                <span className="h-2 w-2 rounded-full bg-violet-400 animate-pulse inline-block mr-1"></span>
                 FREE &bull; NO LOGIN REQUIRED
               </span>
               <span className="pill-badge bg-white/5 text-zinc-300 border border-white/10 text-xs font-mono">
                 IIT &bull; FAANG Format
               </span>
-              <span className="pill-badge bg-amber-500/15 text-amber-300 border border-amber-500/30 text-xs font-mono">
+              <span className="pill-badge bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 text-xs font-mono">
                 Mobile &amp; Print Ready
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-sans">
               Do you want to make a resume like this?
             </h2>
             <p className="text-xs sm:text-sm text-zinc-300 max-w-2xl leading-relaxed">
@@ -1021,9 +1021,9 @@ export default function GoldStandardResumeStudio() {
                   setCurrentStep(1);
                   setMobileTab("edit");
                 }}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#4ade80] hover:bg-[#3ec772] text-[#090b0e] font-extrabold text-xs shadow-xl shadow-[#4ade80]/25 transition-all cursor-pointer hover:scale-105 active:scale-95"
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-violet-600 via-indigo-600 to-violet-700 hover:from-violet-500 hover:to-indigo-500 text-white font-extrabold text-xs shadow-xl shadow-violet-600/30 transition-all cursor-pointer hover:scale-105 active:scale-95"
               >
-                <Sparkles className="h-4 w-4" />
+                <Sparkles className="h-4 w-4 text-violet-200" />
                 <span>Start Making Mine Now</span>
               </button>
             ) : (
@@ -1042,9 +1042,9 @@ export default function GoldStandardResumeStudio() {
               className="flex items-center gap-2 px-5 py-3 rounded-full bg-[#181a24] hover:bg-[#202432] text-white text-xs font-bold border border-white/15 shadow-sm transition-all cursor-pointer hover:border-white/30 disabled:opacity-60"
             >
               {isExportingPdf ? (
-                <Loader2 className="h-4 w-4 text-[#4ade80] animate-spin" />
+                <Loader2 className="h-4 w-4 text-violet-400 animate-spin" />
               ) : (
-                <Download className="h-4 w-4 text-[#4ade80]" />
+                <Download className="h-4 w-4 text-violet-400" />
               )}
               <span>{isExportingPdf ? (exportPdfStatus || "Downloading...") : "Download PDF"}</span>
             </button>
@@ -1062,7 +1062,7 @@ export default function GoldStandardResumeStudio() {
                 onClick={() => setImportSource("both")}
                 className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   importSource === "both"
-                    ? "bg-[#4ade80] text-[#090b0e] shadow-md shadow-[#4ade80]/20"
+                    ? "bg-violet-600 text-white shadow-md shadow-violet-600/30"
                     : "text-zinc-400 hover:text-white"
                 }`}
               >
@@ -1073,7 +1073,7 @@ export default function GoldStandardResumeStudio() {
                 onClick={() => setImportSource("github")}
                 className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   importSource === "github"
-                    ? "bg-[#4ade80] text-[#090b0e] shadow-md shadow-[#4ade80]/20"
+                    ? "bg-violet-600 text-white shadow-md shadow-violet-600/30"
                     : "text-zinc-400 hover:text-white"
                 }`}
               >
@@ -1084,7 +1084,7 @@ export default function GoldStandardResumeStudio() {
                 onClick={() => setImportSource("linkedin")}
                 className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   importSource === "linkedin"
-                    ? "bg-[#4ade80] text-[#090b0e] shadow-md shadow-[#4ade80]/20"
+                    ? "bg-violet-600 text-white shadow-md shadow-violet-600/30"
                     : "text-zinc-400 hover:text-white"
                 }`}
               >
@@ -1093,8 +1093,8 @@ export default function GoldStandardResumeStudio() {
             </div>
 
             {/* Ephemeral Privacy Shield Badge */}
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-medium">
-              <ShieldCheck className="h-3.5 w-3.5" />
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-[11px] font-medium">
+              <ShieldCheck className="h-3.5 w-3.5 text-violet-400" />
               <span>Auto-Delete on Exit: Active</span>
               <button
                 type="button"
@@ -1118,7 +1118,7 @@ export default function GoldStandardResumeStudio() {
                   placeholder="GitHub username (e.g. ayush-dev)"
                   value={githubUser}
                   onChange={(e) => setGithubUser(e.target.value)}
-                  className="w-full pl-8 pr-3 py-2 rounded-xl bg-[#090b0f] border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#4ade80]"
+                  className="w-full pl-8 pr-3 py-2 rounded-xl bg-[#090b0f] border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-violet-500"
                 />
               </div>
             )}
@@ -1132,7 +1132,7 @@ export default function GoldStandardResumeStudio() {
                   placeholder="LinkedIn handle (e.g. ayush-sharma-tech)"
                   value={linkedinUser}
                   onChange={(e) => setLinkedinUser(e.target.value)}
-                  className="w-full pl-8 pr-3 py-2 rounded-xl bg-[#090b0f] border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#4ade80]"
+                  className="w-full pl-8 pr-3 py-2 rounded-xl bg-[#090b0f] border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-violet-500"
                 />
               </div>
             )}
@@ -1140,7 +1140,7 @@ export default function GoldStandardResumeStudio() {
             <button
               type="submit"
               disabled={importingData || (importSource === "github" && !githubUser.trim()) || (importSource === "linkedin" && !linkedinUser.trim()) || (importSource === "both" && !githubUser.trim() && !linkedinUser.trim())}
-              className="px-4 py-2 rounded-xl bg-[#4ade80] hover:bg-[#3ec772] text-[#090b0e] text-xs font-bold transition-all shadow-md disabled:opacity-40 cursor-pointer flex items-center gap-1.5"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-bold transition-all shadow-md shadow-violet-600/25 disabled:opacity-40 cursor-pointer flex items-center gap-1.5"
             >
               <Sparkles className="h-3.5 w-3.5" />
               <span>{importingData ? "Compiling..." : "Auto-Fill Resume"}</span>
@@ -1183,16 +1183,16 @@ export default function GoldStandardResumeStudio() {
           </form>
 
           {importNotice && (
-            <div className="p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-mono animate-in fade-in">
+            <div className="p-2.5 rounded-xl bg-violet-500/15 border border-violet-500/30 text-violet-300 text-xs font-mono animate-in fade-in">
               ✓ {importNotice}
             </div>
           )}
 
           {shareNotice && (
-            <div className="p-2.5 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-xs font-mono animate-in fade-in flex items-center justify-between">
+            <div className="p-2.5 rounded-xl bg-violet-500/15 border border-violet-500/30 text-violet-300 text-xs font-mono animate-in fade-in flex items-center justify-between">
               <span>🔗 {shareNotice}</span>
               <a
-                href={`https://career-compiler-ai.vercel.app/r/${(resumeData.personal.fullName || "candidate").toLowerCase().replace(/\s+/g, "-")}`}
+                href={`${typeof window !== "undefined" ? window.location.origin : ""}/r/${(resumeData.personal.fullName || "candidate").toLowerCase().replace(/\s+/g, "-")}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline hover:text-white text-[11px]"
@@ -1208,7 +1208,7 @@ export default function GoldStandardResumeStudio() {
               {/* Direct Quick Photo on Resume Toggle */}
               <div className="flex items-center gap-1.5 p-1 pl-2.5 rounded-full bg-[#0d0f15] border border-white/10">
                 <span className="text-[11px] text-zinc-300 font-medium flex items-center gap-1">
-                  <Camera className="h-3.5 w-3.5 text-emerald-400" />
+                  <Camera className="h-3.5 w-3.5 text-violet-400" />
                   <span>Resume Photo:</span>
                 </span>
                 <button
@@ -1224,7 +1224,7 @@ export default function GoldStandardResumeStudio() {
                   }
                   className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
                     resumeData.personal.showPhoto
-                      ? "bg-[#4ade80] text-[#090b0e] shadow-md shadow-[#4ade80]/20"
+                      ? "bg-violet-600 text-white shadow-md shadow-violet-600/25"
                       : "bg-white/10 text-zinc-400 hover:text-white"
                   }`}
                   title="Toggle candidate profile photo on the resume sheet"
@@ -1237,7 +1237,7 @@ export default function GoldStandardResumeStudio() {
                 <button
                   onClick={() => saveState({ ...resumeData, mode: "student" })}
                   className={`px-3 py-1 rounded-full text-[11px] font-medium transition-colors cursor-pointer ${
-                    resumeData.mode === "student" ? "bg-[#4ade80] text-[#090b0e] font-bold" : "text-zinc-400 hover:text-white"
+                    resumeData.mode === "student" ? "bg-violet-600 text-white font-bold shadow-md shadow-violet-600/25" : "text-zinc-400 hover:text-white"
                   }`}
                 >
                   Student / Fresher
@@ -1245,7 +1245,7 @@ export default function GoldStandardResumeStudio() {
                 <button
                   onClick={() => saveState({ ...resumeData, mode: "professional" })}
                   className={`px-3 py-1 rounded-full text-[11px] font-medium transition-colors cursor-pointer ${
-                    resumeData.mode === "professional" ? "bg-[#4ade80] text-[#090b0e] font-bold" : "text-zinc-400 hover:text-white"
+                    resumeData.mode === "professional" ? "bg-violet-600 text-white font-bold shadow-md shadow-violet-600/25" : "text-zinc-400 hover:text-white"
                   }`}
                 >
                   Working Professional
@@ -1273,7 +1273,7 @@ export default function GoldStandardResumeStudio() {
             onClick={() => setMobileTab("edit")}
             className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all ${
               mobileTab === "edit"
-                ? "bg-[#4ade80] text-[#090b0e] shadow-md"
+                ? "bg-violet-600 text-white shadow-md shadow-violet-600/30"
                 : "text-zinc-400 hover:text-white"
             }`}
           >
@@ -1284,7 +1284,7 @@ export default function GoldStandardResumeStudio() {
             onClick={() => setMobileTab("preview")}
             className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all ${
               mobileTab === "preview"
-                ? "bg-[#4ade80] text-[#090b0e] shadow-md"
+                ? "bg-violet-600 text-white shadow-md shadow-violet-600/30"
                 : "text-zinc-400 hover:text-white"
             }`}
           >
@@ -1307,7 +1307,7 @@ export default function GoldStandardResumeStudio() {
               {/* Wizard Step Indicator */}
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div>
-                  <span className="text-[10px] font-mono uppercase text-[#4ade80] font-bold tracking-wider">
+                  <span className="text-[10px] font-mono uppercase text-violet-400 font-bold tracking-wider">
                     Step {currentStep} of {STEPS.length}
                   </span>
                   <h3 className="text-base font-bold text-white mt-0.5">
@@ -1355,13 +1355,13 @@ export default function GoldStandardResumeStudio() {
                           onClick={() => saveState({ ...resumeData, mode: "student" })}
                           className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                             isStudent
-                              ? "border-[#4ade80] bg-[#4ade80]/15 shadow-md shadow-[#4ade80]/10"
+                              ? "border-violet-500 bg-violet-600/20 shadow-md shadow-violet-600/15"
                               : "border-white/10 bg-[#0f1118] hover:border-white/20 text-zinc-400"
                           }`}
                         >
                           <div className="flex items-center gap-2">
                             <span className="text-base">🎓</span>
-                            <span className={`font-bold text-xs ${isStudent ? "text-[#4ade80]" : "text-zinc-200"}`}>
+                            <span className={`font-bold text-xs ${isStudent ? "text-violet-300" : "text-zinc-200"}`}>
                               Student / College Fresher
                             </span>
                           </div>
@@ -1375,13 +1375,13 @@ export default function GoldStandardResumeStudio() {
                           onClick={() => saveState({ ...resumeData, mode: "professional" })}
                           className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                             !isStudent
-                              ? "border-[#4ade80] bg-[#4ade80]/15 shadow-md shadow-[#4ade80]/10"
+                              ? "border-violet-500 bg-violet-600/20 shadow-md shadow-violet-600/15"
                               : "border-white/10 bg-[#0f1118] hover:border-white/20 text-zinc-400"
                           }`}
                         >
                           <div className="flex items-center gap-2">
                             <span className="text-base">💼</span>
-                            <span className={`font-bold text-xs ${!isStudent ? "text-[#4ade80]" : "text-zinc-200"}`}>
+                            <span className={`font-bold text-xs ${!isStudent ? "text-violet-300" : "text-zinc-200"}`}>
                               Working Professional
                             </span>
                           </div>
@@ -1398,7 +1398,7 @@ export default function GoldStandardResumeStudio() {
                         <label className="block text-zinc-300 font-mono text-[11px] font-bold uppercase tracking-wider">
                           2. Branch / Engineering Discipline
                         </label>
-                        <span className="text-[10px] text-[#4ade80] font-mono">
+                        <span className="text-[10px] text-violet-400 font-mono">
                           {activeBranchConfig.name}
                         </span>
                       </div>
@@ -1413,7 +1413,7 @@ export default function GoldStandardResumeStudio() {
                               onClick={() => applyBranchPreset(b.id)}
                               className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                                 isSelected
-                                  ? "border-[#4ade80] bg-[#4ade80]/15 text-white font-bold shadow-sm"
+                                  ? "border-violet-500 bg-violet-600/25 text-white font-bold shadow-sm shadow-violet-600/20"
                                   : "border-white/10 bg-[#0f1118] text-zinc-400 hover:text-white hover:border-white/20"
                               }`}
                             >
@@ -1446,7 +1446,7 @@ export default function GoldStandardResumeStudio() {
                                 }
                               });
                             }}
-                            className="w-full px-3 py-2 rounded-xl bg-[#090b0f] border border-white/10 text-white text-xs placeholder-zinc-500 focus:outline-none focus:border-[#4ade80]"
+                            className="w-full px-3 py-2 rounded-xl bg-[#090b0f] border border-white/10 text-white text-xs placeholder-zinc-500 focus:outline-none focus:border-violet-500"
                           />
                         </div>
                       )}
@@ -1456,7 +1456,7 @@ export default function GoldStandardResumeStudio() {
                         <button
                           type="button"
                           onClick={() => applyBranchPreset(activeBranchKey)}
-                          className="text-[#4ade80] hover:underline font-mono text-[10.5px] cursor-pointer"
+                          className="text-violet-400 hover:underline font-mono text-[10.5px] cursor-pointer"
                         >
                           ⚡ Load {activeBranchConfig.name.split(" ")[0]} Template Skills
                         </button>
@@ -1467,7 +1467,7 @@ export default function GoldStandardResumeStudio() {
                     <div className="p-4 rounded-2xl bg-[#161820] border border-white/10 space-y-3.5">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <Camera className="h-4 w-4 text-[#4ade80]" />
+                          <Camera className="h-4 w-4 text-violet-400" />
                           <div>
                             <span className="font-bold text-white text-xs block">Profile Photo on Resume</span>
                             <span className="text-[10.5px] text-zinc-400 block">Choose whether to display your photo in the best format</span>
@@ -1483,7 +1483,7 @@ export default function GoldStandardResumeStudio() {
                           }
                           className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                             resumeData.personal.showPhoto
-                              ? "bg-[#4ade80] text-[#090b0e] shadow-md shadow-[#4ade80]/20"
+                              ? "bg-violet-600 text-white shadow-md shadow-violet-600/25"
                               : "bg-white/10 text-zinc-400 hover:text-white"
                           }`}
                         >
@@ -1496,7 +1496,7 @@ export default function GoldStandardResumeStudio() {
                           {/* Photo Preview & Upload Controls */}
                           <div className="flex items-center gap-3.5">
                             <div
-                              className={`overflow-hidden border-2 border-[#4ade80] shrink-0 bg-[#090a0d] shadow-lg ${
+                              className={`overflow-hidden border-2 border-violet-500 shrink-0 bg-[#090a0d] shadow-lg ${
                                 resumeData.personal.photoShape === "circle"
                                   ? "h-16 w-16 rounded-full"
                                   : resumeData.personal.photoShape === "passport"
@@ -1522,7 +1522,7 @@ export default function GoldStandardResumeStudio() {
                                 <button
                                   type="button"
                                   onClick={() => fileInputRef.current?.click()}
-                                  className="px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-semibold text-[11px] flex items-center gap-1.5 cursor-pointer border border-emerald-500/30"
+                                  className="px-3 py-1.5 rounded-lg bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 font-semibold text-[11px] flex items-center gap-1.5 cursor-pointer border border-violet-500/30"
                                 >
                                   <Upload className="h-3 w-3" />
                                   Upload Photo from Device
@@ -1633,7 +1633,7 @@ export default function GoldStandardResumeStudio() {
                                   }
                                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10.5px] border transition-all cursor-pointer ${
                                     resumeData.personal.photoUrl === preset.url
-                                      ? "border-[#4ade80] bg-[#4ade80]/15 text-white font-bold"
+                                      ? "border-violet-500 bg-violet-600/20 text-white font-bold"
                                       : "border-white/10 bg-black/20 text-zinc-400 hover:text-white"
                                   }`}
                                 >
@@ -1658,7 +1658,7 @@ export default function GoldStandardResumeStudio() {
                             personal: { ...resumeData.personal, fullName: e.target.value }
                           })
                         }
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white text-xs focus:outline-none focus:border-[#4ade80]"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white text-xs focus:outline-none focus:border-violet-500"
                       />
                     </div>
 
@@ -1674,7 +1674,7 @@ export default function GoldStandardResumeStudio() {
                               personal: { ...resumeData.personal, location: e.target.value }
                             })
                           }
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white text-xs focus:outline-none focus:border-[#4ade80]"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white text-xs focus:outline-none focus:border-violet-500"
                         />
                       </div>
                       <div>
@@ -1688,7 +1688,7 @@ export default function GoldStandardResumeStudio() {
                               personal: { ...resumeData.personal, email: e.target.value }
                             })
                           }
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white text-xs focus:outline-none focus:border-[#4ade80]"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white text-xs focus:outline-none focus:border-violet-500"
                         />
                       </div>
                     </div>
@@ -1705,7 +1705,7 @@ export default function GoldStandardResumeStudio() {
                               personal: { ...resumeData.personal, github: e.target.value }
                             })
                           }
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white text-xs focus:outline-none focus:border-[#4ade80]"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white text-xs focus:outline-none focus:border-violet-500"
                         />
                       </div>
                       <div>
@@ -1719,7 +1719,7 @@ export default function GoldStandardResumeStudio() {
                               personal: { ...resumeData.personal, linkedin: e.target.value }
                             })
                           }
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white text-xs focus:outline-none focus:border-[#4ade80]"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white text-xs focus:outline-none focus:border-violet-500"
                         />
                       </div>
                     </div>
@@ -1812,9 +1812,9 @@ export default function GoldStandardResumeStudio() {
                           ]
                         });
                       }}
-                      className="w-full py-2.5 rounded-xl border border-dashed border-white/20 hover:border-[#4ade80] text-zinc-300 hover:text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="w-full py-2.5 rounded-xl border border-dashed border-white/20 hover:border-violet-500 text-zinc-300 hover:text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      <Plus className="h-3.5 w-3.5 text-[#4ade80]" /> Add Education Row
+                      <Plus className="h-3.5 w-3.5 text-violet-400" /> Add Education Row
                     </button>
                   </div>
                 )}
@@ -1828,7 +1828,7 @@ export default function GoldStandardResumeStudio() {
                           ? "Highlight your summer internships, industrial training, research attachments, or vocational experience."
                           : "Highlight your full-time career history, production systems, and measurable corporate outcomes."}
                       </p>
-                      <span className="text-[10px] font-mono text-[#4ade80] uppercase">
+                      <span className="text-[10px] font-mono text-violet-400 uppercase">
                         {isStudent ? "Student / Fresher Track" : "Professional Track"}
                       </span>
                     </div>
@@ -1952,9 +1952,9 @@ export default function GoldStandardResumeStudio() {
                           ]
                         });
                       }}
-                      className="w-full py-2.5 rounded-xl border border-dashed border-white/20 hover:border-[#4ade80] text-zinc-300 hover:text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="w-full py-2.5 rounded-xl border border-dashed border-white/20 hover:border-violet-500 text-zinc-300 hover:text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      <Plus className="h-3.5 w-3.5 text-[#4ade80]" />
+                      <Plus className="h-3.5 w-3.5 text-violet-400" />
                       <span>{isStudent ? "Add Internship / Training" : "Add Experience"}</span>
                     </button>
                   </div>
@@ -2077,9 +2077,9 @@ export default function GoldStandardResumeStudio() {
                           ]
                         });
                       }}
-                      className="w-full py-2.5 rounded-xl border border-dashed border-white/20 hover:border-[#4ade80] text-zinc-300 hover:text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="w-full py-2.5 rounded-xl border border-dashed border-white/20 hover:border-violet-500 text-zinc-300 hover:text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      <Plus className="h-3.5 w-3.5 text-[#4ade80]" /> Add Technical Project
+                      <Plus className="h-3.5 w-3.5 text-violet-400" /> Add Technical Project
                     </button>
                   </div>
                 )}
@@ -2091,7 +2091,7 @@ export default function GoldStandardResumeStudio() {
                       <label className="block text-zinc-300 font-mono text-[11px] font-bold">
                         {isStudent ? "Competitions, Hackathons & Honors" : "Achievements & Accolades"} (1 per line &bull; wrap ranks in **bold**)
                       </label>
-                      <span className="text-[10px] text-[#4ade80] font-mono">
+                      <span className="text-[10px] text-violet-400 font-mono">
                         {isStudent ? "Student / Collegiate Track" : "Corporate Track"}
                       </span>
                     </div>
@@ -2111,7 +2111,7 @@ export default function GoldStandardResumeStudio() {
                           achievements: e.target.value.split("\n").filter((l) => l.trim())
                         })
                       }
-                      className="w-full p-3 rounded-xl bg-[#161820] border border-white/10 text-white text-xs leading-relaxed"
+                      className="w-full p-3 rounded-xl bg-[#161820] border border-white/10 text-white text-xs leading-relaxed focus:outline-none focus:border-violet-500"
                     />
                   </div>
                 )}
@@ -2121,12 +2121,12 @@ export default function GoldStandardResumeStudio() {
                   <div className="space-y-3">
                     <div className="flex items-center justify-between pb-1">
                       <span className="text-[10.5px] text-zinc-400 font-mono">
-                        Skill categories customized for: <strong className="text-[#4ade80]">{activeBranchConfig.name}</strong>
+                        Skill categories customized for: <strong className="text-violet-400">{activeBranchConfig.name}</strong>
                       </span>
                       <button
                         type="button"
                         onClick={() => applyBranchPreset(activeBranchKey)}
-                        className="text-[#4ade80] hover:underline font-mono text-[10px] cursor-pointer"
+                        className="text-violet-400 hover:underline font-mono text-[10px] cursor-pointer"
                       >
                         ⚡ Reset to {activeBranchConfig.name.split(" ")[0]} Defaults
                       </button>
@@ -2296,9 +2296,9 @@ export default function GoldStandardResumeStudio() {
                           ]
                         });
                       }}
-                      className="w-full py-2.5 rounded-xl border border-dashed border-white/20 hover:border-[#4ade80] text-zinc-300 hover:text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="w-full py-2.5 rounded-xl border border-dashed border-white/20 hover:border-violet-500 text-zinc-300 hover:text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      <Plus className="h-3.5 w-3.5 text-[#4ade80]" /> Add Responsibility
+                      <Plus className="h-3.5 w-3.5 text-violet-400" /> Add Responsibility
                     </button>
                   </div>
                 )}
@@ -2316,7 +2316,7 @@ export default function GoldStandardResumeStudio() {
                   {currentStep < STEPS.length ? (
                     <button
                       onClick={() => setCurrentStep((prev) => prev + 1)}
-                      className="flex items-center gap-1 px-5 py-2 rounded-xl bg-[#4ade80] hover:bg-[#3ec772] text-[#090b0e] text-xs font-bold cursor-pointer"
+                      className="flex items-center gap-1 px-5 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-bold transition-all shadow-md shadow-violet-600/25 cursor-pointer"
                     >
                       <span>Next: {STEPS[currentStep].label}</span>
                       <ChevronRight className="h-3.5 w-3.5" />
@@ -2327,7 +2327,7 @@ export default function GoldStandardResumeStudio() {
                         setIsEditing(false);
                         setMobileTab("preview");
                       }}
-                      className="flex items-center gap-1 px-5 py-2 rounded-xl bg-[#4ade80] hover:bg-[#3ec772] text-[#090b0e] text-xs font-bold cursor-pointer"
+                      className="flex items-center gap-1 px-5 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-bold transition-all shadow-md shadow-violet-600/25 cursor-pointer"
                     >
                       <Check className="h-3.5 w-3.5" />
                       <span>Finish &amp; View Sheet</span>
@@ -2352,7 +2352,7 @@ export default function GoldStandardResumeStudio() {
                 onClick={() => setMobileScaleFit(!mobileScaleFit)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   mobileScaleFit
-                    ? "bg-[#4ade80] text-[#090b0e] shadow-md shadow-[#4ade80]/20 font-bold"
+                    ? "bg-violet-600 text-white shadow-md shadow-violet-600/25 font-bold"
                     : "bg-white/5 hover:bg-white/10 text-zinc-300"
                 }`}
                 title="Scale to fit entire resume on mobile screen"
@@ -2420,7 +2420,7 @@ export default function GoldStandardResumeStudio() {
             {/* Paper Size Selector (A4, US Letter, Legal, A3) */}
             <div className="flex items-center gap-1 p-1 rounded-xl bg-black/50 border border-white/10">
               <span className="text-[10px] font-mono text-zinc-400 pl-1.5 pr-0.5 flex items-center gap-1">
-                <FileText className="h-3 w-3 text-emerald-400" /> Paper:
+                <FileText className="h-3 w-3 text-violet-400" /> Paper:
               </span>
               {Object.values(PAPER_SIZES).map((ps) => {
                 const isSelected = paperSize === ps.id;
@@ -2431,7 +2431,7 @@ export default function GoldStandardResumeStudio() {
                     onClick={() => setPaperSize(ps.id)}
                     className={`px-2 py-0.5 rounded-lg text-[10.5px] font-medium transition-all cursor-pointer ${
                       isSelected
-                        ? "bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40"
+                        ? "bg-violet-600/25 text-violet-300 font-bold border border-violet-500/40"
                         : "text-zinc-400 hover:text-white hover:bg-white/5"
                     }`}
                     title={ps.desc}
@@ -2475,10 +2475,10 @@ export default function GoldStandardResumeStudio() {
               <button
                 type="button"
                 onClick={() => setJobScannerOpen(true)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/30 text-teal-300 text-xs font-bold transition-all cursor-pointer hover:scale-105"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-violet-500/15 hover:bg-violet-500/25 border border-violet-500/30 text-violet-300 text-xs font-bold transition-all cursor-pointer hover:scale-105"
                 title="Scan against Job Description for ATS score and keyword heatmap"
               >
-                <Flame className="h-3.5 w-3.5 text-teal-400" />
+                <Flame className="h-3.5 w-3.5 text-violet-400" />
                 <span>🎯 Match Scanner</span>
               </button>
 
@@ -2540,7 +2540,7 @@ export default function GoldStandardResumeStudio() {
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-all cursor-pointer"
                 title="Copy 7-day secure live hosted web resume link"
               >
-                <Share2 className="h-3.5 w-3.5 text-emerald-400" />
+                <Share2 className="h-3.5 w-3.5 text-violet-400" />
                 <span>Share Link (7d)</span>
               </button>
 
@@ -2555,18 +2555,18 @@ export default function GoldStandardResumeStudio() {
                 }
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   resumeData.personal.showPhoto
-                    ? "bg-[#4ade80]/15 text-[#4ade80] border border-[#4ade80]/30"
+                    ? "bg-violet-500/15 text-violet-300 border border-violet-500/30 font-bold"
                     : "bg-white/5 text-zinc-400 hover:text-white"
                 }`}
               >
-                <Camera className="h-3.5 w-3.5" />
+                <Camera className="h-3.5 w-3.5 text-violet-400" />
                 <span>Photo: {resumeData.personal.showPhoto ? "YES" : "NO"}</span>
               </button>
 
               <button
                 onClick={handleDownloadPdf}
                 disabled={isExportingPdf}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#4ade80] hover:bg-[#3ec772] text-[#090b0e] text-xs font-bold transition-all shadow-md cursor-pointer disabled:opacity-60"
+                className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-bold transition-all shadow-lg shadow-violet-600/30 cursor-pointer disabled:opacity-60"
                 title="Directly download PDF with 100% active clickable links"
               >
                 {isExportingPdf ? (
@@ -2653,7 +2653,13 @@ export default function GoldStandardResumeStudio() {
           <div className="resume-paper-container p-2 sm:p-6 rounded-3xl bg-[#0b0d13] border border-white/10 shadow-2xl flex justify-center overflow-x-auto print:p-0 print:m-0 print:bg-transparent print:border-none print:shadow-none print:rounded-none print:w-full print:block">
             {/* The Actual Resume Sheet (Directly matching the user's reference image!) */}
             {(() => {
-              const activeTheme = RESUME_THEMES[resumeData.theme || "classic"] || RESUME_THEMES.classic;
+              const activeTheme =
+                RESUME_THEMES[resumeData.theme] ||
+                (resumeData.theme === "emerald"
+                  ? RESUME_THEMES.indigo
+                  : resumeData.theme === "teal"
+                  ? RESUME_THEMES.cobalt
+                  : RESUME_THEMES.classic);
               const isCompact = resumeData.density === "compact";
               const currentLimitPx = PAPER_SIZES[paperSize]?.maxSinglePagePx || 1120;
               const isOverflowing = measuredHeight > currentLimitPx;

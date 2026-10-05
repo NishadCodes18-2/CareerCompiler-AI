@@ -55,7 +55,7 @@ export default function DemoVideoModal({
                 Watch 3-Minute Platform Demo
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                See how CareerCompiler imports GitHub repos, auto-quantifies STAR impact metrics with Claude 3.7, and formats production LaTeX PDFs with 98+ ATS pass rates.
+                See how CareerCompiler connects to your GitHub repositories, parses AST code tokens to verify technical claims, and outputs pixel-perfect LaTeX PDF resumes with 98+ ATS pass rates. 100% free and open-source.
               </p>
               <div className="pt-2">
                 <button

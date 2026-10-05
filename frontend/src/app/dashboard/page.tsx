@@ -283,7 +283,7 @@ export default function ResumeMakerDashboard() {
             {/* Status Header */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#181b22] border border-white/[0.08] text-[11px] text-white">
-                <span className="h-2 w-2 rounded-full bg-[#4ade80] animate-pulse"></span>
+                <span className="h-2 w-2 rounded-full bg-violet-400 animate-pulse"></span>
                 <span className="font-semibold tracking-wide">ACTIVE CANDIDATE</span>
               </div>
               <span className="text-xs text-zinc-400 font-sans">
@@ -342,7 +342,7 @@ export default function ResumeMakerDashboard() {
               </div>
 
               <div className="p-4 rounded-2xl bg-[#161820] border border-white/[0.06] space-y-1">
-                <div className="text-2xl sm:text-3xl font-extrabold text-[#4ade80] tracking-tight">
+                <div className="text-2xl sm:text-3xl font-extrabold text-violet-400 tracking-tight">
                   100%
                 </div>
                 <div className="text-[11px] text-zinc-400 font-medium">
@@ -373,7 +373,7 @@ export default function ResumeMakerDashboard() {
                 ].map((skill, idx) => (
                   <span
                     key={idx}
-                    className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#1c1f2a] border border-white/[0.08] text-zinc-300 hover:text-white hover:border-[#4ade80]/40 transition-colors cursor-default"
+                    className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#1c1f2a] border border-white/[0.08] text-zinc-300 hover:text-white hover:border-violet-500/40 transition-colors cursor-default"
                   >
                     {skill}
                   </span>
@@ -394,7 +394,7 @@ export default function ResumeMakerDashboard() {
                 <h3 className="text-sm font-bold text-white tracking-wide">Connected Data Sources</h3>
                 <p className="text-[11px] text-zinc-400">Takes data from multiple sites to build your resume</p>
               </div>
-              <span className="h-2 w-2 rounded-full bg-[#4ade80] animate-pulse"></span>
+              <span className="h-2 w-2 rounded-full bg-violet-400 animate-pulse"></span>
             </div>
 
             <div className="space-y-3">
@@ -409,10 +409,10 @@ export default function ResumeMakerDashboard() {
                       {idx === 0 && <GithubIcon className="h-4 w-4 text-white" />}
                       {idx === 1 && <FileText className="h-4 w-4 text-[#38bdf8]" />}
                       {idx === 2 && <Briefcase className="h-4 w-4 text-[#f59e0b]" />}
-                      {idx === 3 && <ShieldCheck className="h-4 w-4 text-[#4ade80]" />}
+                      {idx === 3 && <ShieldCheck className="h-4 w-4 text-violet-400" />}
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-white group-hover:text-[#4ade80] transition-colors flex items-center gap-1.5">
+                      <div className="text-xs font-bold text-white group-hover:text-violet-300 transition-colors flex items-center gap-1.5">
                         <span>{site.name}</span>
                         <ChevronRight className="h-3 w-3 text-zinc-500 group-hover:translate-x-0.5 transition-transform" />
                       </div>
@@ -422,7 +422,7 @@ export default function ResumeMakerDashboard() {
                     </div>
                   </div>
 
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#4ade80]/15 text-[#4ade80] border border-[#4ade80]/30 font-bold">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/30 font-bold">
                     ✓ SYNCED
                   </span>
                 </Link>
@@ -437,7 +437,7 @@ export default function ResumeMakerDashboard() {
                 <h3 className="text-sm font-bold text-white tracking-wide">Self-Training Synthesis</h3>
                 <p className="text-[11px] text-zinc-400">Trains on real metrics from all connected sites</p>
               </div>
-              <span className="text-[10px] font-mono text-[#4ade80] font-bold">ACTIVE</span>
+              <span className="text-[10px] font-mono text-violet-400 font-bold">ACTIVE</span>
             </div>
 
             {/* Circular Iris / Radial Ray Disc */}
@@ -471,7 +471,7 @@ export default function ResumeMakerDashboard() {
 
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                   <span className="text-3xl font-black text-white tracking-tight">100%</span>
-                  <span className="text-[10px] font-sans text-[#4ade80] font-bold uppercase tracking-wider">
+                  <span className="text-[10px] font-sans text-violet-400 font-bold uppercase tracking-wider">
                     TRAINED
                   </span>
                 </div>
@@ -486,7 +486,7 @@ export default function ResumeMakerDashboard() {
               </div>
               <div className="flex items-center justify-between text-xs py-1">
                 <span className="text-zinc-300 font-medium">Database Latency Reduction</span>
-                <span className="text-[#4ade80] font-mono font-bold">-40% (Redis)</span>
+                <span className="text-violet-400 font-mono font-bold">-40% (Redis)</span>
               </div>
               <div className="flex items-center justify-between text-xs py-1">
                 <span className="text-zinc-300 font-medium">Telemetry Log Ingestion</span>
@@ -616,7 +616,7 @@ export default function ResumeMakerDashboard() {
 
               <Link
                 href="/interview"
-                className="text-[#4ade80] hover:underline flex items-center gap-1"
+                className="text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1 font-semibold"
               >
                 <span>Defend in Mock Interview</span>
                 <ChevronRight className="h-3 w-3" />
