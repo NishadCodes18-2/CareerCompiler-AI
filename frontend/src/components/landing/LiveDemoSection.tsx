@@ -177,7 +177,26 @@ export default function LiveDemoSection({ onActionClick }: LiveDemoSectionProps)
                 </div>
 
                 <button
-                  onClick={() => onActionClick("/resume")}
+                  onClick={() => {
+                    if (result?.bullet) {
+                      try {
+                        const existing = sessionStorage.getItem("gold_resume_data") || localStorage.getItem("gold_resume_data");
+                        let data: any = {};
+                        if (existing) data = JSON.parse(existing);
+                        if (!data.experience) data.experience = [];
+                        data.experience.unshift({
+                          title: role || "Senior Software Engineer",
+                          company: "Top Tech Company",
+                          startDate: "2023",
+                          endDate: "Present",
+                          bulletPoints: [result.bullet],
+                        });
+                        sessionStorage.setItem("gold_resume_data", JSON.stringify(data));
+                        localStorage.setItem("gold_resume_data", JSON.stringify(data));
+                      } catch (e) {}
+                    }
+                    onActionClick("/resume");
+                  }}
                   className="w-full py-3.5 rounded-xl bg-white text-slate-900 hover:bg-slate-100 font-bold text-sm inline-flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg"
                 >
                   Save & Open in Resume Studio

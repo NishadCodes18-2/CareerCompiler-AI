@@ -232,7 +232,7 @@ export default function HeroSection({ onActionClick, onWatchDemo }: HeroSectionP
 
         {/* Subtitle */}
         <p className="text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8 font-normal">
-          Connect your GitHub, projects or voice notes – CareerCompiler AI synthesizes ATS-crushing resumes with quantified STAR impact. Plus real-time evidence graph, interview prep, and instant PDF compilation in one app.
+          Connect your GitHub, repositories, and technical projects – CareerCompiler AI synthesizes ATS-crushing resumes with quantified STAR impact. Plus real-time evidence graph, interview defense, and instant PDF compilation in one app.
         </p>
 
         {/* Email Unlock & Quick Access Bar */}

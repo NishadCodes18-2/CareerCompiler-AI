@@ -13,7 +13,11 @@ import {
   Cpu
 } from "lucide-react";
 
-export default function WorkflowSection() {
+interface WorkflowSectionProps {
+  onActionClick?: (destination: string) => void;
+}
+
+export default function WorkflowSection({ onActionClick }: WorkflowSectionProps) {
   return (
     <section id="workflow" className="py-24 lg:py-32 bg-[#090b10] border-t border-white/[0.06]">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
@@ -187,6 +191,19 @@ export default function WorkflowSection() {
             </p>
           </div>
         </div>
+
+        {/* Workflow Action CTA */}
+        {onActionClick && (
+          <div className="mt-12 text-center">
+            <button
+              onClick={() => onActionClick("/resume")}
+              className="gradient-button inline-flex items-center justify-center rounded-xl text-white font-sans font-bold px-8 py-3.5 text-sm gap-2 cursor-pointer shadow-xl"
+            >
+              <span>Build your verified resume now</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import LandingHeader from "@/components/landing/LandingHeader";
 import HeroSection from "@/components/landing/HeroSection";
 import LiveDashboardSection from "@/components/landing/LiveDashboardSection";
@@ -18,12 +19,13 @@ import DemoVideoModal from "@/components/landing/DemoVideoModal";
 import EmailCaptureModal from "@/components/EmailCaptureModal";
 
 export default function CoverLandingPage() {
+  const router = useRouter();
   const [demoModalOpen, setDemoModalOpen] = useState(false);
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [modalDestination, setModalDestination] = useState("/resume");
 
   useEffect(() => {
-    // Listen for custom email prompts from any interactive widget
+    // Listen for custom email prompts from any interactive widget if explicitly triggered
     const handleOpenPrompt = (e: any) => {
       const dest = e.detail?.destination || "/resume";
       setModalDestination(dest);
@@ -35,16 +37,8 @@ export default function CoverLandingPage() {
   }, []);
 
   const handleActionClick = (destination: string) => {
-    const saved =
-      localStorage.getItem("careercompiler_user_email") ||
-      localStorage.getItem("careercompiler_email_unlocked");
-
-    if (saved) {
-      window.location.href = destination;
-    } else {
-      setModalDestination(destination);
-      setEmailModalOpen(true);
-    }
+    // Direct, instant, zero-friction client-side routing
+    router.push(destination);
   };
 
   return (
@@ -64,7 +58,7 @@ export default function CoverLandingPage() {
         <LiveDashboardSection onActionClick={handleActionClick} />
 
         {/* 4. 2x2 Bento Workflow Grid */}
-        <WorkflowSection />
+        <WorkflowSection onActionClick={handleActionClick} />
 
         {/* 5. Scaled Dark Container: 3D Coverflow, Before vs After, and SVG Architecture Hub */}
         <HubAndComparisonSection onActionClick={handleActionClick} />
@@ -101,7 +95,7 @@ export default function CoverLandingPage() {
         onActionClick={handleActionClick}
       />
 
-      {/* Universal Email Lead Capture Modal */}
+      {/* Universal Email Lead Capture Modal (available on explicit prompt) */}
       <EmailCaptureModal
         isOpen={emailModalOpen}
         onClose={() => setEmailModalOpen(false)}

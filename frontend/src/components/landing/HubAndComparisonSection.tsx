@@ -8,9 +8,7 @@ import {
   Sparkles,
   Database,
   Cpu,
-  Phone,
   Bot,
-  Mic,
   Code2,
   FileText,
   CheckCircle2,
@@ -388,7 +386,7 @@ export default function HubAndComparisonSection({
                 </button>
               </div>
 
-              {/* Right Column: The Iconic SalesHook Architecture Hub Diagram */}
+              {/* Right Column: CareerCompiler Architecture Hub Diagram */}
               <div className="overflow-x-auto w-full">
                 <div className="min-w-[300px] max-w-[400px] mx-auto py-2">
                   {/* Top Node: Developer Profile */}
@@ -479,13 +477,13 @@ export default function HubAndComparisonSection({
                   {/* Candidate Input Node */}
                   <div className="group relative mx-auto rounded-2xl flex flex-col items-center text-center transition-all duration-300 hover:scale-[1.03] cursor-default px-6 py-3.5 max-w-[340px] pearl-badge">
                     <div className="flex items-center justify-center gap-2">
-                      <Phone className="w-4 h-4 text-cyan-400" />
+                      <Code2 className="w-4 h-4 text-cyan-400" />
                       <span className="text-white font-medium text-sm">
-                        Raw Career Intake
+                        Engineering Evidence Intake
                       </span>
                     </div>
                     <div className="uppercase tracking-wider text-slate-400 mt-1 text-[10px] font-mono">
-                      GitHub &bull; Voice Note &bull; Class Projects
+                      GitHub Repos &bull; System Benchmarks &bull; Code PRs
                     </div>
                   </div>
 
@@ -544,16 +542,16 @@ export default function HubAndComparisonSection({
                   {/* 3 Intake Modalities */}
                   <div className="grid grid-cols-3 gap-2">
                     <div className="group relative mx-auto rounded-xl flex flex-col items-center text-center p-2.5 w-full pearl-badge">
-                      <Mic className="w-3.5 h-3.5 text-violet-400" />
-                      <span className="text-white font-medium text-[11px] mt-1">Voice</span>
+                      <GithubIcon className="w-3.5 h-3.5 text-violet-400" />
+                      <span className="text-white font-medium text-[11px] mt-1">Git Repos</span>
                     </div>
                     <div className="group relative mx-auto rounded-xl flex flex-col items-center text-center p-2.5 w-full pearl-badge">
                       <Code2 className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-white font-medium text-[11px] mt-1">Code</span>
+                      <span className="text-white font-medium text-[11px] mt-1">Code & PRs</span>
                     </div>
                     <div className="group relative mx-auto rounded-xl flex flex-col items-center text-center p-2.5 w-full pearl-badge">
                       <FileText className="w-3.5 h-3.5 text-cyan-400" />
-                      <span className="text-white font-medium text-[11px] mt-1">PDFs</span>
+                      <span className="text-white font-medium text-[11px] mt-1">Tech Docs</span>
                     </div>
                   </div>
 

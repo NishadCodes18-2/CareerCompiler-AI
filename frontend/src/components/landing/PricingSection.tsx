@@ -252,7 +252,7 @@ export default function PricingSection({ onActionClick }: PricingSectionProps) {
 
                 {/* Card CTA Button */}
                 <button
-                  onClick={() => onActionClick("/resume")}
+                  onClick={() => onActionClick(p.cta.includes("Trial") || p.num === "04" ? "/signup" : "/resume")}
                   className={`w-full py-3.5 rounded-xl font-bold text-sm inline-flex items-center justify-center gap-2 transition-all cursor-pointer ${
                     p.popular
                       ? "bg-violet-600 hover:bg-violet-500 text-white shadow-lg shadow-violet-600/30 hover:scale-[1.02]"
@@ -267,7 +267,7 @@ export default function PricingSection({ onActionClick }: PricingSectionProps) {
           })}
         </div>
 
-        {/* MCP Callout Banner (Matching SalesHook Claude MCP Banner) */}
+        {/* MCP Callout Banner */}
         <div className="mt-14 lg:mt-18">
           <div className="block w-full rounded-2xl bg-gradient-to-r from-[#3e1b69] via-violet-800 to-indigo-700 p-6 sm:p-8 text-white relative overflow-hidden shadow-2xl border border-violet-400/30">
             <div className="absolute inset-0 opacity-15 [background-image:radial-gradient(circle_at_15%_15%,white,transparent_35%)]" />

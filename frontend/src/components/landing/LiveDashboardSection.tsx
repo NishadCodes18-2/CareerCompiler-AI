@@ -13,7 +13,8 @@ import {
   ExternalLink,
   ChevronRight,
   GitCommit,
-  Award
+  Award,
+  ArrowRight
 } from "lucide-react";
 
 interface LiveDashboardSectionProps {
@@ -464,6 +465,17 @@ export default function LiveDashboardSection({ onActionClick }: LiveDashboardSec
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Action CTA below 3D frame */}
+          <div className="mt-10 text-center">
+            <button
+              onClick={() => onActionClick(tabs[activeTab].id === 0 ? "/dashboard" : tabs[activeTab].id === 1 ? "/resume" : tabs[activeTab].id === 2 ? "/evidence" : "/analysis")}
+              className="gradient-button inline-flex items-center justify-center rounded-xl text-white font-sans font-bold px-7 py-3 text-sm gap-2 cursor-pointer shadow-xl hover:scale-[1.02] transition-transform"
+            >
+              <span>Open {tabs[activeTab].label} in Workspace</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>

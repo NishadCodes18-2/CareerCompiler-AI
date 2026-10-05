@@ -39,10 +39,16 @@ export default function DemoVideoModal({
 
         {/* Video / Interactive Stage */}
         <div className="p-6 sm:p-8 space-y-6">
-          <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-black border border-white/10 flex flex-col items-center justify-center text-center p-6">
+          <div
+            onClick={() => {
+              onClose();
+              onActionClick("/resume");
+            }}
+            className="relative aspect-[16/9] rounded-xl overflow-hidden bg-black border border-white/10 flex flex-col items-center justify-center text-center p-6 cursor-pointer group hover:border-violet-500/50 transition-all"
+          >
             <div className="absolute inset-0 bg-gradient-to-tr from-violet-950/40 via-transparent to-emerald-950/20" />
             <div className="relative z-10 space-y-4 max-w-lg">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 flex items-center justify-center mx-auto shadow-xl shadow-violet-600/30">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 flex items-center justify-center mx-auto shadow-xl shadow-violet-600/30 group-hover:scale-110 transition-transform">
                 <Play className="w-7 h-7 text-white fill-white ml-1" />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
