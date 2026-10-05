@@ -252,7 +252,15 @@ export default function PricingSection({ onActionClick }: PricingSectionProps) {
 
                 {/* Card CTA Button */}
                 <button
-                  onClick={() => onActionClick(p.cta.includes("Trial") || p.num === "04" ? "/signup" : "/resume")}
+                  onClick={() => {
+                    if (p.num === "04") {
+                      window.location.href = "mailto:enterprise@careercompiler.ai?subject=Enterprise%20Inquiry%20-%20CareerCompiler%20AI&body=Hi%20CareerCompiler%20Team%2C%0A%0AWe%20are%20interested%20in%20deploying%20CareerCompiler%20for%20our%20cohort%2Fcampus.%20Please%20reach%20out%20with%20enterprise%20licensing%20details.";
+                    } else if (p.cta.includes("Trial")) {
+                      onActionClick("/signup");
+                    } else {
+                      onActionClick("/resume");
+                    }
+                  }}
                   className={`w-full py-3.5 rounded-xl font-bold text-sm inline-flex items-center justify-center gap-2 transition-all cursor-pointer ${
                     p.popular
                       ? "bg-violet-600 hover:bg-violet-500 text-white shadow-lg shadow-violet-600/30 hover:scale-[1.02]"

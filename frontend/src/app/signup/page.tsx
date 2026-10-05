@@ -8,11 +8,10 @@ import {
   ArrowRight,
   ShieldCheck,
   Layers,
-  Lock,
   Mail,
   User,
-  Briefcase,
-  CheckCircle2
+  CheckCircle2,
+  Gift
 } from "lucide-react";
 import ParticleCanvas from "@/components/ParticleCanvas";
 import { GithubIcon } from "@/components/GithubIcon";
@@ -21,21 +20,16 @@ export default function SignupPage() {
   const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [targetRole, setTargetRole] = useState("Senior Backend Engineer");
   const [githubUser, setGithubUser] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleFreeSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes("@")) {
       setError("Please enter a valid email address");
-      return;
-    }
-    if (!fullName) {
-      setError("Please enter your full name");
       return;
     }
 
@@ -45,23 +39,24 @@ export default function SignupPage() {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
 
-      // 1. Submit lead/user to backend
+      // Store in DB lead_captures table without requiring password creation
       await fetch(`${apiUrl}/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          source: "signup_flow",
+          source: "signup_form",
           metadata_json: {
-            fullName,
+            fullName: fullName || email.split("@")[0],
             targetRole,
             githubUser,
+            isFreeAccess: true,
             timestamp: new Date().toISOString(),
           },
         }),
       }).catch((err) => console.warn("Backend signup lead note:", err));
 
-      // 2. Persist in localStorage
+      // Persist in localStorage and sessionStorage
       localStorage.setItem("careercompiler_user_email", email);
       localStorage.setItem("careercompiler_email_unlocked", email);
       sessionStorage.setItem("careercompiler_user_email", email);
@@ -76,7 +71,7 @@ export default function SignupPage() {
       }
 
       if (!resumeData.personal) resumeData.personal = {};
-      resumeData.personal.fullName = fullName;
+      resumeData.personal.fullName = fullName || email.split("@")[0].replace(/[._]/g, " ");
       resumeData.personal.email = email;
       if (targetRole) resumeData.personal.targetRole = targetRole;
       if (githubUser) {
@@ -92,7 +87,7 @@ export default function SignupPage() {
 
       setTimeout(() => {
         router.push("/resume");
-      }, 700);
+      }, 500);
     } catch (err) {
       console.error(err);
       router.push("/resume");
@@ -123,31 +118,30 @@ export default function SignupPage() {
           </Link>
 
           <div>
-            <span className="pearl-badge inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full text-emerald-400">
-              <Sparkles className="w-3.5 h-3.5" /> Start 7-Day Free Trial
+            <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+              <Gift className="w-3.5 h-3.5" /> 100% Free Forever
             </span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-sans mt-2">
-            Create your account
+            Claim Free Studio Access
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Compile verified, ATS 98+ resumes directly from your code and real achievements.
+          <p className="text-xs sm:text-sm text-slate-300">
+            Open-source and zero-friction. Enter your email to begin compiling verified ATS resumes directly from your code.
           </p>
         </div>
 
         {/* Signup Form */}
-        <form onSubmit={handleSignup} className="space-y-4">
+        <form onSubmit={handleFreeSignup} className="space-y-4">
           {/* Full Name */}
           <div>
             <label className="text-xs font-mono text-slate-300 font-semibold mb-1.5 block">
-              Full Name
+              Full Name (for resume header)
             </label>
             <div className="relative">
               <User className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="e.g. Ayush Sharma"
@@ -159,7 +153,7 @@ export default function SignupPage() {
           {/* Email */}
           <div>
             <label className="text-xs font-mono text-slate-300 font-semibold mb-1.5 block">
-              Email Address
+              Email Address <span className="text-emerald-400">*</span>
             </label>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -169,24 +163,6 @@ export default function SignupPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="e.g. ayush@engineer.io"
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-white/10 bg-black/50 text-white placeholder-slate-500 text-sm focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Password */}
-          <div>
-            <label className="text-xs font-mono text-slate-300 font-semibold mb-1.5 block">
-              Password
-            </label>
-            <div className="relative">
-              <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Create a secure password"
                 className="w-full pl-10 pr-4 py-3 rounded-xl border border-white/10 bg-black/50 text-white placeholder-slate-500 text-sm focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition-all"
               />
             </div>
@@ -235,41 +211,33 @@ export default function SignupPage() {
 
           {success && (
             <p className="text-xs font-mono text-emerald-400 font-semibold flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4" /> Account created! Launching Resume Studio...
+              <CheckCircle2 className="w-4 h-4" /> Workspace verified! Launching Resume Studio...
             </p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="gradient-button w-full py-3.5 rounded-xl text-white font-bold text-sm inline-flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xl disabled:opacity-50"
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-violet-700 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-sm inline-flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xl shadow-violet-600/30 active:scale-[0.98] disabled:opacity-50"
           >
             {loading ? (
-              <span>Creating your account...</span>
+              <span>Activating Studio...</span>
             ) : (
               <>
-                <span>Create Free Account & Unlock Studio</span>
+                <span>Launch Free Studio Workspace</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
           </button>
         </form>
 
-        {/* Switch to Login */}
-        <div className="pt-4 border-t border-white/10 text-center text-xs text-slate-400">
-          Already have an account?{" "}
-          <Link
-            href="/login"
-            className="text-violet-400 hover:text-violet-300 font-semibold underline underline-offset-2"
-          >
-            Log in here
-          </Link>
-        </div>
-
-        {/* Security Assurance */}
-        <div className="flex items-center justify-center gap-2 text-[11px] text-slate-500 font-mono">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Bank-grade encryption &bull; 100% Private code parsing</span>
+        {/* Security & Open Source Assurance */}
+        <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+          <div className="flex items-center gap-1.5 text-emerald-400">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>100% Free Forever</span>
+          </div>
+          <span>Zero Credit Card Required</span>
         </div>
       </div>
     </div>

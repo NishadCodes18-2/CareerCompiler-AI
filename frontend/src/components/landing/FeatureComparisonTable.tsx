@@ -56,7 +56,7 @@ export default function FeatureComparisonTable() {
     },
     {
       feature: "Pricing & Value",
-      compiler: "Free / from $19/mo",
+      compiler: "100% Free & Open Source",
       word: "$0 (Time wasted)",
       chatgpt: "$20/mo",
       writers: "$300–$600",

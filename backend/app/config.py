@@ -17,8 +17,8 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     API_V1_PREFIX: str = "/api/v1"
     
-    # Security
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "careercompiler-ai-super-secret-key-2026-production")
+    # Security (Always set SECRET_KEY in production .env)
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "careercompiler-ai-insecure-dev-fallback-key-do-not-use-in-production")
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
     

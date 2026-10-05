@@ -60,49 +60,45 @@ export default function LandingHeader({ onActionClick }: LandingHeaderProps) {
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-violet-400 transition-all duration-300 group-hover:w-full" />
             </button>
             <button
-              onClick={() => scrollToSection("screenshots")}
-              className="text-sm text-slate-300/80 hover:text-white transition-colors duration-300 relative group cursor-pointer"
-            >
-              Screenshots
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-violet-400 transition-all duration-300 group-hover:w-full" />
-            </button>
-            <button
               onClick={() => scrollToSection("use-cases")}
               className="text-sm text-slate-300/80 hover:text-white transition-colors duration-300 relative group cursor-pointer"
             >
-              Use Cases
+              Proof Engine
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-violet-400 transition-all duration-300 group-hover:w-full" />
             </button>
             <button
               onClick={() => scrollToSection("demo")}
               className="text-sm text-slate-300/80 hover:text-white transition-colors duration-300 relative group cursor-pointer"
             >
-              Demo
+              Live Demo
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-violet-400 transition-all duration-300 group-hover:w-full" />
             </button>
             <button
-              onClick={() => scrollToSection("pricing")}
+              onClick={() => scrollToSection("faq")}
               className="text-sm text-slate-300/80 hover:text-white transition-colors duration-300 relative group cursor-pointer"
             >
-              Pricing
+              FAQ
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-violet-400 transition-all duration-300 group-hover:w-full" />
             </button>
           </div>
 
           {/* Right Action Buttons */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link
-              href="/login"
-              className="text-slate-300 hover:text-white transition-all duration-300 text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-white/5"
+          <div className="hidden md:flex items-center gap-3">
+            <a
+              href="https://github.com/NishadCodes18/CareerCompiler-AI"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-mono text-slate-300 hover:text-white border border-white/10 transition-all"
             >
-              Log in
-            </Link>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              100% Free &amp; Open Source
+            </a>
             <button
               onClick={() => onActionClick("/resume")}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white rounded-xl transition-all duration-300 px-4 h-10 text-sm font-semibold shadow-lg shadow-violet-600/30 hover:shadow-violet-600/50 hover:scale-[1.02] cursor-pointer"
+              className="inline-flex items-center gap-2 gradient-button text-white rounded-xl transition-all duration-300 px-4 h-10 text-sm font-semibold shadow-lg shadow-violet-600/30 hover:scale-[1.02] cursor-pointer"
             >
               <Sparkles className="h-4 w-4 text-violet-200 animate-pulse" />
-              Compile AI Resume
+              Launch Free Studio
             </button>
           </div>
 
@@ -127,46 +123,34 @@ export default function LandingHeader({ onActionClick }: LandingHeaderProps) {
                 Workflow
               </button>
               <button
-                onClick={() => scrollToSection("screenshots")}
-                className="text-left text-base text-slate-200 py-2 hover:text-violet-400 transition-colors"
-              >
-                Screenshots & Knowledge Hub
-              </button>
-              <button
                 onClick={() => scrollToSection("use-cases")}
                 className="text-left text-base text-slate-200 py-2 hover:text-violet-400 transition-colors"
               >
-                Use Cases
+                Proof Engine &amp; Features
               </button>
               <button
                 onClick={() => scrollToSection("demo")}
                 className="text-left text-base text-slate-200 py-2 hover:text-violet-400 transition-colors"
               >
-                Interactive Demo
+                Live Interactive Demo
               </button>
               <button
-                onClick={() => scrollToSection("pricing")}
+                onClick={() => scrollToSection("faq")}
                 className="text-left text-base text-slate-200 py-2 hover:text-violet-400 transition-colors"
               >
-                Pricing
+                FAQ
               </button>
             </div>
             <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
-              <Link
-                href="/login"
-                className="w-full text-center py-2.5 rounded-xl border border-white/10 text-slate-200 text-sm font-medium hover:bg-white/5"
-              >
-                Log in
-              </Link>
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onActionClick("/resume");
                 }}
-                className="w-full py-3 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold flex items-center justify-center gap-2 shadow-lg shadow-violet-600/30"
+                className="w-full py-3 rounded-xl gradient-button text-white text-sm font-semibold flex items-center justify-center gap-2 shadow-lg shadow-violet-600/30"
               >
                 <Sparkles className="h-4 w-4" />
-                Compile AI Resume
+                Launch Free Studio (No Signup Required)
               </button>
             </div>
           </div>

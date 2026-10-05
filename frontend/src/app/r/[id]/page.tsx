@@ -39,62 +39,149 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
   const [copied, setCopied] = useState(false);
   const [isExpired, setIsExpired] = useState(false);
   const [expiryDateText, setExpiryDateText] = useState("");
+  const [countdownText, setCountdownText] = useState("Checking validity...");
   const [daysRemaining, setDaysRemaining] = useState<number | null>(7);
   const [resumeData, setResumeData] = useState<any>(INITIAL_GOLD_RESUME);
   const [showInAppModal, setShowInAppModal] = useState(false);
   const [activeTheme, setActiveTheme] = useState<any>(RESUME_THEMES.classic);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // 1. Read expiry from search params or localStorage
-    const urlParams = new URLSearchParams(window.location.search);
-    const expFromUrl = (resolvedSearchParams?.exp as string) || urlParams.get("exp");
+    let timerInterval: any = null;
 
-    // 2. Check if candidate customized their shared data
-    let storedData: any = null;
-    let storedExp: number | null = null;
+    const initShareData = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      let rawExp = (resolvedSearchParams?.exp as string) || urlParams.get("exp");
 
-    try {
-      const raw = localStorage.getItem(`cc_resume_share_${candidateId}`);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed?.data) storedData = parsed.data;
-        if (parsed?.expiresAt) storedExp = Number(parsed.expiresAt);
+      let effectiveExp: number | null = null;
+      let loadedData: any = null;
+
+      // 1. Try to fetch from backend shared resume API
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
+        const res = await fetch(`${apiUrl}/resumes/share/${candidateId}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" }
+        });
+
+        if (res.ok) {
+          const json = await res.json();
+          if (json.expired) {
+            setIsExpired(true);
+            const expDate = json.expires_timestamp_ms ? new Date(json.expires_timestamp_ms) : new Date(json.expires_at);
+            setExpiryDateText(expDate.toLocaleString(undefined, {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit"
+            }));
+            setCountdownText("Link Expired");
+            setLoading(false);
+            return;
+          }
+
+          if (json.data) {
+            loadedData = json.data;
+          }
+          if (json.expires_timestamp_ms) {
+            effectiveExp = Number(json.expires_timestamp_ms);
+          } else if (json.expires_at) {
+            effectiveExp = new Date(json.expires_at).getTime();
+          }
+        }
+      } catch (err) {
+        console.warn("Backend share lookup note:", err);
       }
-    } catch (e) {}
 
-    const effectiveExp = expFromUrl ? Number(expFromUrl) : storedExp;
+      // 2. Local fallback if not found in backend
+      if (!loadedData) {
+        try {
+          const raw = localStorage.getItem(`cc_resume_share_${candidateId}`);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed?.data) loadedData = parsed.data;
+            if (parsed?.expiresAt && !effectiveExp) effectiveExp = Number(parsed.expiresAt);
+          }
+        } catch (e) {}
+      }
 
-    if (effectiveExp) {
-      const now = Date.now();
-      if (now > effectiveExp) {
-        setIsExpired(true);
-        setExpiryDateText(new Date(effectiveExp).toLocaleDateString(undefined, {
-          month: "short",
-          day: "numeric",
-          year: "numeric"
-        }));
+      // 3. Fallback to URL parameter if present
+      if (!effectiveExp && rawExp) {
+        let num = Number(rawExp);
+        if (!isNaN(num)) {
+          // Normalize seconds vs milliseconds
+          if (num < 1e11) num *= 1000;
+          effectiveExp = num;
+        }
+      }
+
+      // 4. Default 7-day expiration from current session if none set
+      if (!effectiveExp) {
+        // Fallback default: 7 days
+        effectiveExp = Date.now() + 7 * 24 * 60 * 60 * 1000;
+      }
+
+      // Format human-readable expiration string
+      const expDate = new Date(effectiveExp);
+      const formattedExp = expDate.toLocaleString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+      setExpiryDateText(formattedExp);
+
+      // 5. Active live ticker for countdown and exact expiration detection
+      const updateClock = () => {
+        const now = Date.now();
+        const diff = (effectiveExp as number) - now;
+
+        if (diff <= 0) {
+          setIsExpired(true);
+          setCountdownText("Expired");
+          setDaysRemaining(0);
+          if (timerInterval) clearInterval(timerInterval);
+        } else {
+          setIsExpired(false);
+          const totalSecs = Math.floor(diff / 1000);
+          const d = Math.floor(totalSecs / 86400);
+          const h = Math.floor((totalSecs % 86400) / 3600);
+          const m = Math.floor((totalSecs % 3600) / 60);
+          const s = totalSecs % 60;
+
+          setDaysRemaining(Math.max(1, Math.ceil(totalSecs / 86400)));
+
+          if (d > 0) {
+            setCountdownText(`${d}d ${h}h remaining`);
+          } else if (h > 0) {
+            setCountdownText(`${h}h ${m}m ${s}s remaining`);
+          } else {
+            setCountdownText(`${m}m ${s}s remaining`);
+          }
+        }
+      };
+
+      updateClock();
+      timerInterval = setInterval(updateClock, 1000);
+
+      if (loadedData) {
+        setResumeData(loadedData);
+        setActiveTheme(RESUME_THEMES[loadedData.theme || "classic"] || RESUME_THEMES.classic);
       } else {
-        const days = Math.max(1, Math.ceil((effectiveExp - now) / (1000 * 60 * 60 * 24)));
-        setDaysRemaining(days);
-        setExpiryDateText(new Date(effectiveExp).toLocaleDateString(undefined, {
-          month: "short",
-          day: "numeric",
-          year: "numeric"
-        }));
+        setActiveTheme(RESUME_THEMES.classic);
       }
-    } else {
-      // Default 7-day validity from first view if no token provided
-      setDaysRemaining(7);
-    }
+      setLoading(false);
+    };
 
-    if (storedData) {
-      setResumeData(storedData);
-      setActiveTheme(RESUME_THEMES[storedData.theme || "classic"] || RESUME_THEMES.classic);
-    } else {
-      setActiveTheme(RESUME_THEMES.classic);
-    }
+    initShareData();
+
+    return () => {
+      if (timerInterval) clearInterval(timerInterval);
+    };
   }, [candidateId, resolvedSearchParams]);
 
   const handleShare = () => {
@@ -230,10 +317,10 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
             <Link
               href="/resume"
-              className="px-6 py-3 rounded-full bg-[#4ade80] hover:bg-[#3ec772] text-[#090b0e] font-extrabold text-xs shadow-lg shadow-[#4ade80]/20 transition-all flex items-center justify-center gap-2"
+              className="gradient-button px-6 py-3 rounded-full text-white font-bold text-xs shadow-lg shadow-violet-600/25 transition-all flex items-center justify-center gap-2"
             >
               <Sparkles className="h-4 w-4" />
-              <span>Build Your Own Resume</span>
+              <span>Compile Your Free Resume</span>
             </Link>
             <Link
               href="/"
@@ -282,9 +369,9 @@ export default function PublicResumePage({ params, searchParams }: PageProps) {
                 <ShieldCheck className="h-3 w-3" />
                 Verified FAANG Standard
               </span>
-              <span className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30" title="This shareable link expires automatically after 7 days">
+              <span className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30" title={`Secure link expires on: ${expiryDateText}`}>
                 <Clock className="h-3 w-3" />
-                Valid 7 Days ({daysRemaining}d left)
+                <span>{countdownText}</span>
               </span>
             </div>
             <p className="text-xs text-zinc-400 mt-0.5">

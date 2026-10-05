@@ -205,8 +205,8 @@ export default function ResumeMakerDashboard() {
   if (loading) {
     return (
       <div className="flex h-96 flex-col items-center justify-center gap-3">
-        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[#4ade80] border-t-transparent shadow-lg shadow-[#4ade80]/20"></div>
-        <span className="font-mono text-xs text-zinc-400">Loading AI Resume Maker &amp; Data Pipeline...</span>
+        <div className="h-9 w-9 animate-spin rounded-full border-2 border-violet-500 border-t-transparent shadow-lg shadow-violet-500/30"></div>
+        <span className="font-mono text-xs text-slate-400">Loading AI Resume Maker &amp; Data Pipeline...</span>
       </div>
     );
   }
@@ -214,9 +214,9 @@ export default function ResumeMakerDashboard() {
   // 48 Radial Ray Segments for the "AI Training Synthesis" circle
   const radialSegments = Array.from({ length: 48 }, (_, i) => {
     const angle = (i * 360) / 48;
-    let color = "#4ade80";
-    if (i > 16 && i <= 32) color = "#38bdf8";
-    if (i > 32) color = "#f59e0b";
+    let color = "#8b5cf6";
+    if (i > 16 && i <= 32) color = "#10b981";
+    if (i > 32) color = "#6366f1";
     return { angle, color };
   });
 
@@ -225,18 +225,18 @@ export default function ResumeMakerDashboard() {
       {/* ============================================================== */}
       {/* TOP HEADER: Clean Title & Quick Action Bar                     */}
       {/* ============================================================== */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-white/[0.06] pb-4">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[#4ade80] animate-pulse"></span>
-            <span className="text-[11px] font-mono uppercase text-[#4ade80] font-bold tracking-wider">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-[11px] font-mono uppercase text-emerald-400 font-bold tracking-wider">
               Self-Training Resume Intelligence
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-0.5">
             AI Resume Maker &amp; Evidence Studio
           </h1>
-          <p className="text-xs text-zinc-400">
+          <p className="text-xs text-slate-400">
             Connects to your GitHub, uploaded documents, and job descriptions &bull; Self-trains on your real metrics &bull; Compiles 100% verified resumes.
           </p>
         </div>
@@ -246,16 +246,16 @@ export default function ResumeMakerDashboard() {
           <button
             onClick={handleCompile}
             disabled={compiling}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#4ade80] hover:bg-[#3ec772] text-[#090b0e] text-xs font-bold shadow-lg shadow-[#4ade80]/20 transition-all cursor-pointer hover:scale-105 active:scale-95 disabled:opacity-50"
+            className="gradient-button flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-xs font-bold shadow-lg shadow-violet-600/30 transition-all cursor-pointer hover:scale-105 active:scale-95 disabled:opacity-50"
           >
             {compiling ? (
               <>
-                <RefreshCw className="h-4 w-4 animate-spin" />
+                <RefreshCw className="h-4 w-4 animate-spin text-violet-300" />
                 <span>Training &amp; Compiling...</span>
               </>
             ) : (
               <>
-                <Sparkles className="h-4 w-4" />
+                <Sparkles className="h-4 w-4 text-violet-300" />
                 <span>Compile Targeted Resume</span>
               </>
             )}
@@ -263,9 +263,9 @@ export default function ResumeMakerDashboard() {
 
           <button
             onClick={handlePrintPdf}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#161820] hover:bg-[#1f222d] text-white text-xs font-semibold border border-white/10 transition-all cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#12141c] hover:bg-[#181b26] text-white text-xs font-semibold border border-white/10 hover:border-violet-500/40 transition-all cursor-pointer"
           >
-            <Printer className="h-4 w-4 text-[#4ade80]" />
+            <Printer className="h-4 w-4 text-violet-400" />
             <span>Download PDF</span>
           </button>
         </div>
@@ -512,7 +512,7 @@ export default function ResumeMakerDashboard() {
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
                   placeholder="e.g. Backend Developer Intern"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-[#4ade80]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 font-sans"
                 />
               </div>
 
@@ -521,7 +521,7 @@ export default function ResumeMakerDashboard() {
                 <select
                   value={template}
                   onChange={(e) => setTemplate(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#161820] border border-white/10 text-white focus:outline-none focus:border-[#4ade80] cursor-pointer"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 cursor-pointer"
                 >
                   <option value="classic_ats">Single-Column Classic ATS (Best for Large Companies)</option>
                   <option value="modern_tech">Modern Technical (Silicon Valley Standard)</option>
@@ -533,16 +533,16 @@ export default function ResumeMakerDashboard() {
               <button
                 onClick={handleCompile}
                 disabled={compiling}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#4ade80] hover:bg-[#3ec772] text-[#090b0e] font-bold text-xs shadow-lg shadow-[#4ade80]/20 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
+                className="gradient-button w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold text-xs shadow-lg shadow-violet-600/30 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
               >
                 {compiling ? (
                   <>
-                    <RefreshCw className="h-4 w-4 animate-spin" />
+                    <RefreshCw className="h-4 w-4 animate-spin text-violet-300" />
                     <span>Synthesizing Verified Proofs...</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles className="h-4 w-4" />
+                    <Sparkles className="h-4 w-4 text-violet-300" />
                     <span>Compile Role-Targeted Resume</span>
                   </>
                 )}
@@ -551,15 +551,15 @@ export default function ResumeMakerDashboard() {
           </div>
 
           {/* Compiled Resume Live Preview Card */}
-          <div className="slate-card slate-card-hover rounded-3xl p-5 space-y-3.5 bg-[#111317]">
+          <div className="rounded-3xl p-5 space-y-3.5 bg-[#0c0e15] border border-white/10 shadow-xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Eye className="h-4 w-4 text-[#4ade80]" />
+                <Eye className="h-4 w-4 text-violet-400" />
                 <span className="text-xs font-bold text-white tracking-wide">Live Resume Preview</span>
               </div>
               <button
                 onClick={handlePrintPdf}
-                className="text-[11px] font-mono text-[#4ade80] hover:underline flex items-center gap-1 cursor-pointer"
+                className="text-[11px] font-mono text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1 cursor-pointer"
               >
                 <Download className="h-3 w-3" /> Export PDF
               </button>
@@ -648,8 +648,8 @@ export default function ResumeMakerDashboard() {
             </div>
 
             {/* Current Active Preview */}
-            <div className="flex items-center gap-4 p-3.5 rounded-2xl bg-[#161820] border border-white/[0.08]">
-              <div className="h-16 w-16 rounded-2xl overflow-hidden border border-[#4ade80] shadow-md shrink-0">
+            <div className="flex items-center gap-4 p-3.5 rounded-2xl bg-[#090b10] border border-white/[0.08]">
+              <div className="h-16 w-16 rounded-2xl overflow-hidden border border-violet-400 shadow-md shrink-0">
                 <img src={candidatePhoto} alt="Current Preview" className="h-full w-full object-cover" />
               </div>
               <div className="space-y-1">
@@ -675,9 +675,9 @@ export default function ResumeMakerDashboard() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full py-3 px-4 rounded-2xl border-2 border-dashed border-white/15 hover:border-[#4ade80] bg-[#161820]/60 hover:bg-[#161820] flex items-center justify-center gap-2 text-xs font-semibold text-zinc-300 hover:text-white transition-all cursor-pointer"
+                className="w-full py-3 px-4 rounded-2xl border-2 border-dashed border-white/15 hover:border-violet-500 bg-[#090b10]/60 hover:bg-[#090b10] flex items-center justify-center gap-2 text-xs font-semibold text-zinc-300 hover:text-white transition-all cursor-pointer"
               >
-                <Upload className="h-4 w-4 text-[#4ade80]" />
+                <Upload className="h-4 w-4 text-violet-400" />
                 Select Photo from Computer (PNG / JPG / WEBP)
               </button>
             </div>
@@ -694,7 +694,7 @@ export default function ResumeMakerDashboard() {
                     onClick={() => handleSelectPreset(av.url)}
                     className={`aspect-square rounded-2xl overflow-hidden border-2 transition-all cursor-pointer relative group ${
                       candidatePhoto === av.url
-                        ? "border-[#4ade80] ring-2 ring-[#4ade80]/40 scale-105"
+                        ? "border-violet-500 ring-2 ring-violet-500/40 scale-105"
                         : "border-transparent opacity-60 hover:opacity-100 hover:border-white/40"
                     }`}
                     title={av.label}
@@ -716,12 +716,12 @@ export default function ResumeMakerDashboard() {
                   placeholder="https://... photo link"
                   value={customPhotoUrl}
                   onChange={(e) => setCustomPhotoUrl(e.target.value)}
-                  className="flex-1 px-3.5 py-2 rounded-xl bg-[#161820] border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#4ade80]"
+                  className="flex-1 px-3.5 py-2 rounded-xl bg-[#090b10] border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-violet-500"
                 />
                 <button
                   type="button"
                   onClick={handleApplyCustomUrl}
-                  className="px-4 py-2 rounded-xl bg-[#4ade80] hover:bg-[#3ec772] text-[#090b0e] text-xs font-bold transition-all cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold transition-all cursor-pointer shadow-md"
                 >
                   Apply
                 </button>

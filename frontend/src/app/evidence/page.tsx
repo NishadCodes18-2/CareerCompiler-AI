@@ -95,7 +95,7 @@ export default function EvidencePage() {
   if (loading) {
     return (
       <div className="flex h-96 flex-col items-center justify-center gap-3">
-        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[#ff5733] border-t-transparent shadow-lg shadow-[#ff5733]/30"></div>
+        <div className="h-9 w-9 animate-spin rounded-full border-2 border-violet-500 border-t-transparent shadow-lg shadow-violet-500/30"></div>
         <span className="font-mono text-xs text-zinc-400">Loading Proof Graph Topology...</span>
       </div>
     );
@@ -103,16 +103,16 @@ export default function EvidencePage() {
 
   return (
     <div className="space-y-8 pb-16">
-      {/* Header Banner - Borea AI Horizon Glow */}
+      {/* Header Banner */}
       <div className="relative rounded-2xl p-6 bg-gradient-to-r from-[#0c0e15] via-[#121622] to-[#0c0e15] border border-white/10 shadow-2xl overflow-hidden">
-        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-[#ff5733]/10 blur-3xl pointer-events-none rounded-full"></div>
-        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-[#bef264]/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-violet-600/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-emerald-500/10 blur-3xl pointer-events-none rounded-full"></div>
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#bef264] animate-pulse"></span>
+              <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 GRAPH REPOSITORY
               </span>
               <span className="pill-badge bg-white/5 text-zinc-400 border border-white/10">
@@ -129,14 +129,14 @@ export default function EvidencePage() {
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#ff5733] to-[#ff7849] hover:from-[#ff6b4a] hover:to-[#ff8d63] text-white text-xs font-semibold shadow-lg shadow-[#ff5733]/25 transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98] self-start lg:self-auto"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-semibold shadow-lg shadow-violet-600/25 transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98] self-start lg:self-auto"
           >
             <Plus className="h-4 w-4" /> Add Evidence Item
           </button>
         </div>
       </div>
 
-      {/* Summary KPI Badges - Haulix Telemetry Style */}
+      {/* Summary KPI Badges */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="card-glass rounded-2xl p-4.5 space-y-1">
           <span className="text-[10px] font-mono text-zinc-500 tracking-wider uppercase font-semibold">TOTAL EVIDENCE ITEMS</span>
@@ -144,15 +144,15 @@ export default function EvidencePage() {
           <div className="text-[11px] text-zinc-400 font-mono">Linked into Career Graph</div>
         </div>
 
-        <div className="card-glass rounded-2xl p-4.5 space-y-1 border-[#bef264]/30">
-          <span className="text-[10px] font-mono text-[#bef264] tracking-wider uppercase font-semibold">CRYPTOGRAPHICALLY VERIFIED</span>
-          <div className="text-2xl font-bold text-[#bef264] tracking-tight">{graphData?.summary?.verified_count || 0}</div>
+        <div className="card-glass rounded-2xl p-4.5 space-y-1 border-emerald-500/30">
+          <span className="text-[10px] font-mono text-emerald-400 tracking-wider uppercase font-semibold">CRYPTOGRAPHICALLY VERIFIED</span>
+          <div className="text-2xl font-bold text-emerald-400 tracking-tight">{graphData?.summary?.verified_count || 0}</div>
           <div className="text-[11px] text-zinc-400 font-mono">100% Audit Confidence</div>
         </div>
 
-        <div className="card-glass rounded-2xl p-4.5 space-y-1 border-[#ff7849]/30">
-          <span className="text-[10px] font-mono text-[#ff7849] tracking-wider uppercase font-semibold">USER CONFIRMED</span>
-          <div className="text-2xl font-bold text-[#ff7849] tracking-tight">{graphData?.summary?.user_confirmed_count || 0}</div>
+        <div className="card-glass rounded-2xl p-4.5 space-y-1 border-violet-500/30">
+          <span className="text-[10px] font-mono text-violet-400 tracking-wider uppercase font-semibold">USER CONFIRMED</span>
+          <div className="text-2xl font-bold text-violet-400 tracking-tight">{graphData?.summary?.user_confirmed_count || 0}</div>
           <div className="text-[11px] text-zinc-400 font-mono">Inline Reviewed Claims</div>
         </div>
 
@@ -167,7 +167,7 @@ export default function EvidencePage() {
       <div className="card-glass rounded-2xl p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
           <div className="flex items-center gap-2.5">
-            <div className="h-7 w-7 rounded-lg bg-[#bef264]/15 text-[#bef264] flex items-center justify-center">
+            <div className="h-7 w-7 rounded-lg bg-violet-500/15 text-violet-400 flex items-center justify-center">
               <Network className="h-4 w-4" />
             </div>
             <div>
@@ -184,9 +184,9 @@ export default function EvidencePage() {
         <div className="p-6 rounded-xl bg-[#080a10] border border-white/5 min-h-[170px] flex flex-wrap gap-2.5 items-center justify-center">
           {graphData?.nodes?.map((node: any) => {
             let bg = "bg-[#141824] text-zinc-300 border-white/10";
-            if (node.type === "root") bg = "bg-[#ff5733]/20 text-[#ff7849] border-[#ff5733]/40 font-bold shadow-md shadow-[#ff5733]/10";
+            if (node.type === "root") bg = "bg-violet-600/20 text-violet-300 border-violet-500/40 font-bold shadow-md shadow-violet-600/10";
             if (node.type === "project") bg = "bg-[#181d2c] text-indigo-300 border-indigo-500/30";
-            if (node.type === "evidence") bg = "bg-[#bef264]/15 text-[#bef264] border-[#bef264]/30 font-semibold";
+            if (node.type === "evidence") bg = "bg-emerald-500/15 text-emerald-400 border-emerald-500/30 font-semibold";
             if (node.type === "technology") bg = "bg-white/5 text-zinc-400 border-white/10";
 
             return (
@@ -214,7 +214,7 @@ export default function EvidencePage() {
                 onClick={() => setFilterStatus(st)}
                 className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
                   filterStatus === st
-                    ? "bg-[#ff5733] text-white font-semibold shadow-md shadow-[#ff5733]/20"
+                    ? "gradient-button text-white font-semibold shadow-md shadow-violet-600/20"
                     : "text-zinc-400 hover:text-white bg-white/5 border border-white/10 hover:border-white/20"
                 }`}
               >
@@ -234,17 +234,17 @@ export default function EvidencePage() {
               <div
                 key={ev.id}
                 onClick={() => setSelectedEv(ev)}
-                className="card-glass rounded-2xl p-5 hover:border-[#bef264]/40 transition-all cursor-pointer space-y-3 relative group"
+                className="card-glass rounded-2xl p-5 hover:border-violet-500/40 transition-all cursor-pointer space-y-3 relative group"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono font-bold text-[#ff7849]">{ev.source_identifier}</span>
+                    <span className="text-xs font-mono font-bold text-violet-400">{ev.source_identifier}</span>
                     <span
                       className={`pill-badge text-[10px] ${
                         isVerified
-                          ? "bg-[#bef264]/15 text-[#bef264] border-[#bef264]/30"
+                          ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/30 font-semibold"
                           : isUserConfirmed
-                          ? "bg-[#ff5733]/15 text-[#ff7849] border-[#ff5733]/30"
+                          ? "bg-violet-500/15 text-violet-300 border-violet-500/30 font-medium"
                           : "bg-amber-500/15 text-amber-300 border-amber-500/30"
                       }`}
                     >
@@ -255,14 +255,14 @@ export default function EvidencePage() {
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-semibold text-white group-hover:text-[#bef264] transition-colors">
+                  <h4 className="text-sm font-semibold text-white group-hover:text-violet-300 transition-colors">
                     {ev.title}
                   </h4>
                   <p className="text-xs text-zinc-400 mt-1 line-clamp-2 leading-relaxed">{ev.description}</p>
                 </div>
 
                 {ev.snippet && (
-                  <div className="p-2.5 rounded-xl bg-[#08090f] border border-white/5 text-[11px] font-mono text-[#bef264] line-clamp-2">
+                  <div className="p-2.5 rounded-xl bg-[#08090f] border border-white/5 text-[11px] font-mono text-emerald-400 line-clamp-2">
                     <span className="text-zinc-600 block text-[9px]">// Log trace</span>
                     {ev.snippet}
                   </div>
@@ -275,7 +275,7 @@ export default function EvidencePage() {
                       target="_blank"
                       rel="noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="text-[#ff7849] hover:underline flex items-center gap-1"
+                      className="text-violet-400 hover:underline flex items-center gap-1"
                     >
                       <ExternalLink className="h-3 w-3" /> View Source URL
                     </a>
@@ -310,14 +310,14 @@ export default function EvidencePage() {
             <div className="space-y-3 text-xs">
               <p className="text-zinc-300 leading-relaxed">{selectedEv.description}</p>
               {selectedEv.snippet && (
-                <div className="p-3.5 rounded-xl bg-[#08090f] border border-white/10 font-mono text-[#bef264] whitespace-pre-wrap max-h-48 overflow-y-auto">
+                <div className="p-3.5 rounded-xl bg-[#08090f] border border-white/10 font-mono text-emerald-400 whitespace-pre-wrap max-h-48 overflow-y-auto">
                   <span className="text-zinc-500 block text-[9px] mb-1">// Ground-Truth Payload</span>
                   {selectedEv.snippet}
                 </div>
               )}
               {selectedEv.source_url && (
                 <p className="text-zinc-400 font-mono">
-                  Source: <a href={selectedEv.source_url} target="_blank" rel="noreferrer" className="text-[#ff7849] hover:underline">{selectedEv.source_url}</a>
+                  Source: <a href={selectedEv.source_url} target="_blank" rel="noreferrer" className="text-violet-400 hover:underline">{selectedEv.source_url}</a>
                 </p>
               )}
             </div>
@@ -327,13 +327,13 @@ export default function EvidencePage() {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleUpdateStatus(selectedEv.id, "VERIFIED")}
-                  className="px-3 py-1.5 rounded-xl bg-[#bef264]/20 hover:bg-[#bef264]/30 text-[#bef264] border border-[#bef264]/40 text-xs font-semibold cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border border-emerald-500/40 text-xs font-semibold cursor-pointer"
                 >
                   Verify
                 </button>
                 <button
                   onClick={() => handleUpdateStatus(selectedEv.id, "USER_CONFIRMED")}
-                  className="px-3 py-1.5 rounded-xl bg-[#ff5733]/20 hover:bg-[#ff5733]/30 text-[#ff7849] border border-[#ff5733]/40 text-xs font-semibold cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 border border-violet-500/40 text-xs font-semibold cursor-pointer"
                 >
                   Confirm
                 </button>
@@ -371,7 +371,7 @@ export default function EvidencePage() {
                   placeholder="e.g. Scapy Packet Sniffer Benchmark Report"
                   value={newEv.title}
                   onChange={(e) => setNewEv({ ...newEv, title: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#121624] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#121624] border border-white/10 text-white focus:outline-none focus:border-violet-500"
                 />
               </div>
               <div>
@@ -379,7 +379,7 @@ export default function EvidencePage() {
                 <select
                   value={newEv.evidence_type}
                   onChange={(e) => setNewEv({ ...newEv, evidence_type: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#121624] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#121624] border border-white/10 text-white focus:outline-none focus:border-violet-500"
                 >
                   <option value="github_repo">GitHub Repository</option>
                   <option value="source_code">Source Code Snippet</option>
@@ -395,7 +395,7 @@ export default function EvidencePage() {
                   placeholder="https://github.com/... or internal log file"
                   value={newEv.source_url}
                   onChange={(e) => setNewEv({ ...newEv, source_url: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#121624] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#121624] border border-white/10 text-white focus:outline-none focus:border-violet-500"
                 />
               </div>
               <div>
@@ -405,7 +405,7 @@ export default function EvidencePage() {
                   placeholder="Context describing what this evidence verifies..."
                   value={newEv.description}
                   onChange={(e) => setNewEv({ ...newEv, description: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#121624] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2 rounded-xl bg-[#121624] border border-white/10 text-white focus:outline-none focus:border-violet-500"
                 />
               </div>
               <div>
@@ -415,7 +415,7 @@ export default function EvidencePage() {
                   placeholder="Exact terminal log or source snippet..."
                   value={newEv.snippet}
                   onChange={(e) => setNewEv({ ...newEv, snippet: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#121624] border border-white/10 text-white font-mono focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2 rounded-xl bg-[#121624] border border-white/10 text-white font-mono focus:outline-none focus:border-violet-500"
                 />
               </div>
               <div className="pt-2 flex justify-end gap-2.5">
@@ -428,7 +428,7 @@ export default function EvidencePage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#ff5733] to-[#ff7849] text-white font-semibold shadow-md shadow-[#ff5733]/25 cursor-pointer"
+                  className="gradient-button px-5 py-2 rounded-xl text-white font-semibold shadow-md shadow-violet-600/25 cursor-pointer"
                 >
                   Create Evidence
                 </button>

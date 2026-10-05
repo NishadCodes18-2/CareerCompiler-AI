@@ -211,28 +211,28 @@ export default function HeroSection({ onActionClick, onWatchDemo }: HeroSectionP
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span className="tracking-wide">ATS 2025 Ready · Cryptographic Proof · IIT & FAANG Verified</span>
+            <span className="tracking-wide">100% Free &amp; Open Source · AST Cryptographic Proof · Zero Hallucinations</span>
           </span>
         </div>
 
         {/* Hero Headline with Animated Words */}
         <div className="relative mb-6 mx-auto max-w-5xl">
           <h1 className="text-[clamp(2.5rem,6.5vw,5.2rem)] font-sans font-black leading-[1.05] tracking-tight text-white">
-            <span className="block">Win interviews faster.</span>
+            <span className="block">Compile your code into</span>
             <span className="block mt-1">
               <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-indigo-300 to-emerald-300">
                 <span className="inline-block animate-char-in whitespace-nowrap">
-                  From verified evidence.
+                  undeniable career proof.
                 </span>
               </span>
             </span>
-            <span className="block text-violet-500 mt-1">All in one platform.</span>
+            <span className="block text-violet-500 mt-1">Free for every engineer.</span>
           </h1>
         </div>
 
         {/* Subtitle */}
         <p className="text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8 font-normal">
-          Connect your GitHub, repositories, and technical projects – CareerCompiler AI synthesizes ATS-crushing resumes with quantified STAR impact. Plus real-time evidence graph, interview defense, and instant PDF compilation in one app.
+          CareerCompiler AI parses your real GitHub commits, verifies Abstract Syntax Tree metrics, and renders ATS-crushing LaTeX resumes with proven STAR impact. 100% free, zero password signup, zero fake claims.
         </p>
 
         {/* Email Unlock & Quick Access Bar */}
@@ -245,10 +245,10 @@ export default function HeroSection({ onActionClick, onWatchDemo }: HeroSectionP
                 </div>
                 <div className="min-w-0">
                   <span className="text-xs font-bold text-white block truncate">
-                    Studio Unlocked: {savedEmail}
+                    Studio Active: {savedEmail}
                   </span>
                   <span className="text-[11px] text-emerald-400 font-mono">
-                    All FAANG templates & AI models active
+                    100% Free Access &bull; All LaTeX &amp; AI tools unlocked
                   </span>
                 </div>
               </div>
@@ -274,7 +274,7 @@ export default function HeroSection({ onActionClick, onWatchDemo }: HeroSectionP
                     setEmailInput(e.target.value);
                     if (unlockError) setUnlockError("");
                   }}
-                  placeholder="Enter your email to unlock AI studio..."
+                  placeholder="Enter your email to enter workspace (e.g. dev@domain.com)..."
                   className="w-full pl-4 pr-3 py-3 text-sm rounded-xl bg-transparent text-white placeholder-slate-400 outline-none focus:ring-1 focus:ring-violet-500 transition-all"
                 />
               </div>
@@ -284,10 +284,10 @@ export default function HeroSection({ onActionClick, onWatchDemo }: HeroSectionP
                 className="gradient-button w-full sm:w-auto px-6 py-3 rounded-xl text-white font-bold text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2 cursor-pointer shadow-lg shrink-0 disabled:opacity-50"
               >
                 {submitting ? (
-                  <span>Unlocking...</span>
+                  <span>Entering...</span>
                 ) : (
                   <>
-                    <span>Unlock Studio</span>
+                    <span>Enter Free Studio</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </>
                 )}
@@ -312,24 +312,27 @@ export default function HeroSection({ onActionClick, onWatchDemo }: HeroSectionP
         {/* Action Buttons */}
         <div className="relative z-20 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto w-full">
           <button
-            onClick={() => onActionClick("/signup")}
+            onClick={() => onActionClick("/resume")}
             className="gradient-button inline-flex items-center justify-center rounded-[11px] text-white font-sans font-bold px-7 py-3 text-sm w-full sm:w-auto gap-2 group cursor-pointer"
           >
-            Start 7 days free
+            Launch Free Studio
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </button>
           <button
-            onClick={onWatchDemo}
+            onClick={() => {
+              const el = document.getElementById("demo");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 font-semibold rounded-xl text-sm transition-all hover:scale-[1.02] w-full sm:w-auto cursor-pointer backdrop-blur-sm"
           >
-            <Play className="w-4 h-4 text-violet-400 fill-violet-400/30" />
-            Watch Demo
+            <Sparkles className="w-4 h-4 text-violet-400" />
+            Try Live Demo
           </button>
         </div>
 
         {/* Trust subtext */}
         <p className="mt-4 text-xs text-slate-400 font-mono">
-          No credit card required · Share via recruiter link · Direct PDF & LaTeX export
+          100% Free Forever · No Account Creation Required · Open Source on GitHub
         </p>
 
         {/* Social Proof Channels */}

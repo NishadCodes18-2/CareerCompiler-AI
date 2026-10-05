@@ -127,23 +127,23 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="flex h-96 flex-col items-center justify-center gap-3">
-        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[#ff5733] border-t-transparent shadow-lg shadow-[#ff5733]/30"></div>
-        <span className="font-mono text-xs text-zinc-400">Loading Master Profile Repository...</span>
+        <div className="h-9 w-9 animate-spin rounded-full border-2 border-violet-500 border-t-transparent shadow-lg shadow-violet-500/30"></div>
+        <span className="font-mono text-xs text-slate-400">Loading Master Profile Repository...</span>
       </div>
     );
   }
 
   return (
     <div className="space-y-8 pb-16">
-      {/* Header Banner - Borea AI Horizon Glow */}
+      {/* Header Banner - Luxury Dark Horizon Glow */}
       <div className="relative rounded-2xl p-6 bg-gradient-to-r from-[#0c0e15] via-[#121622] to-[#0c0e15] border border-white/10 shadow-2xl overflow-hidden">
-        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-[#ff5733]/10 blur-3xl pointer-events-none rounded-full"></div>
-        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-[#bef264]/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-violet-600/15 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-emerald-500/10 blur-3xl pointer-events-none rounded-full"></div>
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
             {/* Candidate Photo with change badge */}
-            <div className="relative h-20 w-20 rounded-2xl overflow-hidden border-2 border-[#4ade80] shadow-xl shrink-0 group">
+            <div className="relative h-20 w-20 rounded-2xl overflow-hidden border-2 border-violet-400 shadow-xl shrink-0 group">
               <img
                 src={typeof window !== "undefined" && localStorage.getItem("careercompiler_avatar") || "/avatars/candidate.jpg"}
                 alt="Candidate"
@@ -176,33 +176,33 @@ export default function ProfilePage() {
 
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="pill-badge bg-[#4ade80]/15 text-[#4ade80] border border-[#4ade80]/30 text-[10px] font-bold">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#4ade80] animate-pulse"></span>
+                <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                   CANONICAL REPOSITORY
                 </span>
-                <span className="pill-badge bg-white/5 text-zinc-400 border border-white/10 text-[10px]">
+                <span className="pill-badge bg-white/5 text-slate-400 border border-white/10 text-[10px]">
                   PHOTO VERIFIED
                 </span>
               </div>
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
                 {profile?.headline || "Master Career Profile"}
               </h1>
-              <p className="text-xs text-zinc-400 max-w-xl">
+              <p className="text-xs text-slate-400 max-w-xl">
                 One canonical source of truth powering your self-training resume compiler.
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="pill-badge bg-white/5 text-zinc-300 border border-white/10 font-mono text-xs py-1.5 px-3">
-              <ShieldCheck className="h-3.5 w-3.5 text-[#4ade80] mr-1.5" />
+            <span className="pill-badge bg-white/5 text-slate-300 border border-white/10 font-mono text-xs py-1.5 px-3">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-400 mr-1.5" />
               {profile?.skills?.length || 0} Skills &bull; {profile?.projects?.length || 0} Projects
             </span>
           </div>
         </div>
       </div>
 
-      {/* Tabs - Haulix style capsules */}
+      {/* Tabs */}
       <div className="flex flex-wrap gap-2 border-b border-white/5 pb-3">
         {[
           { id: "projects", label: "Projects", icon: Code2, count: profile?.projects?.length },
@@ -220,14 +220,14 @@ export default function ProfilePage() {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                 isActive
-                  ? "bg-[#ff5733] text-white font-semibold shadow-md shadow-[#ff5733]/25"
-                  : "bg-white/5 text-zinc-400 hover:text-white border border-white/10 hover:border-white/20"
+                  ? "bg-violet-600 text-white font-semibold shadow-md shadow-violet-600/30 border border-violet-500/40"
+                  : "bg-white/5 text-slate-400 hover:text-white border border-white/10 hover:border-white/20"
               }`}
             >
               <Icon className="h-3.5 w-3.5" />
               <span>{tab.label}</span>
               {tab.count !== undefined && (
-                <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${isActive ? "bg-black/30 text-white" : "bg-white/10 text-zinc-300"}`}>
+                <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${isActive ? "bg-black/30 text-white" : "bg-white/10 text-slate-300"}`}>
                   {tab.count}
                 </span>
               )}
@@ -240,55 +240,55 @@ export default function ProfilePage() {
       {activeTab === "projects" && (
         <div className="space-y-6">
           {/* Add project */}
-          <div className="card-glass rounded-2xl p-6 space-y-4">
+          <div className="rounded-2xl p-6 space-y-4 bg-[#0c0e15] border border-white/10 shadow-xl">
             <h3 className="text-sm font-bold text-white flex items-center gap-2 tracking-wide">
-              <Plus className="h-4 w-4 text-[#bef264]" /> Add Technical Project
+              <Plus className="h-4 w-4 text-violet-400" /> Add Technical Project
             </h3>
             <form onSubmit={handleAddProject} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div>
-                <label className="block text-zinc-400 font-mono text-[11px] mb-1">Project Title</label>
+                <label className="block text-slate-400 font-mono text-[11px] mb-1">Project Title</label>
                 <input
                   type="text"
                   placeholder="e.g. Distributed Key-Value Store"
                   value={newProject.title}
                   onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
                 />
               </div>
               <div>
-                <label className="block text-zinc-400 font-mono text-[11px] mb-1">Repository URL</label>
+                <label className="block text-slate-400 font-mono text-[11px] mb-1">Repository URL</label>
                 <input
                   type="text"
                   placeholder="e.g. https://github.com/user/repo"
                   value={newProject.repository_url}
                   onChange={(e) => setNewProject({ ...newProject, repository_url: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-zinc-400 font-mono text-[11px] mb-1">Technologies (comma separated)</label>
+                <label className="block text-slate-400 font-mono text-[11px] mb-1">Technologies (comma separated)</label>
                 <input
                   type="text"
                   placeholder="Python, Docker, Redis, Raft"
                   value={newProject.technologies}
                   onChange={(e) => setNewProject({ ...newProject, technologies: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-zinc-400 font-mono text-[11px] mb-1">Architecture Summary</label>
+                <label className="block text-slate-400 font-mono text-[11px] mb-1">Architecture Summary</label>
                 <textarea
                   rows={2}
                   placeholder="Short technical description of what you architected and benchmarked..."
                   value={newProject.description}
                   onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
                 />
               </div>
               <div className="sm:col-span-2">
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#ff5733] to-[#ff7849] text-white font-semibold shadow-md shadow-[#ff5733]/25 cursor-pointer"
+                  className="gradient-button px-5 py-2.5 rounded-xl text-white font-bold text-xs shadow-md shadow-violet-600/25 cursor-pointer"
                 >
                   Save Project to Profile
                 </button>
@@ -326,7 +326,7 @@ export default function ProfilePage() {
 
                 <div className="flex flex-wrap gap-1.5 pt-2 border-t border-white/5">
                   {proj.technologies?.map((tech: string, idx: number) => (
-                    <span key={idx} className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-[#141824] text-[#bef264] border border-white/10">
+                    <span key={idx} className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-violet-500/10 text-violet-300 border border-violet-500/20">
                       {tech}
                     </span>
                   ))}
@@ -342,7 +342,7 @@ export default function ProfilePage() {
         <div className="space-y-6">
           <div className="card-glass rounded-2xl p-6 space-y-4">
             <h3 className="text-sm font-bold text-white flex items-center gap-2 tracking-wide">
-              <Plus className="h-4 w-4 text-[#bef264]" /> Add Technical Skill
+              <Plus className="h-4 w-4 text-violet-400" /> Add Technical Skill
             </h3>
             <form onSubmit={handleAddSkill} className="flex flex-wrap gap-3 text-xs">
               <input
@@ -350,12 +350,12 @@ export default function ProfilePage() {
                 placeholder="Skill Name (e.g. Go, PostgreSQL, Docker)"
                 value={newSkill.name}
                 onChange={(e) => setNewSkill({ ...newSkill, name: e.target.value })}
-                className="flex-1 min-w-[200px] px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                className="flex-1 min-w-[200px] px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
               />
               <select
                 value={newSkill.category}
                 onChange={(e) => setNewSkill({ ...newSkill, category: e.target.value })}
-                className="px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733] font-mono cursor-pointer"
+                className="px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-mono cursor-pointer"
               >
                 <option value="Languages">Languages</option>
                 <option value="Frameworks">Frameworks &amp; APIs</option>
@@ -365,7 +365,7 @@ export default function ProfilePage() {
               </select>
               <button
                 type="submit"
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#ff5733] to-[#ff7849] text-white font-semibold shadow-md shadow-[#ff5733]/25 cursor-pointer"
+                className="gradient-button px-5 py-2.5 rounded-xl text-white font-bold text-xs shadow-md shadow-violet-600/25 cursor-pointer"
               >
                 Add Skill
               </button>
@@ -382,7 +382,7 @@ export default function ProfilePage() {
                     <div className="flex items-center gap-2 text-[10px] text-zinc-400 mt-0.5 font-mono">
                       <span>{skill.category}</span>
                       <span>&bull;</span>
-                      <span className="text-[#bef264] flex items-center gap-1">
+                      <span className="text-emerald-400 flex items-center gap-1 font-semibold">
                         <CheckCircle2 className="h-3 w-3" /> Verified ({skill.source})
                       </span>
                     </div>
@@ -411,63 +411,63 @@ export default function ProfilePage() {
                   type="text"
                   value={profile?.headline || ""}
                   onChange={(e) => setProfile({ ...profile, headline: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
                 />
               </div>
               <div>
-                <label className="block text-zinc-400 font-mono text-[11px] mb-1">Target Role</label>
+                <label className="block text-slate-400 font-mono text-[11px] mb-1">Target Role</label>
                 <input
                   type="text"
                   value={profile?.target_role || ""}
                   onChange={(e) => setProfile({ ...profile, target_role: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
                 />
               </div>
               <div>
-                <label className="block text-zinc-400 font-mono text-[11px] mb-1">Email Contact</label>
+                <label className="block text-slate-400 font-mono text-[11px] mb-1">Email Contact</label>
                 <input
                   type="email"
                   value={profile?.email_contact || ""}
                   onChange={(e) => setProfile({ ...profile, email_contact: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
                 />
               </div>
               <div>
-                <label className="block text-zinc-400 font-mono text-[11px] mb-1">Phone</label>
+                <label className="block text-slate-400 font-mono text-[11px] mb-1">Phone</label>
                 <input
                   type="text"
                   value={profile?.phone || ""}
                   onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
                 />
               </div>
               <div>
-                <label className="block text-zinc-400 font-mono text-[11px] mb-1">GitHub URL</label>
+                <label className="block text-slate-400 font-mono text-[11px] mb-1">GitHub URL</label>
                 <input
                   type="text"
                   value={profile?.github || ""}
                   onChange={(e) => setProfile({ ...profile, github: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
                 />
               </div>
               <div>
-                <label className="block text-zinc-400 font-mono text-[11px] mb-1">LinkedIn URL</label>
+                <label className="block text-slate-400 font-mono text-[11px] mb-1">LinkedIn URL</label>
                 <input
                   type="text"
                   value={profile?.linkedin || ""}
                   onChange={(e) => setProfile({ ...profile, linkedin: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-zinc-400 font-mono text-[11px] mb-1">Technical Summary</label>
+              <label className="block text-slate-400 font-mono text-[11px] mb-1">Technical Summary</label>
               <textarea
                 rows={3}
                 value={profile?.summary || ""}
                 onChange={(e) => setProfile({ ...profile, summary: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
               />
             </div>
 
@@ -477,9 +477,9 @@ export default function ProfilePage() {
                   type="checkbox"
                   checked={profile?.student_mode}
                   onChange={(e) => setProfile({ ...profile, student_mode: e.target.checked })}
-                  className="rounded border-white/20 bg-[#090b10] text-[#ff5733] focus:ring-0"
+                  className="rounded border-white/20 bg-[#090b10] text-violet-600 focus:ring-0"
                 />
-                <span className="text-zinc-300">Enable Student / Fresher Mode (prioritizes Education &amp; Projects over corporate experience)</span>
+                <span className="text-slate-300 text-xs">Enable Student / Fresher Mode (prioritizes Education &amp; Projects over corporate experience)</span>
               </label>
             </div>
 
@@ -487,12 +487,12 @@ export default function ProfilePage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#ff5733] to-[#ff7849] text-white font-semibold text-xs shadow-md shadow-[#ff5733]/25 cursor-pointer"
+                className="gradient-button flex items-center gap-2 px-5 py-2.5 rounded-xl text-white font-bold text-xs shadow-md shadow-violet-600/25 cursor-pointer disabled:opacity-50"
               >
                 <Save className="h-3.5 w-3.5" />
                 {saving ? "Saving..." : "Save Master Profile"}
               </button>
-              {saveMessage && <span className="text-xs text-[#bef264] font-medium font-mono">{saveMessage}</span>}
+              {saveMessage && <span className="text-xs text-emerald-400 font-medium font-mono">{saveMessage}</span>}
             </div>
           </form>
         </div>
@@ -506,10 +506,10 @@ export default function ProfilePage() {
               <div className="flex items-start justify-between">
                 <div>
                   <h4 className="text-sm font-bold text-white">{exp.position}</h4>
-                  <p className="text-xs text-[#ff7849]">{exp.company} &bull; {exp.location}</p>
+                  <p className="text-xs text-violet-400 font-medium">{exp.company} &bull; {exp.location}</p>
                   <p className="text-[11px] text-zinc-500 font-mono mt-0.5">{exp.start_date} – {exp.end_date}</p>
                 </div>
-                <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30 text-[10px]">
+                <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-semibold">
                   {exp.is_internship ? "INTERNSHIP" : "EXPERIENCE"}
                 </span>
               </div>
@@ -534,7 +534,7 @@ export default function ProfilePage() {
               <div className="flex items-start justify-between">
                 <div>
                   <h4 className="text-sm font-bold text-white">{edu.institution}</h4>
-                  <p className="text-xs text-[#ff7849]">{edu.degree} in {edu.field_of_study}</p>
+                  <p className="text-xs text-violet-400 font-medium">{edu.degree} in {edu.field_of_study}</p>
                   <p className="text-[11px] text-zinc-500 font-mono mt-0.5">{edu.start_date} – {edu.end_date} &bull; GPA: {edu.grade}</p>
                 </div>
                 <span className="pill-badge bg-white/5 text-zinc-300 text-[10px]">
@@ -561,7 +561,7 @@ export default function ProfilePage() {
               <div key={c.id} className="card-glass rounded-2xl p-4.5 space-y-1.5 hover:border-white/20 transition-all">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-white">{c.name}</span>
-                  <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30 text-[9px]">
+                  <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] font-semibold">
                     VERIFIED
                   </span>
                 </div>
@@ -577,7 +577,7 @@ export default function ProfilePage() {
               <div key={a.id} className="card-glass rounded-2xl p-4.5 space-y-1.5 hover:border-white/20 transition-all">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-white">{a.title}</span>
-                  <span className="pill-badge bg-[#ff5733]/15 text-[#ff7849] border border-[#ff5733]/30 text-[9px]">
+                  <span className="pill-badge bg-violet-500/15 text-violet-300 border border-violet-500/30 text-[9px] font-medium">
                     {a.category}
                   </span>
                 </div>

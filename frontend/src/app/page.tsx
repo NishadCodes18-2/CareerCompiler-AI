@@ -12,7 +12,6 @@ import UseCasesSection from "@/components/landing/UseCasesSection";
 import LiveDemoSection from "@/components/landing/LiveDemoSection";
 import RoiCalculatorSection from "@/components/landing/RoiCalculatorSection";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
-import PricingSection from "@/components/landing/PricingSection";
 import FaqSection from "@/components/landing/FaqSection";
 import LandingFooter from "@/components/landing/LandingFooter";
 import DemoVideoModal from "@/components/landing/DemoVideoModal";
@@ -78,10 +77,7 @@ export default function CoverLandingPage() {
         {/* 10. Reviews & Testimonials Infinite Marquee */}
         <TestimonialsSection />
 
-        {/* 11. Simple, Fair Pricing Matrix + Claude MCP Callout */}
-        <PricingSection onActionClick={handleActionClick} />
-
-        {/* 12. Frequently Asked Questions Accordion */}
+        {/* 11. Frequently Asked Questions Accordion */}
         <FaqSection />
       </main>
 

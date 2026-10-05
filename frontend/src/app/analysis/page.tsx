@@ -72,7 +72,7 @@ export default function AnalysisPage() {
   if (loading && !atsReport) {
     return (
       <div className="flex h-96 flex-col items-center justify-center gap-3">
-        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[#ff5733] border-t-transparent shadow-lg shadow-[#ff5733]/30"></div>
+        <div className="h-9 w-9 animate-spin rounded-full border-2 border-violet-500 border-t-transparent shadow-lg shadow-violet-500/30"></div>
         <span className="font-mono text-xs text-zinc-400">Running ATS Reverse Extraction Radar...</span>
       </div>
     );
@@ -80,16 +80,16 @@ export default function AnalysisPage() {
 
   return (
     <div className="space-y-8 pb-16">
-      {/* Header Banner - Borea AI Horizon Glow */}
+      {/* Header Banner */}
       <div className="relative rounded-2xl p-6 bg-gradient-to-r from-[#0c0e15] via-[#121622] to-[#0c0e15] border border-white/10 shadow-2xl overflow-hidden">
-        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-[#ff5733]/10 blur-3xl pointer-events-none rounded-full"></div>
-        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-[#bef264]/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-violet-600/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-emerald-500/10 blur-3xl pointer-events-none rounded-full"></div>
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#bef264] animate-pulse"></span>
+              <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 QUALITY ASSURANCE
               </span>
               <span className="pill-badge bg-white/5 text-zinc-400 border border-white/10">
@@ -111,7 +111,7 @@ export default function AnalysisPage() {
               <select
                 value={selectedResumeId}
                 onChange={(e) => handleResumeChange(e.target.value)}
-                className="px-4 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-xs text-white focus:outline-none focus:border-[#ff5733] font-mono cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-xs text-white focus:outline-none focus:border-violet-500 font-mono cursor-pointer"
               >
                 {resumes.map((r) => (
                   <option key={r.id} value={r.id}>
@@ -124,13 +124,13 @@ export default function AnalysisPage() {
         </div>
       </div>
 
-      {/* Navigation Tabs - Haulix style capsules */}
+      {/* Navigation Tabs */}
       <div className="flex flex-wrap gap-2.5 border-b border-white/5 pb-3">
         <button
           onClick={() => setActiveTab("ats")}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
             activeTab === "ats"
-              ? "bg-[#ff5733] text-white shadow-lg shadow-[#ff5733]/25"
+              ? "gradient-button text-white shadow-lg shadow-violet-600/25"
               : "bg-white/5 text-zinc-400 hover:text-white border border-white/10 hover:border-white/20"
           }`}
         >
@@ -141,7 +141,7 @@ export default function AnalysisPage() {
           onClick={() => setActiveTab("recruiter")}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
             activeTab === "recruiter"
-              ? "bg-[#ff5733] text-white shadow-lg shadow-[#ff5733]/25"
+              ? "gradient-button text-white shadow-lg shadow-violet-600/25"
               : "bg-white/5 text-zinc-400 hover:text-white border border-white/10 hover:border-white/20"
           }`}
         >
@@ -152,7 +152,7 @@ export default function AnalysisPage() {
           onClick={() => setActiveTab("technical")}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
             activeTab === "technical"
-              ? "bg-[#ff5733] text-white shadow-lg shadow-[#ff5733]/25"
+              ? "gradient-button text-white shadow-lg shadow-violet-600/25"
               : "bg-white/5 text-zinc-400 hover:text-white border border-white/10 hover:border-white/20"
           }`}
         >
@@ -164,11 +164,11 @@ export default function AnalysisPage() {
       {/* TAB 1: ATS REVERSE PARSER TEST */}
       {activeTab === "ats" && atsReport && (
         <div className="space-y-6">
-          {/* Status KPI Row - Haulix Telemetry Style */}
+          {/* Status KPI Row */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="card-glass rounded-2xl p-5 space-y-1.5 border-[#bef264]/30">
+            <div className="card-glass rounded-2xl p-5 space-y-1.5 border-emerald-500/30">
               <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider font-semibold">OVERALL ATS STATUS</span>
-              <div className="text-2xl font-bold text-[#bef264] flex items-center gap-2">
+              <div className="text-2xl font-bold text-emerald-400 flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5" /> {atsReport.overall_status}
               </div>
               <p className="text-[11px] text-zinc-400">{atsReport.reading_order_status}</p>
@@ -182,7 +182,7 @@ export default function AnalysisPage() {
 
             <div className="card-glass rounded-2xl p-5 space-y-1.5">
               <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider font-semibold">CONTACT &amp; LINKS DETECTED</span>
-              <div className="text-2xl font-bold text-[#ff7849] font-mono">{atsReport.links_detected}</div>
+              <div className="text-2xl font-bold text-violet-400 font-mono">{atsReport.links_detected}</div>
               <p className="text-[11px] text-zinc-400">Email, Phone, GitHub, LinkedIn</p>
             </div>
           </div>
@@ -195,7 +195,7 @@ export default function AnalysisPage() {
                 <div key={idx} className="p-3.5 rounded-xl bg-[#090b10] border border-white/10 flex items-center justify-between">
                   <span className="capitalize text-zinc-300 font-medium">{key}</span>
                   {val ? (
-                    <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30 text-[10px] font-bold">
+                    <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">
                       <CheckCircle2 className="h-3 w-3" /> PASS
                     </span>
                   ) : (
@@ -218,7 +218,7 @@ export default function AnalysisPage() {
                 Deterministic Regex Parser
               </span>
             </div>
-            <pre className="p-4 rounded-xl bg-[#080a10] border border-white/5 text-[11px] font-mono text-[#bef264] whitespace-pre-wrap max-h-64 overflow-y-auto leading-relaxed">
+            <pre className="p-4 rounded-xl bg-[#080a10] border border-white/5 text-[11px] font-mono text-emerald-400 whitespace-pre-wrap max-h-64 overflow-y-auto leading-relaxed">
               {atsReport.extracted_text_sample}
             </pre>
           </div>
@@ -231,12 +231,12 @@ export default function AnalysisPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="card-glass rounded-2xl p-5 space-y-1.5">
               <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider font-semibold">SCANABILITY INDEX</span>
-              <div className="text-3xl font-bold text-[#ff7849] font-mono">{recruiterReport.scanability_score}/100</div>
+              <div className="text-3xl font-bold text-violet-400 font-mono">{recruiterReport.scanability_score}/100</div>
               <p className="text-[11px] text-zinc-400">6-second recruiter visual sweep</p>
             </div>
-            <div className="card-glass rounded-2xl p-5 space-y-1.5 border-[#bef264]/30">
-              <span className="text-[10px] font-mono text-[#bef264] uppercase tracking-wider font-semibold">RELEVANCE ALIGNMENT</span>
-              <div className="text-3xl font-bold text-[#bef264] font-mono">{recruiterReport.relevance_score}/100</div>
+            <div className="card-glass rounded-2xl p-5 space-y-1.5 border-emerald-500/30">
+              <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider font-semibold">RELEVANCE ALIGNMENT</span>
+              <div className="text-3xl font-bold text-emerald-400 font-mono">{recruiterReport.relevance_score}/100</div>
               <p className="text-[11px] text-zinc-400">Target role project density</p>
             </div>
             <div className="card-glass rounded-2xl p-5 space-y-1.5">
@@ -247,24 +247,24 @@ export default function AnalysisPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="card-glass rounded-2xl p-5 space-y-3 border-[#bef264]/20">
-              <h4 className="text-xs font-mono uppercase text-[#bef264] font-semibold tracking-wider">Strengths Identified</h4>
+            <div className="card-glass rounded-2xl p-5 space-y-3 border-emerald-500/20">
+              <h4 className="text-xs font-mono uppercase text-emerald-400 font-semibold tracking-wider">Strengths Identified</h4>
               <ul className="space-y-2 text-xs text-zinc-300">
                 {recruiterReport.strengths?.map((st: string, idx: number) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-[#bef264] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
                     <span>{st}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="card-glass rounded-2xl p-5 space-y-3 border-[#ff5733]/25">
-              <h4 className="text-xs font-mono uppercase text-[#ff7849] font-semibold tracking-wider">Actionable Recommendations</h4>
+            <div className="card-glass rounded-2xl p-5 space-y-3 border-violet-500/25">
+              <h4 className="text-xs font-mono uppercase text-violet-400 font-semibold tracking-wider">Actionable Recommendations</h4>
               <ul className="space-y-2 text-xs text-zinc-300">
                 {recruiterReport.actionable_suggestions?.map((sug: string, idx: number) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <ArrowRight className="h-4 w-4 text-[#ff7849] shrink-0 mt-0.5" />
+                    <ArrowRight className="h-4 w-4 text-violet-400 shrink-0 mt-0.5" />
                     <span>{sug}</span>
                   </li>
                 ))}
@@ -280,12 +280,12 @@ export default function AnalysisPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="card-glass rounded-2xl p-5 space-y-1.5">
               <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider font-semibold">TECHNICAL DEPTH RATING</span>
-              <div className="text-3xl font-bold text-[#ff7849] font-mono">{techReport.tech_depth_score}/100</div>
+              <div className="text-3xl font-bold text-violet-400 font-mono">{techReport.tech_depth_score}/100</div>
               <p className="text-[11px] text-zinc-400">Protocol, distributed systems &amp; API architectural complexity</p>
             </div>
-            <div className="card-glass rounded-2xl p-5 space-y-1.5 border-[#bef264]/30">
-              <span className="text-[10px] font-mono text-[#bef264] uppercase tracking-wider font-semibold">TERMINOLOGY CREDIBILITY</span>
-              <div className="text-3xl font-bold text-[#bef264] font-mono">{techReport.credibility_score}/100</div>
+            <div className="card-glass rounded-2xl p-5 space-y-1.5 border-emerald-500/30">
+              <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider font-semibold">TERMINOLOGY CREDIBILITY</span>
+              <div className="text-3xl font-bold text-emerald-400 font-mono">{techReport.credibility_score}/100</div>
               <p className="text-[11px] text-zinc-400">{techReport.architecture_clarity}</p>
             </div>
           </div>
@@ -297,7 +297,7 @@ export default function AnalysisPage() {
                 <div key={idx} className="p-4 rounded-xl bg-[#090b10] border border-white/10 space-y-2 text-xs">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold text-white">Claim: "{claim.claim}"</span>
-                    <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30 text-[10px]">
+                    <span className="pill-badge bg-violet-500/15 text-violet-300 border border-violet-500/30 text-[10px] font-medium">
                       {claim.depth_evaluation} DEPTH
                     </span>
                   </div>

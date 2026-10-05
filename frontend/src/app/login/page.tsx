@@ -8,10 +8,10 @@ import {
   ArrowRight,
   ShieldCheck,
   Layers,
-  Lock,
   Mail,
   CheckCircle2,
-  KeyRound
+  Code2,
+  Gift
 } from "lucide-react";
 import ParticleCanvas from "@/components/ParticleCanvas";
 import { GithubIcon } from "@/components/GithubIcon";
@@ -19,20 +19,13 @@ import { GithubIcon } from "@/components/GithubIcon";
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !email.includes("@")) {
+  const handleFreeEntry = async (userEmail: string) => {
+    if (!userEmail || !userEmail.includes("@")) {
       setError("Please enter a valid email address");
-      return;
-    }
-    if (!password) {
-      setError("Please enter your password");
       return;
     }
 
@@ -42,24 +35,24 @@ export default function LoginPage() {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
 
-      // 1. Optional backend auth / lead logging
+      // Store in DB lead_captures table without requiring password creation
       await fetch(`${apiUrl}/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email,
-          source: "login_flow",
+          email: userEmail,
+          source: "email_entry_flow",
           metadata_json: {
-            rememberMe,
+            isFreeAccess: true,
             timestamp: new Date().toISOString(),
           },
         }),
-      }).catch((err) => console.warn("Backend login ping notice:", err));
+      }).catch((err) => console.warn("Backend lead ping note:", err));
 
-      // 2. Persist in localStorage and sessionStorage
-      localStorage.setItem("careercompiler_user_email", email);
-      localStorage.setItem("careercompiler_email_unlocked", email);
-      sessionStorage.setItem("careercompiler_user_email", email);
+      // Persist in localStorage and sessionStorage
+      localStorage.setItem("careercompiler_user_email", userEmail);
+      localStorage.setItem("careercompiler_email_unlocked", userEmail);
+      sessionStorage.setItem("careercompiler_user_email", userEmail);
 
       // Pre-seed gold_resume_data if personal.email is missing
       const existingDataStr = sessionStorage.getItem("gold_resume_data") || localStorage.getItem("gold_resume_data");
@@ -71,10 +64,9 @@ export default function LoginPage() {
       }
 
       if (!resumeData.personal) resumeData.personal = {};
-      if (!resumeData.personal.email) resumeData.personal.email = email;
+      if (!resumeData.personal.email) resumeData.personal.email = userEmail;
       if (!resumeData.personal.fullName) {
-        // Derive clean name from email prefix
-        const namePart = email.split("@")[0].replace(/[._]/g, " ");
+        const namePart = userEmail.split("@")[0].replace(/[._]/g, " ");
         resumeData.personal.fullName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
       }
 
@@ -87,7 +79,7 @@ export default function LoginPage() {
 
       setTimeout(() => {
         router.push("/resume");
-      }, 600);
+      }, 500);
     } catch (err) {
       console.error(err);
       router.push("/resume");
@@ -96,17 +88,9 @@ export default function LoginPage() {
     }
   };
 
-  const handleDemoLogin = () => {
-    setEmail("alex.chen@engineer.io");
-    setPassword("••••••••••••");
-    localStorage.setItem("careercompiler_user_email", "alex.chen@engineer.io");
-    localStorage.setItem("careercompiler_email_unlocked", "alex.chen@engineer.io");
-    sessionStorage.setItem("careercompiler_user_email", "alex.chen@engineer.io");
-    window.dispatchEvent(new Event("email_saved"));
-    setSuccess(true);
-    setTimeout(() => {
-      router.push("/resume");
-    }, 400);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleFreeEntry(email);
   };
 
   return (
@@ -132,40 +116,24 @@ export default function LoginPage() {
           </Link>
 
           <div>
-            <span className="pearl-badge inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full text-emerald-400">
-              <Sparkles className="w-3.5 h-3.5" /> Welcome Back
+            <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+              <Gift className="w-3.5 h-3.5" /> 100% Free & Open Source
             </span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-sans mt-2">
-            Log in to your workspace
+            Instant Studio Access
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Access your verified evidence graph, ATS scores, and compiled resumes.
+          <p className="text-xs sm:text-sm text-slate-300">
+            No password required. Enter your email to immediately unlock the full compiler, LaTeX studio, and ATS radar.
           </p>
         </div>
 
-        {/* Quick Demo Access Bar */}
-        <div className="p-3 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2 text-slate-300">
-            <KeyRound className="w-4 h-4 text-violet-400 shrink-0" />
-            <span>Need quick access?</span>
-          </div>
-          <button
-            type="button"
-            onClick={handleDemoLogin}
-            className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 hover:underline cursor-pointer"
-          >
-            Fill Demo Account &rarr;
-          </button>
-        </div>
-
-        {/* Login Form */}
-        <form onSubmit={handleLogin} className="space-y-4">
-          {/* Email */}
+        {/* Zero-friction Email Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="text-xs font-mono text-slate-300 font-semibold mb-1.5 block">
-              Email Address
+              Developer Email Address
             </label>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -175,52 +143,9 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@domain.com"
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-white/10 bg-black/50 text-white placeholder-slate-500 text-sm focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition-all"
+                className="w-full pl-10 pr-4 py-3.5 rounded-xl border border-white/10 bg-black/50 text-white placeholder-slate-500 text-sm focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition-all"
               />
             </div>
-          </div>
-
-          {/* Password */}
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-mono text-slate-300 font-semibold">
-                Password
-              </label>
-              <a
-                href="#forgot"
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert("Password reset instructions will be sent to your email.");
-                }}
-                className="text-[11px] font-mono text-violet-400 hover:text-violet-300 hover:underline"
-              >
-                Forgot password?
-              </a>
-            </div>
-            <div className="relative">
-              <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-white/10 bg-black/50 text-white placeholder-slate-500 text-sm focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Remember Me Checkbox */}
-          <div className="flex items-center justify-between text-xs">
-            <label className="flex items-center gap-2 text-slate-300 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 rounded border-white/20 bg-black/40 text-violet-600 focus:ring-violet-500 accent-violet-600"
-              />
-              <span>Remember this device</span>
-            </label>
           </div>
 
           {error && (
@@ -229,20 +154,20 @@ export default function LoginPage() {
 
           {success && (
             <p className="text-xs font-mono text-emerald-400 font-semibold flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4" /> Signed in! Opening Resume Studio...
+              <CheckCircle2 className="w-4 h-4" /> Access verified! Opening Resume Studio...
             </p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="gradient-button w-full py-3.5 rounded-xl text-white font-bold text-sm inline-flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xl disabled:opacity-50"
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-violet-700 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-sm inline-flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xl shadow-violet-600/30 active:scale-[0.98] disabled:opacity-50"
           >
             {loading ? (
-              <span>Signing in...</span>
+              <span>Unlocking Studio...</span>
             ) : (
               <>
-                <span>Sign In to Studio</span>
+                <span>Launch Free Studio</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
@@ -253,43 +178,27 @@ export default function LoginPage() {
         <div className="relative flex items-center justify-center">
           <div className="border-t border-white/10 w-full" />
           <span className="bg-[#0c0e15] px-3 text-[11px] font-mono text-slate-500 uppercase tracking-wider relative">
-            Or
+            Or Quick Access
           </span>
         </div>
 
-        {/* GitHub / Zero-friction Sign in */}
+        {/* GitHub 1-click Quick Entry */}
         <button
           type="button"
-          onClick={() => {
-            setEmail("github.developer@verified.io");
-            setPassword("github-oauth-verified");
-            localStorage.setItem("careercompiler_user_email", "github.developer@verified.io");
-            sessionStorage.setItem("careercompiler_user_email", "github.developer@verified.io");
-            window.dispatchEvent(new Event("email_saved"));
-            setSuccess(true);
-            setTimeout(() => router.push("/resume"), 500);
-          }}
+          onClick={() => handleFreeEntry("github.engineer@verified.dev")}
           className="w-full py-3 px-4 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-slate-200 text-xs font-semibold inline-flex items-center justify-center gap-2.5 transition-all cursor-pointer hover:border-white/20"
         >
           <GithubIcon className="w-4 h-4 text-white" />
-          <span>Continue with GitHub</span>
+          <span>Continue with GitHub Developer Account</span>
         </button>
 
-        {/* Switch to Sign Up */}
-        <div className="pt-4 border-t border-white/10 text-center text-xs text-slate-400">
-          Don&apos;t have an account yet?{" "}
-          <Link
-            href="/signup"
-            className="text-emerald-400 hover:text-emerald-300 font-semibold underline underline-offset-2 ml-1"
-          >
-            Sign up for free
-          </Link>
-        </div>
-
-        {/* Security Assurance */}
-        <div className="flex items-center justify-center gap-2 text-[11px] text-slate-500 font-mono">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Encrypted session &bull; Zero prompt retention</span>
+        {/* Security & Open Source Guarantee */}
+        <div className="pt-2 border-t border-white/10 flex flex-col items-center gap-2 text-[11px] text-slate-400 font-mono text-center">
+          <div className="flex items-center gap-1.5 text-emerald-400">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>Zero Paywalls &bull; Zero Spam &bull; MIT Licensed</span>
+          </div>
+          <span>Your data stays on your machine and private database.</span>
         </div>
       </div>
     </div>

@@ -619,7 +619,7 @@ export default function HubAndComparisonSection({
                       onClick={() => onActionClick("/resume")}
                       className="mt-3.5 inline-flex items-center gap-1.5 px-5 py-2 bg-white text-emerald-900 text-xs font-bold rounded-lg hover:bg-emerald-50 transition-colors cursor-pointer shadow-md"
                     >
-                      Start Free 7-Day Trial
+                      Launch Free Studio Workspace
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>

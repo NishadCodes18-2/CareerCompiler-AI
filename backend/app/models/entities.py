@@ -420,3 +420,13 @@ class LeadCapture(Base):
     metadata_json = Column(JSON, default=dict)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
+class SharedResume(Base):
+    __tablename__ = "shared_resumes"
+
+    id = Column(String(64), primary_key=True, index=True)
+    candidate_handle = Column(String(255), index=True)
+    resume_data = Column(JSON, nullable=False)
+    expires_at = Column(DateTime, nullable=False, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+

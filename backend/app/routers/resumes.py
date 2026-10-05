@@ -1,8 +1,11 @@
+import uuid
+from datetime import datetime, timedelta
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from typing import List, Dict, Any, Optional
 from app.database import get_db
-from app.models.entities import User, Profile, ResumeVersion, ResumeBullet, BulletEvidence, ResumeSection
+from app.models.entities import User, Profile, ResumeVersion, ResumeBullet, BulletEvidence, ResumeSection, SharedResume
 from app.schemas.schemas import CompileResumeRequest, ResumeVersionOut, ResumeBulletOut, ResumeBulletUpdate
 from app.services.auth_service import get_current_user
 from app.services.compiler_service import compiler_service
@@ -189,3 +192,82 @@ def export_resume_html(
 ):
     html_content = export_service.generate_html_resume(db, resume_id, template)
     return Response(content=html_content, media_type="text/html")
+
+
+class ShareResumeRequest(BaseModel):
+    handle: Optional[str] = "candidate"
+    resume_data: Dict[str, Any]
+    duration_hours: Optional[int] = 168  # 7 days default
+
+
+@router.post("/share")
+def create_shared_resume(req: ShareResumeRequest, db: Session = Depends(get_db)):
+    """Create a securely shared, hosted resume link with deterministic expiration."""
+    clean_handle = (req.handle or "candidate").lower().strip().replace(" ", "-")
+    clean_handle = "".join(c for c in clean_handle if c.isalnum() or c == "-") or "candidate"
+    
+    unique_suffix = str(uuid.uuid4())[:8]
+    share_id = f"{clean_handle}-{unique_suffix}"
+    
+    # Calculate precise expiration timestamp
+    hours = max(1, req.duration_hours or 168)
+    expires_at = datetime.utcnow() + timedelta(hours=hours)
+    
+    shared = SharedResume(
+        id=share_id,
+        candidate_handle=clean_handle,
+        resume_data=req.resume_data,
+        expires_at=expires_at
+    )
+    db.add(shared)
+    db.commit()
+    db.refresh(shared)
+    
+    return {
+        "status": "success",
+        "share_id": shared.id,
+        "candidate_handle": shared.candidate_handle,
+        "expires_at": shared.expires_at.isoformat(),
+        "expires_timestamp_ms": int(shared.expires_at.timestamp() * 1000),
+        "duration_hours": hours,
+        "message": f"Resume share link generated with validity until {shared.expires_at.strftime('%Y-%m-%d %H:%M UTC')}."
+    }
+
+
+@router.get("/share/{share_id}")
+def get_shared_resume(share_id: str, db: Session = Depends(get_db)):
+    """Retrieve shared resume and verify expiration."""
+    shared = db.query(SharedResume).filter(SharedResume.id == share_id).first()
+    if not shared:
+        # Fallback check by candidate handle prefix
+        shared = db.query(SharedResume).filter(SharedResume.candidate_handle == share_id).order_by(SharedResume.created_at.desc()).first()
+        
+    if not shared:
+        raise HTTPException(status_code=404, detail="Shared resume link not found or has been removed.")
+        
+    now = datetime.utcnow()
+    is_expired = now > shared.expires_at
+    seconds_remaining = max(0, int((shared.expires_at - now).total_seconds()))
+    days_remaining = max(0, seconds_remaining // 86400)
+    
+    if is_expired:
+        return {
+            "expired": True,
+            "share_id": shared.id,
+            "candidate_handle": shared.candidate_handle,
+            "expires_at": shared.expires_at.isoformat(),
+            "expires_timestamp_ms": int(shared.expires_at.timestamp() * 1000),
+            "message": f"This shared resume link expired on {shared.expires_at.strftime('%Y-%m-%d at %H:%M UTC')}."
+        }
+        
+    return {
+        "expired": False,
+        "share_id": shared.id,
+        "candidate_handle": shared.candidate_handle,
+        "data": shared.resume_data,
+        "expires_at": shared.expires_at.isoformat(),
+        "expires_timestamp_ms": int(shared.expires_at.timestamp() * 1000),
+        "seconds_remaining": seconds_remaining,
+        "days_remaining": days_remaining,
+        "created_at": shared.created_at.isoformat()
+    }

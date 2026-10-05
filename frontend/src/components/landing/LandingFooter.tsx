@@ -155,18 +155,10 @@ export default function LandingFooter({ onActionClick }: LandingFooterProps) {
             </p>
             <p>
               <button
-                onClick={() => scrollToSection("screenshots")}
-                className="hover:text-white transition-colors cursor-pointer"
-              >
-                Screenshots
-              </button>
-            </p>
-            <p>
-              <button
                 onClick={() => scrollToSection("use-cases")}
                 className="hover:text-white transition-colors cursor-pointer"
               >
-                Use Cases
+                Proof Engine
               </button>
             </p>
             <p>
@@ -174,15 +166,15 @@ export default function LandingFooter({ onActionClick }: LandingFooterProps) {
                 onClick={() => scrollToSection("demo")}
                 className="hover:text-white transition-colors cursor-pointer"
               >
-                STAR Demo
+                Live Interactive Lab
               </button>
             </p>
             <p>
               <button
-                onClick={() => scrollToSection("pricing")}
+                onClick={() => scrollToSection("faq")}
                 className="hover:text-white transition-colors cursor-pointer"
               >
-                Pricing
+                FAQ
               </button>
             </p>
           </div>

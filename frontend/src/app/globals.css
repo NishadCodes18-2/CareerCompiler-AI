@@ -2,18 +2,18 @@
 
 @layer base {
   :root {
-    --bg-base: #090a0d;
-    --bg-surface: #101217;
-    --bg-elevated: #161820;
-    --bg-card: rgba(18, 20, 26, 0.85);
+    --bg-base: #07080b;
+    --bg-surface: #0c0e15;
+    --bg-elevated: #121520;
+    --bg-card: rgba(12, 14, 21, 0.85);
     --border-subtle: rgba(255, 255, 255, 0.08);
     --border-highlight: rgba(255, 255, 255, 0.15);
     
-    /* Signature Palette: Slate, Mint Green, Amber & Violet */
-    --accent-green: #4ade80;
-    --accent-lime: #bef264;
+    /* Signature Palette: Luxury Dark Violet & Emerald */
+    --accent-green: #10b981;
+    --accent-lime: #10b981;
     --accent-amber: #f59e0b;
-    --accent-coral: #ff6b4a;
+    --accent-coral: #8b5cf6;
     --accent-cyan: #38bdf8;
     --accent-violet: #7c3aed;
     
@@ -67,6 +67,7 @@
   padding: 1px;
   background: linear-gradient(135deg, rgba(196, 181, 253, 0.5), rgba(124, 58, 237, 0.8));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -461,3 +462,46 @@
     page: print-a4;
   }
 }
+
+/* Lively Micro-Animations & Dynamic Glowing States */
+@keyframes ambient-float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+@keyframes radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes compiler-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-float {
+  animation: ambient-float 6s ease-in-out infinite;
+}
+
+.animate-radar {
+  animation: radar-sweep 8s linear infinite;
+}
+
+.shimmer-active {
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(139,92,246,0.15) 50%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: compiler-shimmer 2.5s infinite;
+}
+

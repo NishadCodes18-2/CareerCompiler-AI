@@ -57,32 +57,32 @@ export default function DocumentsPage() {
 
   return (
     <div className="space-y-8 pb-16">
-      {/* Header Banner - Borea AI Horizon Glow */}
+      {/* Header Banner - Luxury Dark Horizon Glow */}
       <div className="relative rounded-2xl p-6 bg-gradient-to-r from-[#0c0e15] via-[#121622] to-[#0c0e15] border border-white/10 shadow-2xl overflow-hidden">
-        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-[#ff5733]/10 blur-3xl pointer-events-none rounded-full"></div>
-        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-[#bef264]/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-violet-600/15 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-emerald-500/10 blur-3xl pointer-events-none rounded-full"></div>
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#bef264] animate-pulse"></span>
+              <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 OCR &amp; INGESTION
               </span>
-              <span className="pill-badge bg-white/5 text-zinc-400 border border-white/10">
+              <span className="pill-badge bg-white/5 text-slate-400 border border-white/10">
                 PAGE-PRESERVED
               </span>
             </div>
             <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-white">
               Document &amp; Credential Ingestion Engine
             </h1>
-            <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
+            <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
               Upload past resumes, internship verification letters, or course certificates. Converts raw documents into deterministic, page-anchored evidence nodes.
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="pill-badge bg-white/5 text-zinc-300 border border-white/10 text-xs font-mono">
+            <span className="pill-badge bg-white/5 text-slate-300 border border-white/10 text-xs font-mono">
               {documents.length} ARTIFACTS INGESTED
             </span>
           </div>
@@ -90,9 +90,9 @@ export default function DocumentsPage() {
       </div>
 
       {/* Upload Zone */}
-      <div className="card-glass rounded-2xl p-6 space-y-5">
+      <div className="rounded-2xl p-6 space-y-5 bg-[#0c0e15] border border-white/10 shadow-xl">
         <form onSubmit={handleUpload} className="space-y-4">
-          <div className="border-2 border-dashed border-white/10 hover:border-[#ff5733]/50 rounded-2xl p-8 text-center transition-all cursor-pointer relative bg-[#080a10] group">
+          <div className="border-2 border-dashed border-white/10 hover:border-violet-500/50 rounded-2xl p-8 text-center transition-all cursor-pointer relative bg-[#080a10] group">
             <input
               type="file"
               accept=".pdf,.docx,.doc,.txt"
@@ -100,25 +100,25 @@ export default function DocumentsPage() {
               className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
             />
             <div className="flex flex-col items-center gap-2.5">
-              <div className="h-12 w-12 rounded-2xl bg-[#ff5733]/15 text-[#ff7849] border border-[#ff5733]/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="h-12 w-12 rounded-2xl bg-violet-500/15 text-violet-400 border border-violet-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Upload className="h-6 w-6" />
               </div>
               <p className="text-sm font-bold text-white">
                 {file ? file.name : "Click or drag & drop resume or certificate PDF"}
               </p>
-              <p className="text-xs text-zinc-500 font-mono">
+              <p className="text-xs text-slate-500 font-mono">
                 Supports PDF (with page tracking), DOCX, TXT (up to 15MB)
               </p>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-1">
-            <label className="flex items-center gap-2.5 text-xs text-zinc-300 cursor-pointer">
+            <label className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer">
               <input
                 type="checkbox"
                 checked={isCertificate}
                 onChange={(e) => setIsCertificate(e.target.checked)}
-                className="rounded border-white/20 bg-[#090b10] text-[#ff5733] focus:ring-0"
+                className="rounded border-white/20 bg-[#090b10] text-violet-600 focus:ring-0"
               />
               <span>This document is an internship completion letter, course certificate, or credential PDF</span>
             </label>
@@ -126,7 +126,7 @@ export default function DocumentsPage() {
             <button
               type="submit"
               disabled={!file || uploading}
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#ff5733] to-[#ff7849] hover:from-[#ff6b4a] hover:to-[#ff8d63] disabled:opacity-40 text-white text-xs font-semibold shadow-lg shadow-[#ff5733]/25 transition-all cursor-pointer"
+              className="gradient-button px-6 py-2.5 rounded-xl disabled:opacity-40 text-white text-xs font-bold shadow-lg shadow-violet-600/30 transition-all cursor-pointer"
             >
               {uploading ? "Extracting Structured Proof..." : "Process & Import Evidence"}
             </button>
@@ -142,8 +142,8 @@ export default function DocumentsPage() {
 
         {/* Upload Result Card */}
         {uploadResult && (
-          <div className="p-4 rounded-xl bg-[#bef264]/10 border border-[#bef264]/30 space-y-2.5">
-            <div className="flex items-center gap-2 text-[#bef264] font-bold text-xs">
+          <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 space-y-2.5">
+            <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
               <CheckCircle2 className="h-4 w-4" />
               <span>Successfully parsed {uploadResult.filename} ({uploadResult.pages_parsed} pages)</span>
             </div>
@@ -151,7 +151,7 @@ export default function DocumentsPage() {
             <div className="text-xs text-zinc-300 space-y-1">
               <p>
                 <strong className="text-white">Evidence Created:</strong>{" "}
-                <span className="font-mono text-[#bef264]">{uploadResult.evidence_created?.join(", ")}</span>
+                <span className="font-mono text-emerald-400">{uploadResult.evidence_created?.join(", ")}</span>
               </p>
               {uploadResult.extracted_data?.skills?.length > 0 && (
                 <p>
@@ -171,7 +171,7 @@ export default function DocumentsPage() {
           {documents.map((doc) => (
             <div key={doc.id} className="p-4 rounded-xl bg-[#090b10] border border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-[#ff5733]/15 text-[#ff7849]">
+                <div className="p-2.5 rounded-xl bg-violet-500/15 text-violet-400">
                   <FileText className="h-4 w-4" />
                 </div>
                 <div>
@@ -181,7 +181,7 @@ export default function DocumentsPage() {
                   </p>
                 </div>
               </div>
-              <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30 text-[10px]">
+              <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-semibold">
                 PROCESSED
               </span>
             </div>

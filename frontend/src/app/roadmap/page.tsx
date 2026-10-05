@@ -54,67 +54,67 @@ export default function RoadmapPage() {
   if (loading) {
     return (
       <div className="flex h-96 flex-col items-center justify-center gap-3">
-        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[#ff5733] border-t-transparent shadow-lg shadow-[#ff5733]/30"></div>
-        <span className="font-mono text-xs text-zinc-400">Computing Skill Diagnostics...</span>
+        <div className="h-9 w-9 animate-spin rounded-full border-2 border-violet-500 border-t-transparent shadow-lg shadow-violet-500/30"></div>
+        <span className="font-mono text-xs text-slate-400">Computing Skill Diagnostics...</span>
       </div>
     );
   }
 
   return (
     <div className="space-y-8 pb-16">
-      {/* Header Banner - Borea AI Horizon Glow */}
+      {/* Header Banner - Luxury Dark Horizon Glow */}
       <div className="relative rounded-2xl p-6 bg-gradient-to-r from-[#0c0e15] via-[#121622] to-[#0c0e15] border border-white/10 shadow-2xl overflow-hidden">
-        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-[#ff5733]/10 blur-3xl pointer-events-none rounded-full"></div>
-        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-[#bef264]/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-violet-600/15 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-emerald-500/10 blur-3xl pointer-events-none rounded-full"></div>
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#bef264] animate-pulse"></span>
+              <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 FIT DIAGNOSTICS
               </span>
-              <span className="pill-badge bg-white/5 text-zinc-400 border border-white/10">
+              <span className="pill-badge bg-white/5 text-slate-400 border border-white/10">
                 ACTIONABLE BLUEPRINTS
               </span>
             </div>
             <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-white">
               Career Roadmap &amp; Project Blueprints
             </h1>
-            <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
+            <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
               Target role diagnostic fit analysis and prescriptive project architectures to systematically close skill gaps with verified repository evidence.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="card-glass px-4 py-2.5 rounded-xl border border-white/10 text-right">
-              <span className="text-[10px] font-mono text-zinc-400 uppercase block">Fit Readiness</span>
-              <span className="text-2xl font-bold text-[#bef264] font-mono">{diagnostic?.match_percentage}%</span>
+            <div className="px-4 py-2.5 rounded-xl border border-white/10 bg-[#0c0e15] text-right shadow-lg">
+              <span className="text-[10px] font-mono text-slate-400 uppercase block">Fit Readiness</span>
+              <span className="text-2xl font-bold text-emerald-400 font-mono">{diagnostic?.match_percentage}%</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Target Role & Readiness Diagnostic Banner */}
-      <div className="card-glass rounded-2xl p-6 space-y-5">
+      <div className="rounded-2xl p-6 space-y-5 bg-[#0c0e15] border border-white/10 shadow-xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
           <div>
-            <span className="text-[10px] font-mono uppercase text-[#bef264] font-semibold tracking-wider">
+            <span className="text-[10px] font-mono uppercase text-violet-400 font-semibold tracking-wider">
               Diagnostic Target Role
             </span>
             <h3 className="text-xl font-bold text-white mt-0.5">{diagnostic?.target_role}</h3>
-            <p className="text-xs text-zinc-400 italic mt-0.5">{diagnostic?.diagnostic_disclaimer}</p>
+            <p className="text-xs text-slate-400 italic mt-0.5">{diagnostic?.diagnostic_disclaimer}</p>
           </div>
 
-          {/* Haulix Trajectory Progress Bar */}
+          {/* Trajectory Progress Bar */}
           <div className="w-full sm:w-72 space-y-1.5">
             <div className="flex justify-between text-xs font-mono">
-              <span className="text-zinc-400">Readiness Score</span>
-              <span className="text-[#bef264] font-bold">{diagnostic?.match_percentage}%</span>
+              <span className="text-slate-400">Readiness Score</span>
+              <span className="text-emerald-400 font-bold">{diagnostic?.match_percentage}%</span>
             </div>
             <div className="h-2 w-full rounded-full bg-[#080a10] border border-white/10 overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-[#ff5733] to-[#bef264] rounded-full transition-all duration-500"
+                className="h-full bg-gradient-to-r from-violet-600 to-emerald-400 rounded-full transition-all duration-500 shadow-sm"
                 style={{ width: `${diagnostic?.match_percentage || 78}%` }}
               ></div>
             </div>
@@ -123,15 +123,15 @@ export default function RoadmapPage() {
 
         {/* Strong vs Missing Split */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div className="p-4 rounded-xl bg-[#090b10] border border-[#bef264]/20 space-y-2.5">
-            <div className="flex items-center gap-2 font-semibold text-[#bef264]">
+          <div className="p-4 rounded-xl bg-[#090b10] border border-emerald-500/20 space-y-2.5">
+            <div className="flex items-center gap-2 font-semibold text-emerald-400">
               <CheckCircle2 className="h-4 w-4" /> Strong Verified Skills ({diagnostic?.strong_areas?.length || 0})
             </div>
             <div className="flex flex-wrap gap-2">
               {diagnostic?.strong_areas?.map((s: string, idx: number) => (
                 <span
                   key={idx}
-                  className="font-mono text-[11px] px-3 py-1 rounded-lg bg-[#bef264]/10 text-[#bef264] border border-[#bef264]/30 font-semibold"
+                  className="font-mono text-[11px] px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold"
                 >
                   {s} &#10003;
                 </span>
@@ -139,15 +139,15 @@ export default function RoadmapPage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#090b10] border border-[#ff5733]/25 space-y-2.5">
-            <div className="flex items-center gap-2 font-semibold text-[#ff7849]">
-              <AlertTriangle className="h-4 w-4" /> Critical Skill Gaps to Close ({diagnostic?.critical_gaps?.length || 0})
+          <div className="p-4 rounded-xl bg-amber-500/[0.06] border border-amber-500/20 space-y-2.5">
+            <div className="flex items-center gap-2 font-semibold text-amber-300">
+              <AlertTriangle className="h-4 w-4 text-amber-400" /> Critical Skill Gaps to Close ({diagnostic?.critical_gaps?.length || 0})
             </div>
             <div className="flex flex-wrap gap-2">
               {diagnostic?.critical_gaps?.map((s: string, idx: number) => (
                 <span
                   key={idx}
-                  className="font-mono text-[11px] px-3 py-1 rounded-lg bg-[#ff5733]/10 text-[#ff7849] border border-[#ff5733]/30 font-semibold"
+                  className="font-mono text-[11px] px-3 py-1 rounded-lg bg-amber-500/10 text-amber-200 border border-amber-500/25 font-semibold"
                 >
                   {s}
                 </span>
@@ -160,7 +160,7 @@ export default function RoadmapPage() {
       {/* Recommended Evidence-Building Project Blueprints */}
       <div className="space-y-4">
         <div>
-          <span className="text-[10px] font-mono uppercase text-[#bef264] font-semibold tracking-wider">
+          <span className="text-[10px] font-mono uppercase text-emerald-400 font-semibold tracking-wider">
             Prescriptive Execution
           </span>
           <h3 className="text-base font-bold text-white mt-0.5">Recommended Evidence-Building Blueprints</h3>
@@ -174,7 +174,7 @@ export default function RoadmapPage() {
             <div key={idx} className="card-glass rounded-2xl p-5 space-y-3.5 hover:border-white/20 transition-all">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-xl bg-[#ff5733]/15 text-[#ff7849]">
+                  <div className="p-2 rounded-xl bg-violet-500/15 text-violet-400">
                     <Code2 className="h-4 w-4" />
                   </div>
                   <h4 className="text-sm font-bold text-white">{bp.title}</h4>
@@ -193,7 +193,7 @@ export default function RoadmapPage() {
                   {bp.suggested_stack?.map((tech: string, tIdx: number) => (
                     <span
                       key={tIdx}
-                      className="font-mono text-[11px] px-2.5 py-0.5 rounded-lg bg-[#121622] text-[#bef264] border border-white/10"
+                      className="font-mono text-[11px] px-2.5 py-0.5 rounded-lg bg-violet-500/10 text-violet-300 border border-violet-500/20"
                     >
                       {tech}
                     </span>
@@ -203,7 +203,7 @@ export default function RoadmapPage() {
 
               {/* Evidence Generated */}
               <div className="pt-2.5 border-t border-white/5 text-xs">
-                <span className="text-[#bef264] font-medium">Verifiable Artifacts: </span>
+                <span className="text-emerald-400 font-medium">Verifiable Artifacts: </span>
                 <span className="text-zinc-400 font-mono text-[11px]">{bp.evidence_generated?.join(", ")}</span>
               </div>
             </div>
@@ -227,13 +227,13 @@ export default function RoadmapPage() {
               onClick={() => handleToggle(item.id)}
               className={`p-4 rounded-xl border flex items-center justify-between transition-all cursor-pointer ${
                 item.is_completed
-                  ? "bg-[#090b10] border-[#bef264]/30 text-zinc-400 line-through"
+                  ? "bg-[#090b10] border-emerald-500/30 text-zinc-400 line-through"
                   : "bg-[#10131e] border-white/10 text-white hover:border-white/20 hover:bg-[#141824]"
               }`}
             >
               <div className="flex items-center gap-3">
                 {item.is_completed ? (
-                  <CheckSquare className="h-4 w-4 text-[#bef264] shrink-0" />
+                  <CheckSquare className="h-4 w-4 text-emerald-400 shrink-0" />
                 ) : (
                   <Square className="h-4 w-4 text-zinc-500 shrink-0" />
                 )}

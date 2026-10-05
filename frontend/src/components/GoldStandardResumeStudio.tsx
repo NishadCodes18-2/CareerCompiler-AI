@@ -2493,23 +2493,48 @@ export default function GoldStandardResumeStudio() {
                 <span>🔗 LinkedIn</span>
               </button>
 
-              {/* Share Public Web Resume Button (7-Day Validity Expiry Guarantee) */}
+              {/* Share Public Web Resume Button (Deterministic Expiry & Cross-device Backend Sync) */}
               <button
                 type="button"
-                onClick={() => {
+                onClick={async () => {
                   if (typeof window !== "undefined") {
                     const handle = (resumeData.personal.fullName || "candidate").toLowerCase().replace(/\s+/g, "-");
-                    const expiresAt = Date.now() + 7 * 24 * 60 * 60 * 1000;
+                    const origin = window.location.origin;
+                    const durationHours = 168; // 7 days
+                    const expiresAt = Date.now() + durationHours * 60 * 60 * 1000;
+                    let shareUrl = `${origin}/r/${handle}?exp=${expiresAt}`;
+
+                    try {
+                      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
+                      const res = await fetch(`${apiUrl}/resumes/share`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          handle,
+                          resume_data: resumeData,
+                          duration_hours: durationHours
+                        })
+                      });
+                      if (res.ok) {
+                        const json = await res.json();
+                        if (json.share_id) {
+                          shareUrl = `${origin}/r/${json.share_id}?exp=${json.expires_timestamp_ms || expiresAt}`;
+                        }
+                      }
+                    } catch (err) {
+                      console.warn("Backend share save fallback to local:", err);
+                    }
+
                     try {
                       localStorage.setItem(`cc_resume_share_${handle}`, JSON.stringify({
                         data: resumeData,
                         expiresAt
                       }));
                     } catch (e) {}
-                    const url = `https://career-compiler-ai.vercel.app/r/${handle}?exp=${expiresAt}`;
-                    navigator.clipboard.writeText(url);
-                    setShareNotice("🔗 7-Day verified link copied to clipboard! (Valid for 7 days)");
-                    setTimeout(() => setShareNotice(""), 4500);
+
+                    navigator.clipboard.writeText(shareUrl);
+                    setShareNotice(`🔗 Secure link copied! Valid for 7 days (Expires ${new Date(expiresAt).toLocaleDateString()})`);
+                    setTimeout(() => setShareNotice(""), 5000);
                   }
                 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-all cursor-pointer"

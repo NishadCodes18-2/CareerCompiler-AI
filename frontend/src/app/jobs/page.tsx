@@ -78,26 +78,26 @@ export default function JobsPage() {
 
   return (
     <div className="space-y-8 pb-16">
-      {/* Header Banner - Borea AI Horizon Glow */}
+      {/* Header Banner - Luxury Dark Horizon Glow */}
       <div className="relative rounded-2xl p-6 bg-gradient-to-r from-[#0c0e15] via-[#121622] to-[#0c0e15] border border-white/10 shadow-2xl overflow-hidden">
-        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-[#ff5733]/10 blur-3xl pointer-events-none rounded-full"></div>
-        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-[#bef264]/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-violet-600/15 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-emerald-500/10 blur-3xl pointer-events-none rounded-full"></div>
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#bef264] animate-pulse"></span>
+              <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 MARKET INTELLIGENCE
               </span>
-              <span className="pill-badge bg-white/5 text-zinc-400 border border-white/10">
+              <span className="pill-badge bg-white/5 text-slate-400 border border-white/10">
                 AGGREGATE RADAR
               </span>
             </div>
             <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-white">
               Role Intelligence &amp; JD Analyzer
             </h1>
-            <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
+            <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
               Extract hiring signals, core tech requirements, and project patterns from live industry postings to target your resume compilation.
             </p>
           </div>
@@ -110,8 +110,8 @@ export default function JobsPage() {
                 onClick={() => setRole(r)}
                 className={`px-4 py-2 rounded-full text-xs font-medium transition-all cursor-pointer ${
                   role === r
-                    ? "bg-[#ff5733] text-white font-semibold shadow-lg shadow-[#ff5733]/25"
-                    : "bg-white/5 text-zinc-400 hover:text-white border border-white/10 hover:border-white/20"
+                    ? "bg-violet-600 text-white font-semibold shadow-lg shadow-violet-600/30 border border-violet-500/50"
+                    : "bg-white/5 text-slate-400 hover:text-white border border-white/10 hover:border-white/20"
                 }`}
               >
                 {r}
@@ -123,14 +123,14 @@ export default function JobsPage() {
 
       {/* Role Fingerprint Blueprint */}
       {fingerprint && (
-        <div className="card-glass rounded-2xl p-6 space-y-5">
+        <div className="rounded-2xl p-6 space-y-5 bg-[#0c0e15] border border-white/10 shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
             <div className="flex items-center gap-2.5">
-              <div className="h-7 w-7 rounded-lg bg-[#bef264]/15 text-[#bef264] flex items-center justify-center">
+              <div className="h-7 w-7 rounded-lg bg-violet-500/15 text-violet-400 flex items-center justify-center border border-violet-500/30">
                 <Target className="h-4 w-4" />
               </div>
               <div>
-                <span className="text-[10px] font-mono uppercase text-[#bef264] font-semibold tracking-wider">
+                <span className="text-[10px] font-mono uppercase text-violet-400 font-semibold tracking-wider">
                   Aggregated Role Spec
                 </span>
                 <h3 className="text-base font-bold text-white mt-0.5">
@@ -138,7 +138,7 @@ export default function JobsPage() {
                 </h3>
               </div>
             </div>
-            <span className="pill-badge bg-white/5 text-zinc-300 font-mono text-[11px] border border-white/10">
+            <span className="pill-badge bg-white/5 text-slate-300 font-mono text-[11px] border border-white/10">
               Source: {fingerprint.market_source}
             </span>
           </div>
@@ -147,14 +147,14 @@ export default function JobsPage() {
             {/* Core Skills */}
             <div className="p-4 rounded-xl bg-[#090b10] border border-white/5 space-y-2.5">
               <span className="font-semibold text-white tracking-wide flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#bef264]"></span>
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
                 Must-Have Core Skills
               </span>
               <div className="flex flex-wrap gap-2">
                 {fingerprint.core_skills?.map((s: string, idx: number) => (
                   <span
                     key={idx}
-                    className="font-mono text-[11px] px-3 py-1 rounded-lg bg-[#bef264]/10 text-[#bef264] border border-[#bef264]/25 font-semibold"
+                    className="font-mono text-[11px] px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold"
                   >
                     {s}
                   </span>
@@ -165,14 +165,14 @@ export default function JobsPage() {
             {/* Supporting Skills */}
             <div className="p-4 rounded-xl bg-[#090b10] border border-white/5 space-y-2.5">
               <span className="font-semibold text-white tracking-wide flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#ff7849]"></span>
+                <span className="h-1.5 w-1.5 rounded-full bg-violet-400"></span>
                 Supporting &amp; Preferred Skills
               </span>
               <div className="flex flex-wrap gap-2">
                 {fingerprint.supporting_skills?.map((s: string, idx: number) => (
                   <span
                     key={idx}
-                    className="font-mono text-[11px] px-3 py-1 rounded-lg bg-[#141824] text-zinc-300 border border-white/10"
+                    className="font-mono text-[11px] px-3 py-1 rounded-lg bg-[#141824] text-slate-300 border border-white/10"
                   >
                     {s}
                   </span>
@@ -187,11 +187,11 @@ export default function JobsPage() {
               <span className="h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
               High-Signal Portfolio Themes (Silicon Valley Standard)
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-zinc-400">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-slate-400">
               {fingerprint.project_patterns?.map((p: string, idx: number) => (
                 <div key={idx} className="flex items-center gap-2.5 p-2 rounded-lg bg-[#121622] border border-white/5">
-                  <div className="h-1.5 w-1.5 rounded-full bg-[#bef264] shrink-0"></div>
-                  <span className="text-zinc-300">{p}</span>
+                  <div className="h-1.5 w-1.5 rounded-full bg-violet-400 shrink-0"></div>
+                  <span className="text-slate-300">{p}</span>
                 </div>
               ))}
             </div>
@@ -200,56 +200,56 @@ export default function JobsPage() {
       )}
 
       {/* Paste Real Job Description Form */}
-      <div className="card-glass rounded-2xl p-6 space-y-5">
+      <div className="rounded-2xl p-6 space-y-5 bg-[#0c0e15] border border-white/10 shadow-xl">
         <div className="flex items-center gap-2.5 pb-2 border-b border-white/5">
-          <div className="h-7 w-7 rounded-lg bg-[#ff5733]/15 text-[#ff7849] flex items-center justify-center">
+          <div className="h-7 w-7 rounded-lg bg-violet-500/15 text-violet-400 border border-violet-500/30 flex items-center justify-center">
             <Briefcase className="h-4 w-4" />
           </div>
           <div>
             <h3 className="text-sm font-bold text-white tracking-wide">Live Job Description Ingestion</h3>
-            <p className="text-[11px] text-zinc-400">Deconstruct requirements into structured ATS tokens</p>
+            <p className="text-[11px] text-slate-400">Deconstruct requirements into structured ATS tokens</p>
           </div>
         </div>
 
         <form onSubmit={handleAnalyzeJD} className="space-y-4 text-xs">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-zinc-400 font-mono text-[11px] mb-1">Target Title</label>
+              <label className="block text-slate-400 font-mono text-[11px] mb-1">Target Title</label>
               <input
                 type="text"
                 placeholder="e.g. Backend Developer Intern"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
               />
             </div>
             <div>
-              <label className="block text-zinc-400 font-mono text-[11px] mb-1">Company / Organization</label>
+              <label className="block text-slate-400 font-mono text-[11px] mb-1">Company / Organization</label>
               <input
                 type="text"
                 placeholder="e.g. Stripe, Amazon, High-Growth Scale-up"
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733]"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-sans"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-zinc-400 font-mono text-[11px] mb-1">Raw Job Posting Text</label>
+            <label className="block text-slate-400 font-mono text-[11px] mb-1">Raw Job Posting Text</label>
             <textarea
               rows={5}
               placeholder="Paste full job description with requirements, stack, and responsibilities..."
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-[#ff5733] font-mono text-xs leading-relaxed"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-[#090b10] border border-white/10 text-white focus:outline-none focus:border-violet-500 font-mono text-xs leading-relaxed"
             />
           </div>
 
           <button
             type="submit"
             disabled={analyzing || !rawText.trim()}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#ff5733] to-[#ff7849] hover:from-[#ff6b4a] hover:to-[#ff8d63] disabled:opacity-40 text-white font-semibold text-xs transition-all shadow-lg shadow-[#ff5733]/25 cursor-pointer"
+            className="gradient-button px-6 py-3 rounded-xl disabled:opacity-40 text-white font-bold text-xs transition-all shadow-lg shadow-violet-600/30 cursor-pointer"
           >
             {analyzing ? "Extracting Requirements Radar..." : "Analyze & Ingest Job Description"}
           </button>
@@ -261,9 +261,9 @@ export default function JobsPage() {
             <div className="flex items-start justify-between">
               <div>
                 <h4 className="text-sm font-bold text-white">{activeAnalysis.title}</h4>
-                <p className="text-xs text-[#ff7849] mt-0.5">{activeAnalysis.company} &bull; {activeAnalysis.location}</p>
+                <p className="text-xs text-violet-400 mt-0.5">{activeAnalysis.company} &bull; {activeAnalysis.location}</p>
               </div>
-              <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30 text-[10px]">
+              <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-semibold">
                 PARSED TELEMETRY
               </span>
             </div>
@@ -271,7 +271,7 @@ export default function JobsPage() {
             <div className="space-y-3 pt-2 border-t border-white/5 text-xs">
               <div>
                 <span className="font-semibold text-white">Extracted Must Have Skills: </span>
-                <span className="font-mono text-[#bef264]">{activeAnalysis.must_have_skills?.join(", ")}</span>
+                <span className="font-mono text-emerald-400">{activeAnalysis.must_have_skills?.join(", ")}</span>
               </div>
               <div>
                 <span className="font-semibold text-white">Preferred Skills: </span>
@@ -293,7 +293,7 @@ export default function JobsPage() {
       {/* Verified Market Citations */}
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <BookOpen className="h-4 w-4 text-[#bef264]" />
+          <BookOpen className="h-4 w-4 text-emerald-400" />
           <h3 className="text-sm font-bold text-white tracking-wide">Verified Market Research Citations</h3>
         </div>
 
@@ -301,7 +301,7 @@ export default function JobsPage() {
           {citations.map((cite) => (
             <div key={cite.id} className="card-glass rounded-2xl p-5 space-y-3 hover:border-white/20 transition-all">
               <div className="flex items-start justify-between">
-                <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30 text-[10px]">
+                <span className="pill-badge bg-violet-500/15 text-violet-300 border border-violet-500/30 text-[10px]">
                   {cite.source_type}
                 </span>
                 <span className="text-[10px] font-mono text-zinc-500">{(cite.confidence * 100).toFixed(0)}% CONFIDENCE</span>

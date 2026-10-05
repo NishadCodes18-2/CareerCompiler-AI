@@ -53,7 +53,7 @@ export default function AdminPage() {
   if (loading) {
     return (
       <div className="flex h-96 flex-col items-center justify-center gap-3">
-        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[#ff5733] border-t-transparent shadow-lg shadow-[#ff5733]/30"></div>
+        <div className="h-9 w-9 animate-spin rounded-full border-2 border-violet-500 border-t-transparent shadow-lg shadow-violet-500/30"></div>
         <span className="font-mono text-xs text-zinc-400">Loading System Telemetry...</span>
       </div>
     );
@@ -61,16 +61,16 @@ export default function AdminPage() {
 
   return (
     <div className="space-y-8 pb-16">
-      {/* Header Banner - Borea AI Horizon Glow */}
+      {/* Header Banner */}
       <div className="relative rounded-2xl p-6 bg-gradient-to-r from-[#0c0e15] via-[#121622] to-[#0c0e15] border border-white/10 shadow-2xl overflow-hidden">
-        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-[#ff5733]/10 blur-3xl pointer-events-none rounded-full"></div>
-        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-[#bef264]/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -top-24 right-1/4 w-96 h-48 bg-violet-600/10 blur-3xl pointer-events-none rounded-full"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-48 bg-emerald-500/10 blur-3xl pointer-events-none rounded-full"></div>
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#bef264] animate-pulse"></span>
+              <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 SYSTEM CONSOLE
               </span>
               <span className="pill-badge bg-white/5 text-zinc-400 border border-white/10">
@@ -86,30 +86,30 @@ export default function AdminPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="pill-badge bg-[#bef264]/15 text-[#bef264] border border-[#bef264]/30 text-xs font-mono">
+            <span className="pill-badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-xs font-mono">
               GATEWAY ONLINE &bull; 8000
             </span>
           </div>
         </div>
       </div>
 
-      {/* Status Cards - Haulix Telemetry Style */}
+      {/* Status Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="card-glass rounded-2xl p-5 space-y-1.5 border-[#bef264]/30">
+        <div className="card-glass rounded-2xl p-5 space-y-1.5 border-emerald-500/30">
           <div className="flex items-center justify-between text-zinc-400 text-xs">
             <span className="font-mono text-[10px] tracking-wider uppercase font-semibold">BACKEND ENGINE</span>
-            <Activity className="h-4 w-4 text-[#bef264]" />
+            <Activity className="h-4 w-4 text-emerald-400" />
           </div>
-          <div className="text-2xl font-bold text-[#bef264]">{statusData?.status}</div>
+          <div className="text-2xl font-bold text-emerald-400">{statusData?.status}</div>
           <p className="text-[11px] text-zinc-400 font-mono">FastAPI Core v{statusData?.version}</p>
         </div>
 
-        <div className="card-glass rounded-2xl p-5 space-y-1.5 border-[#ff7849]/30">
+        <div className="card-glass rounded-2xl p-5 space-y-1.5 border-violet-500/30">
           <div className="flex items-center justify-between text-zinc-400 text-xs">
             <span className="font-mono text-[10px] tracking-wider uppercase font-semibold">AI SAFEGUARDS</span>
-            <ShieldCheck className="h-4 w-4 text-[#ff7849]" />
+            <ShieldCheck className="h-4 w-4 text-violet-400" />
           </div>
-          <div className="text-2xl font-bold text-[#ff7849]">{statusData?.ai_engine?.status}</div>
+          <div className="text-2xl font-bold text-violet-400">{statusData?.ai_engine?.status}</div>
           <p className="text-[11px] text-zinc-400 font-mono">Hallucination Prevention Active (Zero Tolerance)</p>
         </div>
 
@@ -126,7 +126,7 @@ export default function AdminPage() {
       {/* Database Entity Counts */}
       <div className="card-glass rounded-2xl p-6 space-y-4">
         <h3 className="text-sm font-bold text-white flex items-center gap-2 tracking-wide">
-          <Database className="h-4 w-4 text-[#bef264]" /> Relational Store Entity Counts
+          <Database className="h-4 w-4 text-emerald-400" /> Relational Store Entity Counts
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 text-xs">
           {Object.entries(statusData?.database_counts || {}).map(([key, count]: any, idx) => (
@@ -150,7 +150,7 @@ export default function AdminPage() {
           <button
             onClick={handleReseed}
             disabled={reseeding}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#ff5733] to-[#ff7849] hover:from-[#ff6b4a] hover:to-[#ff8d63] text-white font-semibold text-xs shadow-lg shadow-[#ff5733]/25 transition-all cursor-pointer self-start sm:self-auto"
+            className="gradient-button flex items-center gap-2 px-5 py-2.5 rounded-xl text-white font-semibold text-xs shadow-lg shadow-violet-600/25 transition-all cursor-pointer self-start sm:self-auto"
           >
             <RefreshCw className={`h-4 w-4 ${reseeding ? "animate-spin" : ""}`} />
             {reseeding ? "Reseeding Database..." : "Reseed Demo Data"}
@@ -158,7 +158,7 @@ export default function AdminPage() {
         </div>
 
         {reseedMsg && (
-          <div className="p-3.5 rounded-xl bg-[#bef264]/10 border border-[#bef264]/30 text-[#bef264] text-xs flex items-center gap-2 font-mono">
+          <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs flex items-center gap-2 font-mono">
             <CheckCircle2 className="h-4 w-4 shrink-0" />
             <span>{reseedMsg}</span>
           </div>

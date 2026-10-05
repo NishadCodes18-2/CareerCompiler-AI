@@ -26,6 +26,10 @@ export default function FaqSection() {
       a: "Every compiled resume can generate a tamper-proof public verification link with a scannable QR code. When recruiters or engineering hiring managers view it, they can inspect code snippets, commit hashes, and benchmark validation proofs directly.",
     },
     {
+      q: "Is CareerCompiler AI really 100% free to use?",
+      a: "Yes! CareerCompiler AI is 100% free and open-source software built for every software engineer. There are no hidden paywalls, subscriptions, or credit card requirements. You get full access to AST repo parsing, verifiable evidence graph compilation, live ATS radars, and unrestricted LaTeX/PDF exports.",
+    },
+    {
       q: "Is my personal data and code kept private?",
       a: "Yes. We enforce bank-grade encryption at rest and in transit. Your source code and resumes are never used to train public models, and your data remains strictly private to your account.",
     },
