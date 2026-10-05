@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { Mail, Sparkles, X, ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react";
 
 interface EmailCaptureModalProps {
@@ -66,31 +67,44 @@ export default function EmailCaptureModal({
       localStorage.setItem("careercompiler_email_unlocked", email);
       sessionStorage.setItem("careercompiler_user_email", email);
 
-      // Pre-seed gold_resume_data in sessionStorage so the email is immediately rendered in resume header
-      const existingDataStr = sessionStorage.getItem("gold_resume_data");
+      // Pre-seed gold_resume_data so the email is immediately rendered in resume header
+      let resumeData: any = {};
+      const existingDataStr =
+        sessionStorage.getItem("gold_resume_data") ||
+        localStorage.getItem("gold_resume_data");
+
       if (existingDataStr) {
         try {
-          const parsed = JSON.parse(existingDataStr);
-          if (parsed && parsed.personal) {
-            parsed.personal.email = email;
-            sessionStorage.setItem("gold_resume_data", JSON.stringify(parsed));
-          }
+          resumeData = JSON.parse(existingDataStr);
         } catch (err) {}
       }
 
+      if (!resumeData.personal) resumeData.personal = {};
+      resumeData.personal.email = email;
+      if (!resumeData.personal.fullName) {
+        const namePart = email.split("@")[0].replace(/[._]/g, " ");
+        resumeData.personal.fullName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+      }
+
+      sessionStorage.setItem("gold_resume_data", JSON.stringify(resumeData));
+      localStorage.setItem("gold_resume_data", JSON.stringify(resumeData));
+
       // Dispatch event to let page know it has been unlocked
       window.dispatchEvent(new Event("email_saved"));
+      window.dispatchEvent(new Event("avatar_updated"));
 
       setSuccess(true);
 
       setTimeout(() => {
         onClose();
         window.location.href = destination || "/resume";
-      }, 650);
+      }, 600);
     } catch (err: any) {
       console.error("Email capture error:", err);
-      // Even if network fails, ensure user can proceed
+      // Graceful fallback: persist and navigate
       localStorage.setItem("careercompiler_user_email", email);
+      localStorage.setItem("careercompiler_email_unlocked", email);
+      sessionStorage.setItem("careercompiler_user_email", email);
       window.location.href = destination || "/resume";
     } finally {
       setSubmitting(false);
@@ -98,92 +112,106 @@ export default function EmailCaptureModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
       <div
-        className="relative w-full max-w-md rounded-3xl bg-[#0d1017] border border-emerald-500/40 p-6 sm:p-7 shadow-2xl space-y-4 text-white"
+        className="relative w-full max-w-md rounded-3xl bg-[#0c0e15] border border-white/15 p-7 sm:p-8 shadow-2xl space-y-5 text-white"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer border border-white/10"
+          className="absolute top-5 right-5 p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer border border-white/10"
           aria-label="Close dialog"
         >
           <X className="h-4 w-4" />
         </button>
 
         {/* Header Icon */}
-        <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 p-[1.5px] shadow-lg shadow-emerald-500/20">
-          <div className="h-full w-full bg-[#0a0d14] rounded-[14.5px] flex items-center justify-center text-emerald-400">
+        <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-500 p-[1px] shadow-lg shadow-violet-500/20">
+          <div className="h-full w-full bg-[#0a0c14] rounded-[15px] flex items-center justify-center text-violet-400">
             <Mail className="h-6 w-6" />
           </div>
         </div>
 
         {/* Title & Explanation */}
-        <div className="space-y-1.5">
-          <div className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold">
-            <Sparkles className="h-3 w-3" />
-            <span>Direct Studio Access</span>
+        <div className="space-y-2">
+          <div className="flex items-center gap-1.5">
+            <span className="pearl-badge inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-0.5 rounded-full text-emerald-400">
+              <Sparkles className="h-3 w-3" /> Direct Studio Access
+            </span>
           </div>
-          <h3 className="text-lg font-black text-white leading-snug">
-            Enter your email to start making your resume
+          <h3 className="text-xl font-black text-white font-sans tracking-tight">
+            Unlock Full AI Resume Studio
           </h3>
-          <p className="text-xs text-zinc-300 leading-relaxed">
-            Your email will be securely saved into our database and automatically fetched into your
-            resume header so you can compile and download PDFs instantly.
+          <p className="text-xs text-slate-400 leading-relaxed">
+            Enter your email to unlock all FAANG templates, real-time STAR optimizer, and ATS scoring rubrics instantly.
           </p>
         </div>
 
         {/* Input Form */}
-        <form onSubmit={handleSubmit} className="space-y-3 pt-1">
-          <div className="space-y-1">
-            <label className="text-[11px] font-mono text-zinc-400 block font-medium">
+        <form onSubmit={handleSubmit} className="space-y-4 pt-1">
+          <div className="space-y-1.5">
+            <label className="text-xs font-mono text-slate-300 font-semibold block">
               Candidate Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3.5 top-3 h-4 w-4 text-zinc-500" />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
               <input
                 type="email"
                 required
                 autoFocus
-                placeholder="you@iitb.ac.in or you@gmail.com"
+                placeholder="you@domain.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-[#141724] border border-white/15 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-400 font-mono transition-colors"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (error) setError("");
+                }}
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/50 border border-white/15 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all font-mono"
               />
             </div>
-            {error && <p className="text-[11px] text-red-400">{error}</p>}
+            {error && <p className="text-xs font-mono text-rose-400 font-semibold">{error}</p>}
           </div>
 
           <button
             type="submit"
             disabled={submitting || !email.trim()}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 text-[#090b0e] text-xs font-extrabold shadow-lg shadow-emerald-500/25 transition-all hover:scale-[1.02] cursor-pointer disabled:opacity-50"
+            className="gradient-button w-full py-3.5 rounded-xl text-white font-bold text-sm inline-flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xl disabled:opacity-50"
           >
             {success ? (
               <>
-                <CheckCircle2 className="h-4 w-4 text-[#090b0e]" />
-                <span>Email Saved! Redirecting...</span>
+                <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                <span>Unlocked! Opening Studio...</span>
               </>
             ) : submitting ? (
-              <span>Saving & Auto-Populating Resume...</span>
+              <span>Unlocking Studio & Syncing...</span>
             ) : (
               <>
-                <Sparkles className="h-4 w-4" />
-                <span>Start Making My Resume 🚀</span>
-                <ArrowRight className="h-3.5 w-3.5" />
+                <span>Unlock & Open Resume Studio</span>
+                <ArrowRight className="h-4 w-4" />
               </>
             )}
           </button>
         </form>
 
+        {/* Alternate Sign Up link */}
+        <div className="pt-2 text-center text-xs text-slate-400">
+          Want a full profile?{" "}
+          <Link
+            href="/signup"
+            onClick={onClose}
+            className="text-violet-400 hover:text-violet-300 font-semibold underline underline-offset-2 ml-1"
+          >
+            Sign up with full profile &rarr;
+          </Link>
+        </div>
+
         {/* Trust Badges */}
-        <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-zinc-400 font-mono">
-          <span className="flex items-center gap-1 text-emerald-400">
-            <ShieldCheck className="h-3.5 w-3.5" /> Stored in Neon DB
+        <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+          <span className="flex items-center gap-1.5 text-emerald-400">
+            <ShieldCheck className="h-3.5 w-3.5" /> 100% Private & Free
           </span>
-          <span>•</span>
-          <span>100% Free Forever</span>
+          <span>&bull;</span>
+          <span>Zero Prompt Retention</span>
         </div>
       </div>
     </div>

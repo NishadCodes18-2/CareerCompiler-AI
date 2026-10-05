@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Sparkles,
   ArrowRight,
@@ -23,6 +23,100 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ onActionClick, onWatchDemo }: HeroSectionProps) {
+  const [emailInput, setEmailInput] = useState("");
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [savedEmail, setSavedEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [unlockSuccess, setUnlockSuccess] = useState("");
+  const [unlockError, setUnlockError] = useState("");
+
+  useEffect(() => {
+    const checkEmail = () => {
+      const email =
+        localStorage.getItem("careercompiler_user_email") ||
+        localStorage.getItem("careercompiler_email_unlocked");
+      if (email) {
+        setIsUnlocked(true);
+        setSavedEmail(email);
+      }
+    };
+    checkEmail();
+    window.addEventListener("storage", checkEmail);
+    window.addEventListener("email_saved", checkEmail);
+    return () => {
+      window.removeEventListener("storage", checkEmail);
+      window.removeEventListener("email_saved", checkEmail);
+    };
+  }, []);
+
+  const handleUnlockEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!emailInput || !emailInput.includes("@")) {
+      setUnlockError("Please enter a valid email address");
+      return;
+    }
+
+    setSubmitting(true);
+    setUnlockError("");
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
+      // Send lead to backend
+      await fetch(`${apiUrl}/leads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: emailInput,
+          source: "hero_direct_unlock",
+          metadata_json: {
+            destination: "/resume",
+            timestamp: new Date().toISOString(),
+          },
+        }),
+      }).catch((err) => console.warn("Backend lead notice:", err));
+
+      // Persist in localStorage and pre-seed resume data
+      localStorage.setItem("careercompiler_user_email", emailInput);
+      localStorage.setItem("careercompiler_email_unlocked", emailInput);
+      sessionStorage.setItem("careercompiler_user_email", emailInput);
+
+      let resumeData: any = {};
+      const existingDataStr =
+        sessionStorage.getItem("gold_resume_data") ||
+        localStorage.getItem("gold_resume_data");
+      if (existingDataStr) {
+        try {
+          resumeData = JSON.parse(existingDataStr);
+        } catch (err) {}
+      }
+
+      if (!resumeData.personal) resumeData.personal = {};
+      resumeData.personal.email = emailInput;
+      if (!resumeData.personal.fullName) {
+        const namePart = emailInput.split("@")[0].replace(/[._]/g, " ");
+        resumeData.personal.fullName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+      }
+
+      sessionStorage.setItem("gold_resume_data", JSON.stringify(resumeData));
+      localStorage.setItem("gold_resume_data", JSON.stringify(resumeData));
+
+      setIsUnlocked(true);
+      setSavedEmail(emailInput);
+      setUnlockSuccess("✓ Studio Unlocked! Launching Resume Studio...");
+
+      window.dispatchEvent(new Event("email_saved"));
+      window.dispatchEvent(new Event("avatar_updated"));
+
+      setTimeout(() => {
+        onActionClick("/resume");
+      }, 650);
+    } catch (err) {
+      console.error(err);
+      onActionClick("/resume");
+    } finally {
+      setSubmitting(false);
+    }
+  };
   const integrations = [
     {
       name: "GitHub Sync",
@@ -141,21 +235,95 @@ export default function HeroSection({ onActionClick, onWatchDemo }: HeroSectionP
           Connect your GitHub, projects or voice notes – CareerCompiler AI synthesizes ATS-crushing resumes with quantified STAR impact. Plus real-time evidence graph, interview prep, and instant PDF compilation in one app.
         </p>
 
-        {/* CTA Buttons */}
-        <div className="relative z-20 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto w-full">
+        {/* Email Unlock & Quick Access Bar */}
+        <div className="relative z-20 max-w-lg mx-auto w-full mb-6">
+          {isUnlocked ? (
+            <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between gap-3 text-left">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                </div>
+                <div className="min-w-0">
+                  <span className="text-xs font-bold text-white block truncate">
+                    Studio Unlocked: {savedEmail}
+                  </span>
+                  <span className="text-[11px] text-emerald-400 font-mono">
+                    All FAANG templates & AI models active
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => onActionClick("/resume")}
+                className="gradient-button px-4 py-2 rounded-xl text-white font-bold text-xs shrink-0 cursor-pointer inline-flex items-center gap-1.5"
+              >
+                Open Studio
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ) : (
+            <form
+              onSubmit={handleUnlockEmail}
+              className="p-1.5 sm:p-2 rounded-2xl bg-[#0c0e15]/90 border border-white/15 backdrop-blur-xl shadow-2xl flex flex-col sm:flex-row items-center gap-2"
+            >
+              <div className="relative w-full flex-1">
+                <input
+                  type="email"
+                  required
+                  value={emailInput}
+                  onChange={(e) => {
+                    setEmailInput(e.target.value);
+                    if (unlockError) setUnlockError("");
+                  }}
+                  placeholder="Enter your email to unlock AI studio..."
+                  className="w-full pl-4 pr-3 py-3 text-sm rounded-xl bg-transparent text-white placeholder-slate-400 outline-none focus:ring-1 focus:ring-violet-500 transition-all"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={submitting}
+                className="gradient-button w-full sm:w-auto px-6 py-3 rounded-xl text-white font-bold text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2 cursor-pointer shadow-lg shrink-0 disabled:opacity-50"
+              >
+                {submitting ? (
+                  <span>Unlocking...</span>
+                ) : (
+                  <>
+                    <span>Unlock Studio</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </>
+                )}
+              </button>
+            </form>
+          )}
+
+          {unlockSuccess && (
+            <div className="mt-2 text-xs font-mono text-emerald-400 font-semibold flex items-center justify-center gap-1.5 animate-pulse">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              {unlockSuccess}
+            </div>
+          )}
+
+          {unlockError && (
+            <div className="mt-2 text-xs font-mono text-rose-400 font-semibold">
+              {unlockError}
+            </div>
+          )}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="relative z-20 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto w-full">
           <button
-            onClick={() => onActionClick("/resume")}
-            className="gradient-button inline-flex items-center justify-center rounded-[11px] text-white font-sans font-bold px-7 py-3.5 text-base w-full sm:w-auto gap-2.5 group cursor-pointer"
+            onClick={() => onActionClick("/signup")}
+            className="gradient-button inline-flex items-center justify-center rounded-[11px] text-white font-sans font-bold px-7 py-3 text-sm w-full sm:w-auto gap-2 group cursor-pointer"
           >
-            Start compiling free
+            Start 7 days free
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </button>
           <button
             onClick={onWatchDemo}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 font-semibold rounded-xl text-sm transition-all hover:scale-[1.02] w-full sm:w-auto cursor-pointer backdrop-blur-sm"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 font-semibold rounded-xl text-sm transition-all hover:scale-[1.02] w-full sm:w-auto cursor-pointer backdrop-blur-sm"
           >
             <Play className="w-4 h-4 text-violet-400 fill-violet-400/30" />
-            Watch Interactive Demo
+            Watch Demo
           </button>
         </div>
 
